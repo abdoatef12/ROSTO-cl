@@ -1,545 +1,321 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#070718">
-<title>ULTRA CALC ∞ | أقوى آلة حاسبة</title>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/12.4.2/math.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/nerdamer/1.1.13/nerdamer.core.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/nerdamer/1.1.13/Algebra.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/nerdamer/1.1.13/Calculus.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/nerdamer/1.1.13/Solve.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/nerdamer/1.1.13/Extra.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/5.0.5/tesseract.min.js"></script>
-<style>
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;min-height:100%}
-body{font-family:'Cairo',system-ui,sans-serif;color:var(--text);background:var(--bg1);overflow-x:hidden;transition:background .4s}
-body[data-theme=neon]{--bg1:#070718;--bg2:#1b0a3c;--ac:#00f5d4;--ac2:#f72585;--text:#eef0ff;--mut:#9aa0c8;--glass:rgba(255,255,255,.07);--bd:rgba(255,255,255,.14);--key:rgba(255,255,255,.08);--ink:#06121a;--grid:rgba(255,255,255,.08)}
-body[data-theme=ocean]{--bg1:#02142c;--bg2:#06487a;--ac:#48cae4;--ac2:#ffd166;--text:#eaf8ff;--mut:#9cc3d8;--glass:rgba(255,255,255,.08);--bd:rgba(255,255,255,.16);--key:rgba(255,255,255,.09);--ink:#02202e;--grid:rgba(255,255,255,.09)}
-body[data-theme=sunset]{--bg1:#25072b;--bg2:#7a1f3d;--ac:#ffb703;--ac2:#ff4d6d;--text:#fff1e6;--mut:#e0b6b6;--glass:rgba(255,255,255,.08);--bd:rgba(255,255,255,.16);--key:rgba(255,255,255,.09);--ink:#2a1200;--grid:rgba(255,255,255,.09)}
-body[data-theme=forest]{--bg1:#04160f;--bg2:#0b3d2b;--ac:#6ee7a8;--ac2:#f4e285;--text:#eafff3;--mut:#9cc9b2;--glass:rgba(255,255,255,.07);--bd:rgba(255,255,255,.14);--key:rgba(255,255,255,.08);--ink:#06210f;--grid:rgba(255,255,255,.08)}
-body[data-theme=royal]{--bg1:#140a33;--bg2:#3a1a7a;--ac:#c77dff;--ac2:#ffd60a;--text:#f5eeff;--mut:#bba6e0;--glass:rgba(255,255,255,.08);--bd:rgba(255,255,255,.16);--key:rgba(255,255,255,.09);--ink:#1a0838;--grid:rgba(255,255,255,.09)}
-body[data-theme=light]{--bg1:#eef2ff;--bg2:#e0e7ff;--ac:#4f46e5;--ac2:#ec4899;--text:#12122b;--mut:#5b5f80;--glass:rgba(255,255,255,.75);--bd:rgba(30,30,80,.14);--key:rgba(255,255,255,.95);--ink:#fff;--grid:rgba(0,0,0,.08)}
-.bg{position:fixed;inset:0;z-index:-2;background:linear-gradient(160deg,var(--bg1),var(--bg2))}
-.blob{position:fixed;z-index:-1;border-radius:50%;filter:blur(80px);opacity:.45;animation:float 16s ease-in-out infinite alternate}
-.b1{width:340px;height:340px;background:var(--ac);top:-90px;left:-90px}
-.b2{width:300px;height:300px;background:var(--ac2);bottom:-80px;right:-80px;animation-delay:-6s}
-@keyframes float{to{transform:translate(40px,60px) scale(1.15)}}
-@media(prefers-reduced-motion:reduce){.blob{animation:none}*{transition:none!important}}
-.wrap{max-width:760px;margin:0 auto;padding:10px 12px 90px}
-header{display:flex;align-items:center;justify-content:space-between;padding:6px 2px 8px}
-.logo{font-weight:900;font-size:1.45rem;letter-spacing:.5px;background:linear-gradient(90deg,var(--ac),var(--ac2));-webkit-background-clip:text;background-clip:text;color:transparent}
-.logo small{display:block;font-size:.62rem;font-weight:600;color:var(--mut);-webkit-text-fill-color:var(--mut);letter-spacing:0}
-.hbtns{display:flex;gap:8px}
-.ib{border:1px solid var(--bd);background:var(--glass);color:var(--text);border-radius:12px;min-width:40px;height:40px;font:700 .85rem 'Cairo';cursor:pointer;backdrop-filter:blur(12px);padding:0 10px}
-.ib:active{transform:scale(.93)}
-nav{position:sticky;top:0;z-index:20;display:flex;gap:6px;overflow-x:auto;padding:6px 2px 10px;scrollbar-width:none;background:linear-gradient(var(--bg1) 60%,transparent)}
-nav::-webkit-scrollbar{display:none}
-nav button{flex:0 0 auto;display:flex;align-items:center;gap:6px;border:1px solid var(--bd);background:var(--glass);color:var(--mut);padding:8px 13px;border-radius:999px;font:700 .85rem 'Cairo';cursor:pointer;backdrop-filter:blur(12px);transition:.2s}
-nav button.on{background:linear-gradient(135deg,var(--ac),var(--ac2));color:var(--ink);border-color:transparent;box-shadow:0 6px 22px -6px var(--ac)}
-.panel{display:none;animation:in .25s}
-.panel.active{display:block}
-@keyframes in{from{opacity:0;transform:translateY(6px)}}
-.card{background:var(--glass);border:1px solid var(--bd);border-radius:20px;padding:14px;margin-bottom:12px;backdrop-filter:blur(16px);box-shadow:0 10px 30px -14px rgba(0,0,0,.5)}
-.card h3{margin:0 0 8px;font-size:1rem}
-.display{padding:12px 16px}
-.display .top{display:flex;justify-content:space-between;align-items:center;min-height:24px}
-.badge{font:700 .72rem 'JetBrains Mono';padding:3px 10px;border-radius:99px;background:linear-gradient(135deg,var(--ac),var(--ac2));color:var(--ink);cursor:pointer}
-.hl{color:var(--mut);font:.8rem 'JetBrains Mono';direction:ltr;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:75%}
-#expr{width:100%;background:none;border:0;outline:0;color:var(--text);font:600 1.7rem 'JetBrains Mono',monospace;text-align:left;padding:6px 0}
-#res{font:800 2.5rem 'JetBrains Mono',monospace;text-align:left;min-height:52px;overflow-x:auto;white-space:nowrap;background:linear-gradient(90deg,var(--ac),var(--ac2));-webkit-background-clip:text;background-clip:text;color:transparent}
-#res.err{background:none;color:#ff5d73;-webkit-text-fill-color:#ff5d73;font-size:1.3rem;animation:shake .3s}
-@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
-.actions{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap}
-.chip{border:1px solid var(--bd);background:var(--glass);color:var(--text);padding:7px 13px;border-radius:999px;font:700 .8rem 'Cairo';cursor:pointer;transition:.15s}
-.chip.on{background:linear-gradient(135deg,var(--ac),var(--ac2));color:var(--ink);border-color:transparent}
-.chip:active{transform:scale(.95)}
-.keypad{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;direction:ltr}
-.k{border:1px solid var(--bd);background:var(--key);color:var(--text);border-radius:16px;font:700 1.1rem 'JetBrains Mono',monospace;padding:15px 0;cursor:pointer;transition:transform .1s,background .15s;backdrop-filter:blur(10px)}
-.k:hover{background:var(--glass);border-color:var(--ac)}
-.k:active{transform:scale(.92)}
-.k.fn{color:var(--ac);font-size:.88rem;padding:13px 0}
-.k.op{color:var(--ac2);font-size:1.3rem}
-.k.clr{color:#ff5d73}
-.k.eq{background:linear-gradient(135deg,var(--ac),var(--ac2));color:var(--ink);border:0;font-size:1.5rem;font-weight:900;box-shadow:0 8px 24px -8px var(--ac2)}
-textarea,input[type=text],input[type=number],select{width:100%;background:var(--key);border:1px solid var(--bd);border-radius:14px;color:var(--text);font:600 1rem 'JetBrains Mono','Cairo',monospace;padding:11px 13px;outline:0;direction:ltr;text-align:left}
-select{direction:inherit;font-family:'Cairo';cursor:pointer}
-select option{color:#111}
-textarea{resize:vertical;min-height:84px}
-textarea:focus,input:focus,select:focus{border-color:var(--ac);box-shadow:0 0 0 3px color-mix(in srgb,var(--ac) 25%,transparent)}
-.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.row>*{flex:1 1 90px}
-.row.fixed>*{flex:0 0 auto}
-label.f{display:block;font-size:.78rem;color:var(--mut);margin:6px 2px 3px}
-.btn{border:0;background:linear-gradient(135deg,var(--ac),var(--ac2));color:var(--ink);padding:13px 18px;border-radius:14px;font:800 1rem 'Cairo';cursor:pointer;box-shadow:0 8px 22px -8px var(--ac);transition:.15s}
-.btn:active{transform:scale(.96)}
-.btn.ghost{background:var(--glass);color:var(--text);border:1px solid var(--bd);box-shadow:none}
-.chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
-.res-card{border-inline-start:4px solid var(--ac);animation:in .25s}
-.res-card h4{margin:0 0 6px;font-size:.88rem;color:var(--mut)}
-.ans{font:700 1.2rem 'JetBrains Mono',monospace;direction:ltr;text-align:left;word-break:break-all;padding:2px 0}
-.dec{font:.88rem 'JetBrains Mono',monospace;color:var(--ac);direction:ltr;text-align:left}
-.steps{margin:8px 0 0;padding-inline-start:20px;color:var(--mut);font-size:.88rem}
-.steps li{margin:3px 0;direction:ltr;text-align:left;list-style-position:inside}
-.err-t{color:#ff7b8f;font-weight:700}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.kv{display:flex;justify-content:space-between;gap:8px;padding:9px 4px;border-bottom:1px dashed var(--bd)}
-.kv:last-child{border:0}
-.kv b{font-family:'JetBrains Mono';direction:ltr;color:var(--ac)}
-table.m{border-collapse:separate;border-spacing:4px;direction:ltr;margin:4px 0}
-table.m td{background:var(--key);border:1px solid var(--bd);border-radius:8px;padding:6px 12px;font:600 .95rem 'JetBrains Mono'}
-table.t{width:100%;border-collapse:collapse;font-size:.9rem}
-table.t td,table.t th{padding:7px 6px;border-bottom:1px dashed var(--bd);text-align:start}
-#gcv{width:100%;height:380px;display:block;border-radius:16px;background:var(--key);border:1px solid var(--bd);touch-action:none;cursor:grab}
-#gco{font:.78rem 'JetBrains Mono';color:var(--mut);direction:ltr;min-height:20px;margin-top:6px}
-.cam-box{position:relative;border-radius:18px;overflow:hidden;background:#000;display:none}
-.cam-box video{width:100%;display:block;max-height:340px;object-fit:cover}
-.cam-box .frame{position:absolute;inset:18% 8%;border:2px dashed var(--ac);border-radius:14px;pointer-events:none;box-shadow:0 0 0 999px rgba(0,0,0,.35)}
-#ocr-prev{width:100%;border-radius:14px;display:none;margin-top:8px;border:1px solid var(--bd)}
-.prog{height:8px;background:var(--key);border-radius:99px;overflow:hidden;margin:8px 0;display:none}
-.prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--ac),var(--ac2));transition:width .2s}
-.hist-i{padding:10px;border-bottom:1px dashed var(--bd);cursor:pointer}
-.hist-i small{color:var(--mut);display:block;font-family:'JetBrains Mono';direction:ltr;text-align:left}
-.hist-i b{font-family:'JetBrains Mono';direction:ltr;display:block;text-align:left;color:var(--ac)}
-#toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--text);color:var(--bg1);padding:10px 18px;border-radius:99px;font-weight:700;z-index:99;transition:.3s;max-width:90%;text-align:center}
-#toast.show{transform:translateX(-50%) translateY(0)}
-.hint{font-size:.78rem;color:var(--mut);margin:6px 2px}
-.consts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.consts div{background:var(--key);border:1px solid var(--bd);border-radius:12px;padding:8px 10px;font-size:.82rem}
-.consts b{display:block;font-family:'JetBrains Mono';color:var(--ac);direction:ltr;text-align:left;font-size:.85rem}
-@media(min-width:700px){.k{padding:17px 0}}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ULTRA CALC ∞ | روستو</title>
+    <meta name="theme-color" content="#0a0a12">
+    <link rel="manifest" href="manifest.json"> <!-- لجعله تطبيقاً قابلاً للتثبيت -->
+    
+    <!-- خطوط عربية وإنجليزية فاخرة -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #0066ff;
+            --bg-dark: #0a0a12;
+            --surface: #151520;
+            --text-main: #ffffff;
+            --text-dim: #8888aa;
+            --glass: rgba(255, 255, 255, 0.05);
+            --shadow-glow: 0 0 20px rgba(0, 102, 255, 0.3);
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body {
+            margin: 0; padding: 0;
+            background: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Cairo', sans-serif;
+            height: 100vh; display: flex; flex-direction: column;
+            overflow: hidden; /* منع السكرول لتحسين الأداء */
+        }
+
+        /* --- Header & Branding --- */
+        header {
+            padding: 15px 20px;
+            display: flex; justify-content: space-between; align-items: center;
+            background: linear-gradient(180deg, rgba(0,0,0,0.4), transparent);
+        }
+        .brand { font-size: 1.2rem; font-weight: 700; letter-spacing: 1px; }
+        .brand span { color: var(--primary); }
+
+        /* --- Display Screen --- */
+        .display-area {
+            flex: 1; display: flex; flex-direction: column; 
+            justify-content: flex-end; padding: 20px;
+            text-align: right; position: relative;
+        }
+        .history-preview {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--text-dim); font-size: 0.9rem; margin-bottom: 5px;
+            opacity: 0.7; min-height: 20px;
+        }
+        .main-input {
+            width: 100%; background: transparent; border: none; outline: none;
+            color: var(--text-main); font-size: 2.5rem; text-align: right;
+            font-family: 'JetBrains Mono', monospace;
+            text-shadow: 0 0 10px rgba(255,255,255,0.1);
+        }
+        .result-preview {
+            font-size: 1.5rem; color: var(--primary); 
+            margin-top: 10px; min-height: 30px; font-weight: bold;
+        }
+
+        /* --- Tools Bar (Scrollable) --- */
+        .tools-bar {
+            display: flex; gap: 10px; padding: 10px 20px;
+            overflow-x: auto; scrollbar-width: none;
+            border-top: 1px solid var(--glass); border-bottom: 1px solid var(--glass);
+        }
+        .tool-btn {
+            background: var(--surface); border: 1px solid var(--glass);
+            color: var(--text-dim); padding: 8px 15px; border-radius: 20px;
+            font-size: 0.8rem; white-space: nowrap; transition: all 0.2s;
+        }
+        .tool-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+        /* --- Keypad Grid --- */
+        .keypad {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 12px; padding: 20px; padding-bottom: 30px;
+            background: var(--bg-dark);
+        }
+        .key {
+            background: var(--surface); border: none; border-radius: 16px;
+            color: var(--text-main); font-size: 1.4rem; font-weight: 600;
+            height: 65px; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: transform 0.1s, background 0.2s;
+            will-change: transform; /* تسريع اللمس */
+        }
+        .key:active { transform: scale(0.92); background: #252535; }
+        .key.op { color: var(--primary); font-size: 1.6rem; }
+        .key.eq { 
+            background: var(--primary); color: #fff; 
+            box-shadow: var(--shadow-glow); grid-column: span 2;
+        }
+        .key.fn { font-size: 1rem; color: var(--text-dim); }
+
+        /* --- Graph/OCR Overlay --- */
+        .overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-dark); z-index: 100;
+            transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex; flex-direction: column;
+        }
+        .overlay.open { transform: translateY(0); }
+        .overlay-header { padding: 20px; display: flex; justify-content: space-between; }
+        .close-btn { background: none; border: none; color: #fff; font-size: 1.5rem; }
+
+        /* --- Loading Animation --- */
+        .loader {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 40px; height: 40px; border: 3px solid var(--glass);
+            border-top-color: var(--primary); border-radius: 50%;
+            animation: spin 1s linear infinite; display: none;
+        }
+        @keyframes spin { to { transform: translate(-50%, -50%) rotate(360deg); } }
+
+    </style>
 </head>
-<body data-theme="neon">
-<div class="bg"></div><div class="blob b1"></div><div class="blob b2"></div>
-<div class="wrap">
-<header>
-  <div class="logo">ULTRA CALC ∞<small class="t" data-ar="كل المعادلات في مكان واحد" data-en="Every equation, one place"></small></div>
-  <div class="hbtns"><button class="ib" id="btn-theme" title="Theme">🎨</button><button class="ib" id="btn-lang">EN</button></div>
-</header>
-<nav id="nav"></nav>
+<body>
 
-<!-- Calculator -->
-<section class="panel active" id="p-calc">
-  <div class="card display">
-    <div class="top"><span class="badge" id="degb">DEG</span><span class="hl" id="hl"></span></div>
-    <input id="expr" dir="ltr" inputmode="none" autocomplete="off" spellcheck="false" placeholder="0">
-    <div id="res" dir="ltr">0</div>
-  </div>
-  <div class="actions">
-    <button class="chip" id="c-solver">🧠 <span class="t" data-ar="ارسل للحلّال" data-en="Send to Solver"></span></button>
-    <button class="chip" id="c-graph">📈 <span class="t" data-ar="ارسم" data-en="Plot"></span></button>
-    <button class="chip" id="c-copy">📋 <span class="t" data-ar="انسخ" data-en="Copy"></span></button>
-  </div>
-  <div class="keypad" id="keypad"></div>
-</section>
+    <header>
+        <div class="brand">ULTRA CALC <span>∞</span></div>
+        <button id="btn-theme" style="background:none;border:none;color:#fff;font-size:1.2rem;">🎨</button>
+    </header>
 
-<!-- Solver -->
-<section class="panel" id="p-solve">
-  <div class="card">
-    <div class="chips" id="modes"></div>
-    <textarea id="sv-in" placeholder="x^2 - 5x + 6 = 0"></textarea>
-    <div class="row" style="margin-top:8px">
-      <div id="f-var"><label class="f t" data-ar="المتغير" data-en="Variable"></label><input type="text" id="sv-var" placeholder="x"></div>
-      <div id="f-a"><label class="f" id="la">a</label><input type="text" id="sv-a" placeholder="0"></div>
-      <div id="f-b"><label class="f" id="lb">b</label><input type="text" id="sv-b" placeholder="1"></div>
+    <div class="display-area">
+        <div class="history-preview" id="hist-prev"></div>
+        <input type="text" class="main-input" id="expr" placeholder="0" autocomplete="off" inputmode="decimal">
+        <div class="result-preview" id="res-prev"></div>
     </div>
-    <div class="row fixed" style="margin-top:10px">
-      <button class="btn" id="sv-go" style="flex:1">⚡ <span class="t" data-ar="حلّ" data-en="Solve"></span></button>
-      <button class="btn ghost" id="sv-graph">📈</button>
-      <button class="btn ghost" id="sv-clear">✕</button>
+
+    <div class="tools-bar">
+        <button class="tool-btn active" data-tab="calc">🧮 حساب</button>
+        <button class="tool-btn" data-tab="graph">📈 رسم</button>
+        <button class="tool-btn" data-tab="solve"> حل ذكي</button>
+        <button class="tool-btn" data-tab="ocr"> مسح</button>
+        <button class="tool-btn" data-tab="matrix"> مصفوفات</button>
     </div>
-    <div class="chips" id="examples" style="margin-top:10px"></div>
-    <div class="hint t" data-ar="اكتب أي حاجة: معادلة، نظام معادلات (افصل بـ ;)، مشتقة، تكامل، نهاية… واختار «تلقائي» والحلّال هيفهم لوحده." data-en="Type anything: equation, system (separate with ;), derivative, integral, limit… pick Auto and it figures it out."></div>
-  </div>
-  <div id="sv-out"></div>
-</section>
 
-<!-- Graph -->
-<section class="panel" id="p-graph">
-  <div class="card">
-    <textarea id="g-in" style="min-height:70px">sin(x)
-x^2/10
-1/x</textarea>
-    <div class="hint t" data-ar="دالة في كل سطر. اسحب للتحريك، كبّر بالعجلة أو بإصبعين." data-en="One function per line. Drag to pan, wheel or pinch to zoom."></div>
-    <div class="row fixed" style="margin:8px 0"><button class="btn" id="g-draw">📈 <span class="t" data-ar="ارسم" data-en="Plot"></span></button><button class="btn ghost" id="g-in2">＋</button><button class="btn ghost" id="g-out">－</button><button class="btn ghost" id="g-reset">⟲</button></div>
-    <canvas id="gcv"></canvas><div id="gco"></div>
-  </div>
-</section>
+    <div class="keypad" id="keypad">
+        <!-- سيتم توليد الأزرار ديناميكياً للأداء الأفضل -->
+    </div>
 
-<!-- Geometry -->
-<section class="panel" id="p-geo">
-  <div class="card"><select id="geo-sel"></select><div id="geo-f" class="grid2" style="margin-top:10px"></div></div>
-  <div class="card" id="geo-out"></div>
-</section>
+    <div class="loader" id="loader"></div>
 
-<!-- Science -->
-<section class="panel" id="p-sci">
-  <div class="chips" id="sci-tabs"></div>
-  <div id="sci-phys">
-    <div class="card"><select id="ph-sel"></select><div id="ph-f" class="grid2" style="margin-top:10px"></div>
-      <div class="hint t" data-ar="سيب خانة واحدة فاضية — هي اللي هتتحسب." data-en="Leave exactly one field empty — that's the one to solve for."></div>
-      <button class="btn" id="ph-go" style="width:100%;margin-top:6px">⚡ <span class="t" data-ar="احسب" data-en="Calculate"></span></button></div>
-    <div id="ph-out"></div>
-  </div>
-  <div id="sci-chem" style="display:none">
-    <div class="card"><h3 class="t" data-ar="⚖️ موازنة معادلة كيميائية" data-en="⚖️ Balance a chemical equation"></h3>
-      <input type="text" id="ch-eq" value="Fe + O2 = Fe2O3"><button class="btn" id="ch-bal" style="width:100%;margin-top:8px"><span class="t" data-ar="وازن" data-en="Balance"></span></button><div id="ch-out"></div></div>
-    <div class="card"><h3 class="t" data-ar="🧪 الكتلة المولية" data-en="🧪 Molar mass"></h3>
-      <input type="text" id="mm-in" value="Ca(OH)2"><button class="btn" id="mm-go" style="width:100%;margin-top:8px"><span class="t" data-ar="احسب" data-en="Calculate"></span></button><div id="mm-out"></div></div>
-  </div>
-  <div id="sci-const" style="display:none"><div class="card"><div class="consts" id="consts"></div></div></div>
-</section>
-
-<!-- Units -->
-<section class="panel" id="p-units">
-  <div class="card"><select id="u-cat"></select>
-    <div class="row" style="margin-top:8px"><input type="number" id="u-val" value="1" step="any" inputmode="decimal"></div>
-    <div class="row" style="margin-top:8px"><select id="u-from"></select><select id="u-to"></select></div>
-    <div id="u-res" class="ans" style="margin-top:10px;font-size:1.5rem"></div></div>
-  <div class="card" id="u-all"></div>
-</section>
-
-<!-- Matrix -->
-<section class="panel" id="p-matrix">
-  <div class="card"><div class="grid2">
-    <div><label class="f">A</label><textarea id="mA">1 2
-3 4</textarea></div>
-    <div><label class="f">B</label><textarea id="mB">5 6
-7 8</textarea></div></div>
-    <div class="chips" id="m-ops" style="margin-top:10px"></div>
-    <div class="hint t" data-ar="الصفوف سطر جديد أو ; والأعداد بمسافة أو فاصلة." data-en="Rows: new line or ; — values: space or comma."></div></div>
-  <div id="m-out"></div>
-</section>
-
-<!-- Stats & numbers -->
-<section class="panel" id="p-stats">
-  <div class="card"><h3 class="t" data-ar="📊 إحصاء" data-en="📊 Statistics"></h3>
-    <textarea id="st-in">4 8 15 16 23 42</textarea>
-    <button class="btn" id="st-go" style="width:100%;margin-top:8px"><span class="t" data-ar="حلّل الأعداد" data-en="Analyze"></span></button><div id="st-out"></div></div>
-  <div class="card"><h3 class="t" data-ar="🔢 أدوات الأعداد" data-en="🔢 Number tools"></h3>
-    <input type="text" id="nt-in" value="360" inputmode="numeric">
-    <button class="btn" id="nt-go" style="width:100%;margin-top:8px"><span class="t" data-ar="حلّل العدد" data-en="Analyze number"></span></button><div id="nt-out"></div>
-    <div class="row" style="margin-top:10px"><input type="number" id="cb-n" placeholder="n" value="10"><input type="number" id="cb-r" placeholder="r" value="3"><button class="btn ghost" id="cb-go" style="flex:0 0 auto">nCr · nPr</button></div><div id="cb-out"></div>
-    <label class="f t" data-ar="GCD / LCM لقائمة أعداد" data-en="GCD / LCM of a list"></label>
-    <div class="row"><input type="text" id="gl-in" value="12 18 24"><button class="btn ghost" id="gl-go" style="flex:0 0 auto">GCD·LCM</button></div><div id="gl-out"></div></div>
-</section>
-
-<!-- Camera -->
-<section class="panel" id="p-scan">
-  <div class="card">
-    <div class="row fixed"><button class="btn" id="cam-on" style="flex:1">📷 <span class="t" data-ar="افتح الكاميرا" data-en="Open camera"></span></button>
-      <label class="btn ghost" style="flex:1;text-align:center;margin:0">🖼️ <span class="t" data-ar="صورة / تصوير" data-en="Photo / upload"></span><input type="file" id="cam-file" accept="image/*" capture="environment" hidden></label></div>
-    <div class="cam-box" id="cam-box"><video id="cam-v" autoplay playsinline muted></video><div class="frame"></div></div>
-    <div class="row fixed" id="cam-ctl" style="display:none;margin-top:8px"><button class="btn" id="cam-snap" style="flex:1">📸 <span class="t" data-ar="صوّر وحلّ" data-en="Capture & solve"></span></button><button class="btn ghost" id="cam-off">✕</button></div>
-    <label class="f" style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="ocr-opt" checked style="width:auto"> <span class="t" data-ar="تحسين الصورة (أبيض وأسود)" data-en="Enhance image (black & white)"></span></label>
-    <div class="prog" id="prog"><i></i></div><div class="hint" id="prog-t"></div>
-    <canvas id="ocr-prev"></canvas>
-    <label class="f t" data-ar="النص اللي اتقرأ (عدّله لو فيه غلطة)" data-en="Recognized text (edit if needed)"></label>
-    <textarea id="ocr-text" placeholder="2x + 3 = 11"></textarea>
-    <div class="row fixed" style="margin-top:8px"><button class="btn" id="ocr-solve" style="flex:1">⚡ <span class="t" data-ar="حلّ" data-en="Solve"></span></button><button class="btn ghost" id="ocr-calc">🧮</button></div>
-    <div class="hint t" data-ar="الأفضل: خط مطبوع أو واضح، إضاءة كويسة، معادلة واحدة في الإطار. لو القراءة غلط عدّل النص وحلّ تاني." data-en="Best with printed or clear writing, good light, one equation in the frame. If it misreads, edit the text and solve again."></div>
-  </div>
-</section>
-
-<!-- History -->
-<section class="panel" id="p-hist">
-  <div class="card"><div class="row fixed"><h3 style="flex:1;margin:0" class="t" data-ar="🕘 السجل" data-en="🕘 History"></h3><button class="chip" id="h-clear">🗑️ <span class="t" data-ar="امسح" data-en="Clear"></span></button></div><div id="h-list"></div></div>
-</section>
-</div>
-<div id="toast"></div>
+    <!-- Overlay for Graph/Solve -->
+    <div class="overlay" id="overlay">
+        <div class="overlay-header">
+            <h3 id="overlay-title">الميزة</h3>
+            <button class="close-btn" onclick="toggleOverlay(false)">✕</button>
+        </div>
+        <div id="overlay-content" style="flex:1; padding:20px; overflow:auto;"></div>
+    </div>
 
 <script>
-(()=>{
-'use strict';
-const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
-let lang='ar',DEG=true,ans='0',themeI=0,curMode='auto',curTab='calc';
-const L=(a,e)=>lang==='ar'?a:e;
-const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const toast=m=>{const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('show'),2200)};
-const hasM=()=>typeof math!=='undefined',hasN=()=>typeof nerdamer!=='undefined';
-const norm=s=>String(s).replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[۰-۹]/g,d=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(d)).replace(/×/g,'*').replace(/÷/g,'/').replace(/[−–—]/g,'-').replace(/،/g,',').replace(/٫/g,'.').replace(/π/g,'pi').replace(/√/g,'sqrt').replace(/²/g,'^2').replace(/³/g,'^3').replace(/\bln\(/g,'log(');
-const prep=s=>norm(s).replace(/∞/g,'Infinity').replace(/[ \t]+/g,' ').trim();
-function fmt(v){if(typeof v==='number'){if(Number.isNaN(v))return 'NaN';if(!isFinite(v))return v>0?'∞':'-∞';if(Math.abs(v)<1e-13)v=0;return math.format(v,{precision:14,lowerExp:-9,upperExp:12})}return math.format(v,{precision:14})}
-const fN=v=>typeof v==='number'?fmt(+v.toPrecision(12)):math.format(v,{precision:10});
-const pretty=s=>String(s).replace(/\*/g,'·').replace(/sqrt\(/g,'√(').replace(/\bpi\b/g,'π').replace(/\bInfinity\b/gi,'∞').replace(/\^2(?!\d)/g,'²').replace(/\^3(?!\d)/g,'³');
+/**
+ * ULTRA CALC PRO - ROSTU EDITION
+ * Optimized for Zero-Lag & High Performance
+ */
 
-/* ---------- i18n ---------- */
-const TABS=[['calc','🧮','الحاسبة','Calculator'],['solve','🧠','الحلّال الذكي','Smart Solver'],['graph','📈','الرسم','Graph'],['geo','📐','الهندسة','Geometry'],['sci','🔬','العلوم','Science'],['units','🔁','الوحدات','Units'],['matrix','▦','المصفوفات','Matrix'],['stats','📊','إحصاء وأرقام','Stats & Numbers'],['scan','📷','الكاميرا','Camera'],['hist','🕘','السجل','History']];
-function buildNav(){$('#nav').innerHTML=TABS.map(t=>`<button data-tab="${t[0]}" class="${t[0]===curTab?'on':''}">${t[1]} ${L(t[2],t[3])}</button>`).join('');$$('#nav button').forEach(b=>b.onclick=()=>showTab(b.dataset.tab))}
-function showTab(n){curTab=n;$$('.panel').forEach(p=>p.classList.toggle('active',p.id==='p-'+n));$$('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.tab===n));if(n==='graph')setTimeout(gDraw,30);if(n!=='scan')camOff();if(n==='hist')renderHist();window.scrollTo({top:0,behavior:'smooth'});const b=$(`#nav button[data-tab=${n}]`);b&&b.scrollIntoView({inline:'center',block:'nearest'})}
-function applyLang(){const h=document.documentElement;h.lang=lang;h.dir=document.body.dir=lang==='ar'?'rtl':'ltr';$$('.t').forEach(e=>e.textContent=e.dataset[lang]);$('#btn-lang').textContent=lang==='ar'?'EN':'ع';buildNav();buildModes();buildExamples();buildGeo();buildPhys();buildSciTabs();buildConsts();buildUnits();buildMOps();setLabels();if(curTab==='hist')renderHist()}
+// --- State Management ---
+const state = {
+    expr: '',
+    mode: 'calc',
+    history: JSON.parse(localStorage.getItem('rosto_h') || '[]'),
+    themeIndex: 0
+};
 
-/* ---------- Calculator ---------- */
-const KEYS=[['sin','sin(','fn'],['cos','cos(','fn'],['tan','tan(','fn'],['ln','log(','fn'],['log','log10(','fn'],
-['sin⁻¹','asin(','fn'],['cos⁻¹','acos(','fn'],['tan⁻¹','atan(','fn'],['eˣ','e^(','fn'],['10ˣ','10^(','fn'],
-['√','sqrt(','fn'],['x²','^2','fn'],['xʸ','^','fn'],['x!','!','fn'],['|x|','abs(','fn'],
-['π','π','fn'],['e','e','fn'],['(','(','fn'],[')',')','fn'],['%','%','fn'],
-['7','7'],['8','8'],['9','9'],['÷','/','op'],['AC','AC','clr'],
-['4','4'],['5','5'],['6','6'],['×','*','op'],['⌫','BK','clr'],
-['1','1'],['2','2'],['3','3'],['−','-','op'],['Ans','Ans','fn'],
-['0','0'],['.','.'],['×10ⁿ','*10^','fn'],['+','+','op'],['=','EQ','eq']];
-const mkScope=()=>{const r=x=>DEG?x*Math.PI/180:x,b=x=>DEG?x*180/Math.PI:x;return{sin:x=>math.sin(r(x)),cos:x=>math.cos(r(x)),tan:x=>math.tan(r(x)),asin:x=>b(math.asin(x)),acos:x=>b(math.acos(x)),atan:x=>b(math.atan(x)),Ans:isNaN(+ans)?0:+ans}};
-function evalExpr(raw){const s=norm(raw).replace(/%/g,'/100');const v=math.evaluate(s,mkScope());const val=(v&&v.entries&&Array.isArray(v.entries))?v.entries[v.entries.length-1]:v;if(typeof val==='function'||val===undefined)throw new Error('x');return val}
-function ins(t){const e=$('#expr');const s=e.selectionStart??e.value.length,en=e.selectionEnd??s;e.value=e.value.slice(0,s)+t+e.value.slice(en);const p=s+t.length;e.focus({preventScroll:true});e.setSelectionRange(p,p);live()}
-function live(){const r=$('#res'),v=$('#expr').value.trim();r.classList.remove('err');if(!v){r.textContent='0';return}try{const o=fmt(evalExpr(v));r.textContent=o;r.dataset.v=o}catch(e){}}
-function equals(){const e=$('#expr'),v=e.value.trim();if(!v)return;const r=$('#res');try{const o=fmt(evalExpr(v));r.classList.remove('err');r.textContent=o;$('#hl').textContent=v;ans=o;addHist('calc',v,o);e.value=/^[-\d.e+]+$/i.test(o)?o:''}catch(err){r.classList.remove('err');void r.offsetWidth;r.classList.add('err');r.textContent=L('خطأ في التعبير','Invalid expression')}}
-function buildKeypad(){$('#keypad').innerHTML=KEYS.map((k,i)=>`<button class="k ${k[2]||''}" data-i="${i}">${k[0]}</button>`).join('');$$('#keypad .k').forEach(b=>b.onclick=()=>{const k=KEYS[b.dataset.i][1];if(navigator.vibrate)navigator.vibrate(8);if(k==='AC'){$('#expr').value='';$('#hl').textContent='';live()}else if(k==='BK'){const e=$('#expr'),s=e.selectionStart,en=e.selectionEnd;if(s!==en){e.setRangeText('');}else if(s>0){e.setRangeText('',s-1,s)}live()}else if(k==='EQ')equals();else ins(k)})}
-$('#expr').addEventListener('input',live);$('#expr').addEventListener('keydown',e=>{if(e.key==='Enter')equals()});
-$('#degb').onclick=()=>{DEG=!DEG;$('#degb').textContent=DEG?'DEG':'RAD';live()};
-$('#c-solver').onclick=()=>{$('#sv-in').value=$('#expr').value;showTab('solve')};
-$('#c-graph').onclick=()=>{const v=$('#expr').value.trim();if(v)$('#g-in').value=v;showTab('graph')};
-$('#c-copy').onclick=()=>{navigator.clipboard&&navigator.clipboard.writeText($('#res').textContent).then(()=>toast(L('تم النسخ ✓','Copied ✓')))};
+const DOM = {
+    expr: document.getElementById('expr'),
+    res: document.getElementById('res-prev'),
+    hist: document.getElementById('hist-prev'),
+    keypad: document.getElementById('keypad'),
+    loader: document.getElementById('loader'),
+    overlay: document.getElementById('overlay')
+};
 
-/* ---------- Solver ---------- */
-const MODES=[['auto','✨','تلقائي','Auto'],['solve','＝','معادلة','Equation'],['system','{ }','نظام','System'],['diff','d/dx','مشتقة','Derivative'],['int','∫','تكامل','Integral'],['defint','∫ₐᵇ','تكامل محدد','Definite ∫'],['limit','lim','نهاية','Limit'],['factor','ƒ','تحليل','Factor'],['expand','( )','فك الأقواس','Expand'],['simplify','≈','تبسيط','Simplify']];
-const EXAMPLES=['x^2-5x+6=0','2x+3=11','x+y=5; x-y=1','sin(x)=x/2','x^3-6x^2+11x-6','x^2+2x+5=0','2^x=64','sqrt(144)+3!','1/3+1/4'];
-function buildModes(){$('#modes').innerHTML=MODES.map(m=>`<button class="chip ${m[0]===curMode?'on':''}" data-m="${m[0]}">${m[1]} ${L(m[2],m[3])}</button>`).join('');$$('#modes .chip').forEach(b=>b.onclick=()=>{curMode=b.dataset.m;buildModes();setLabels()})}
-function buildExamples(){$('#examples').innerHTML=EXAMPLES.map(e=>`<button class="chip" dir="ltr">${esc(e)}</button>`).join('');$$('#examples .chip').forEach(b=>b.onclick=()=>{$('#sv-in').value=b.textContent;curMode='auto';buildModes();setLabels();runSolver()})}
-function setLabels(){const m=curMode;$('#f-var').style.display=['solve','diff','int','defint','limit'].includes(m)?'':'none';$('#f-a').style.display=['defint','limit'].includes(m)?'':'none';$('#f-b').style.display=m==='defint'?'':'none';$('#la').textContent=m==='limit'?L('عندما → ','as → '):L('من (a)','from (a)');$('#lb').textContent=L('إلى (b)','to (b)');$('#sv-in').placeholder={auto:'x^2 - 5x + 6 = 0',solve:'2x + 3 = 11',system:'x + y = 5; x - y = 1',diff:'x^3*sin(x)',int:'x*e^x',defint:'x^2',limit:'sin(x)/x',factor:'x^2-9',expand:'(x+1)^3',simplify:'(x^2-1)/(x-1)'}[m]}
-const card=(title,body,bad)=>{const d=document.createElement('div');d.className='card res-card';if(bad)d.style.borderInlineStartColor='#ff5d73';d.innerHTML=`<h4>${title}</h4>${body}`;$('#sv-out').appendChild(d)};
-const ansH=(s,dec)=>`<div class="ans">${esc(pretty(s))}</div>${dec?`<div class="dec">≈ ${esc(dec)}</div>`:''}`;
-function approx(e){try{const t=nerdamer(e).evaluate().text('decimals');const n=Number(t);if(t&&!isNaN(n))return fmt(+n.toPrecision(10));return t.length<50&&t!==String(e)?t:null}catch(_){return null}}
-function parseList(s){s=String(s).trim();if(s[0]==='['&&s.endsWith(']'))s=s.slice(1,-1);const o=[];let d=0,c='';for(const ch of s){if('(['.includes(ch))d++;if(')]'.includes(ch))d--;if(ch===','&&d===0){o.push(c);c=''}else c+=ch}if(c.trim())o.push(c);return o.map(x=>x.trim()).filter(Boolean)}
-function mkF(expr,v){const c=math.compile(norm(expr));return x=>{try{const r=c.evaluate({[v]:x,...mkScope()});return typeof r==='number'?r:NaN}catch(_){return NaN}}}
-function scanRoots(f,lo=-100,hi=100,n=20000){const out=[];let px=lo,py=f(px);for(let i=1;i<=n;i++){const x=lo+(hi-lo)*i/n,y=f(x);if(isFinite(py)&&isFinite(y)){if(py===0)out.push(px);else if(py*y<0){let a=px,b=x,fa=py;for(let k=0;k<80;k++){const m=(a+b)/2,fm=f(m);if(fa*fm<=0)b=m;else{a=m;fa=fm}}const m=(a+b)/2;if(Math.abs(f(m))<1e-6)out.push(m)}}px=x;py=y}return [...new Set(out.map(v=>+v.toFixed(8)))]}
-function polySteps(expr,v){try{const f=mkF(expr,v),R=n=>fmt(+n.toPrecision(10));const f0=f(0),f1=f(1),fm=f(-1),f2=f(2),f3=f(3);const a=(f1+fm)/2-f0,b=(f1-fm)/2,c=f0;if(![a,b,c].every(isFinite))return null;if(Math.abs(f2-(4*a+2*b+c))>1e-6||Math.abs(f3-(9*a+3*b+c))>1e-6)return null;
- if(Math.abs(a)<1e-12){if(Math.abs(b)<1e-12)return null;return [`${R(b)}·${v} + ${R(c)} = 0`,`${v} = −(${R(c)}) / ${R(b)} = ${R(-c/b)}`]}
- const D=b*b-4*a*c,st=[`a = ${R(a)},  b = ${R(b)},  c = ${R(c)}`,`Δ = b² − 4ac = ${R(D)}`];
- if(D>0)st.push(`${v} = (−b ± √Δ) / 2a`,`${v}₁ = ${R((-b+Math.sqrt(D))/(2*a))},  ${v}₂ = ${R((-b-Math.sqrt(D))/(2*a))}`);
- else if(D===0)st.push(`Δ = 0 → ${L('جذر مكرر','double root')}: ${v} = ${R(-b/(2*a))}`);
- else st.push(`Δ < 0 → ${L('جذور مركبة','complex roots')}`,`${v} = ${R(-b/(2*a))} ± ${R(Math.sqrt(-D)/(2*a))}i`);return st}catch(_){return null}}
-function doEq(input,vn){const raw=prep(input);const idx=raw.indexOf('=');let l=raw,r='0';if(idx>=0){l=raw.slice(0,idx);r=raw.slice(idx+1)}if(!l.trim()||!r.trim())throw new Error(L('المعادلة ناقصة','Incomplete equation'));
- const expr=`(${l})-(${r})`;const vars=nerdamer(expr).variables();const v=vn||(vars.includes('x')?'x':vars[0]);
- if(!v){const a=fmt(evalExpr(l)),b=fmt(evalExpr(r));card(L('تحقق','Check'),ansH(`${a} ${a===b?'=':'≠'} ${b}`)+`<div class="dec">${a===b?L('✓ صحيحة','✓ True'):L('✗ غير صحيحة','✗ False')}</div>`);return}
- let roots=[],method=L('رمزي (دقيق)','Symbolic (exact)');
- try{roots=parseList(nerdamer.solve(`${l}=${r}`,v).toString())}catch(_){}
- if(!roots.length){try{const f=mkF(expr,v);roots=scanRoots(f).map(String);method=L('عددي (تقريبي) على المدى -100…100','Numeric on -100…100')}catch(_){}}
- if(!roots.length){card(L('الحل','Solution'),`<div class="err-t">${L('مفيش حل حقيقي لقيناه','No solution found')}</div>`,1);return}
- const body=roots.map((x,i)=>ansH(`${v}${roots.length>1?'₁₂₃₄₅₆₇₈₉'[i]||i+1:''} = ${x}`,approx(x))).join('');
- const st=polySteps(expr,v);card(`${L('الحل','Solution')} — ${L('بالنسبة لـ','for')} ${v} <small>(${method})</small>`,body+(st?`<ol class="steps">${st.map(s=>`<li>${esc(s)}</li>`).join('')}</ol>`:''));
- return {expr:expr,v}}
-function doSystem(txt){const eqs=txt.split(/[;\n]+/).map(prep).filter(Boolean);if(eqs.length<2)throw new Error(L('محتاج معادلتين على الأقل (افصل بـ ;)','Need 2+ equations (separate with ;)'));const vars=new Set();eqs.forEach(e=>{const [l,r='0']=e.split('=');nerdamer(`(${l})-(${r})`).variables().forEach(v=>vars.add(v))});let sol=null;
- try{const r=nerdamer.solveEquations(eqs);if(Array.isArray(r))sol=r.map(p=>[String(p[0]),String(p[1])]);else if(r&&typeof r==='object')sol=Object.entries(r).map(([k,v])=>[k,String(v)])}catch(_){}
- let method=L('رمزي (دقيق)','Symbolic (exact)');
- if(!sol||!sol.length||sol.some(p=>/^\[?\]?$/.test(p[1]))){try{const vs=[...vars],fs=eqs.map(e=>{const [l,r='0']=e.split('=');const c=math.compile(`(${l})-(${r})`);return s=>c.evaluate(s)}),z=Object.fromEntries(vs.map(k=>[k,0])),A=[],B=[];fs.forEach(f=>{const f0=f(z);A.push(vs.map(k=>f({...z,[k]:1})-f0));B.push(-f0)});if(A.length===vs.length){const x=math.lusolve(A,B).map(q=>Array.isArray(q)?q[0]:q);sol=vs.map((k,i)=>[k,String(+x[i].toPrecision(12))]);method=L('جبر خطّي','Linear algebra')}}catch(_){}}
- if(!sol||!sol.length)throw new Error(L('مقدرتش أحل النظام ده','Could not solve this system'));
- card(`${L('حل النظام','System solution')} <small>(${method})</small>`,sol.map(p=>ansH(`${p[0]} = ${p[1]}`,approx(p[1]))).join(''))}
-function runMode(mode,input,vn,a,b){const raw=prep(input),v=vn||(nerdamer(raw.split('=')[0]||'0').variables().includes('x')?'x':(nerdamer(raw).variables()[0]||'x'));
- if(mode==='solve')return doEq(input,vn);
- if(mode==='system')return doSystem(input);
- if(mode==='diff'){const d1=nerdamer(`diff(${raw},${v})`).toString(),d2=nerdamer(`diff(${raw},${v},2)`).toString();card(`${L('المشتقة الأولى','First derivative')} d/d${v}`,ansH(d1));card(L('المشتقة الثانية','Second derivative'),ansH(d2))}
- else if(mode==='int'){const r=nerdamer(`integrate(${raw},${v})`).toString();card(`∫ d${v}`,ansH(r+' + C'))}
- else if(mode==='defint'){if(a===''||b==='')throw new Error(L('اكتب حدود التكامل a و b','Enter limits a and b'));let r=null,dec=null;try{r=nerdamer(`defint(${raw},${prep(a)},${prep(b)},${v})`).toString();dec=approx(r)}catch(_){}
-  if(!r||/integrate|defint/.test(r)){const f=mkF(raw,v),A=+math.evaluate(norm(a)),B=+math.evaluate(norm(b)),n=20000,h=(B-A)/n;let s=f(A)+f(B);for(let i=1;i<n;i++)s+=f(A+i*h)*(i%2?4:2);r=fN(s*h/3);dec=null;card(`∫ₐᵇ ${L('(عددي — سيمبسون)','(numeric — Simpson)')}`,ansH(r))}else card('∫ₐᵇ',ansH(r,dec))}
- else if(mode==='limit'){if(a==='')throw new Error(L('اكتب القيمة اللي المتغير بيقرّب منها','Enter the value the variable approaches'));const r=nerdamer(`limit(${raw},${v},${prep(a)})`).toString();card(`lim ${v}→${a}`,ansH(r,approx(r)))}
- else if(mode==='factor')card(L('التحليل','Factored'),ansH(nerdamer(`factor(${raw})`).toString()));
- else if(mode==='expand')card(L('بعد الفك','Expanded'),ansH(nerdamer(`expand(${raw})`).toString()));
- else if(mode==='simplify')card(L('بعد التبسيط','Simplified'),ansH(nerdamer(`simplify(${raw})`).toString()))}
-function runSolver(){const input=$('#sv-in').value.trim();if(!input)return toast(L('اكتب حاجة الأول','Type something first'));if(!hasN()||!hasM()){return toast(L('المكتبات مش متحمّلة — اتأكد من النت','Libraries not loaded — check your connection'))}$('#sv-out').innerHTML='';
- const vn=$('#sv-var').value.trim(),a=$('#sv-a').value.trim(),b=$('#sv-b').value.trim();let summary='';
- try{if(curMode!=='auto'){runMode(curMode,input,vn,a,b)}else{
-   const lines=input.split(/[;\n]+/).filter(s=>s.trim());
-   if(lines.length>1&&lines.every(s=>s.includes('=')))doSystem(input);
-   else if(input.includes('=')){doEq(input,vn)}
-   else{const raw=prep(input),vars=nerdamer(raw).variables();
-    if(!vars.length){let dv=null;try{dv=fmt(evalExpr(input))}catch(_){}let ex=null;try{ex=nerdamer(raw).toString()}catch(_){}if(dv===null&&ex===null)throw new Error('x');card(L('النتيجة','Result'),ansH(dv??ex)+(ex&&dv&&pretty(ex)!==dv?`<div class="dec">${L('الصورة الدقيقة','Exact')}: ${esc(pretty(ex))}</div>`:''))}
-    else{const v=vn||(vars.includes('x')?'x':vars[0]);
-     const tries=[[L('تبسيط','Simplified'),()=>nerdamer(`simplify(${raw})`).toString()],[L('تحليل','Factored'),()=>nerdamer(`factor(${raw})`).toString()],[L('فك','Expanded'),()=>nerdamer(`expand(${raw})`).toString()],[`d/d${v}`,()=>nerdamer(`diff(${raw},${v})`).toString()],['∫ d'+v,()=>nerdamer(`integrate(${raw},${v})`).toString()+' + C']];
-     tries.forEach(t=>{try{card(t[0],ansH(t[1]()))}catch(_){}});try{doEq(raw+'=0',v)}catch(_){}}}}
-  summary=$('#sv-out').querySelector('.ans')?.textContent||'';addHist('solve',input.replace(/\n/g,' ; '),summary)}
- catch(e){card(L('مقدرتش أحلها','Could not solve'),`<div class="err-t">${esc(e.message&&e.message!=='x'?e.message:L('اتأكد من كتابة المسألة (مثال: 2x+3=11، x^2-4، sin(x))','Check the syntax (e.g. 2x+3=11, x^2-4, sin(x))'))}</div>`,1)}
- if(!$('#sv-out').children.length)card(L('مفيش نتيجة','No result'),`<div class="err-t">${L('جرب صيغة تانية','Try another form')}</div>`,1);$('#sv-out').scrollIntoView({behavior:'smooth',block:'nearest'})}
-$('#sv-go').onclick=runSolver;$('#sv-clear').onclick=()=>{$('#sv-in').value='';$('#sv-out').innerHTML=''};
-$('#sv-in').addEventListener('keydown',e=>{if(e.key==='Enter'&&(e.ctrlKey||e.metaKey))runSolver()});
-$('#sv-graph').onclick=()=>{const t=$('#sv-in').value.trim();if(!t)return;const i=t.indexOf('=');$('#g-in').value=i>=0?`(${t.slice(0,i)})-(${t.slice(i+1)})`:t;showTab('graph')};
+// --- Core Math Engine (Lightweight) ---
+// نستخدم eval آمن ومخصص بدلاً من تحميل مكتبات ضخمة فوراً
+function safeEval(expression) {
+    try {
+        // تنظيف المدخلات وتحويل الرموز العربية/الخاصة
+        let clean = expression
+            .replace(/×/g, '*').replace(/÷/g, '/')
+            .replace(/π/g, 'Math.PI').replace(/e/g, 'Math.E')
+            .replace(/sin/g, 'Math.sin').replace(/cos/g, 'Math.cos')
+            .replace(/tan/g, 'Math.tan').replace(/log/g, 'Math.log10')
+            .replace(/ln/g, 'Math.log').replace(/\^/g, '**');
+            
+        // منع الأكواد الخبيثة
+        if (/[^0-9+\-*/().\sMathPIEsincotalgqrt]/.test(clean)) return 'Error';
+        
+        return new Function('return ' + clean)();
+    } catch (e) {
+        return null; // Null means incomplete expression, not error
+    }
+}
 
-/* ---------- Graph ---------- */
-const G={cx:0,cy:0,s:50,p:new Map(),pd:0},COL=['#00f5d4','#f72585','#ffd60a','#4cc9f0','#b388ff','#80ed99'];
-function fns(){return $('#g-in').value.split(/[\n;]+/).map(s=>s.trim().replace(/^(y|f\(x\))\s*=/i,'')).filter(Boolean)}
-function gDraw(){if(!hasM())return;const cv=$('#gcv'),ctx=cv.getContext('2d'),dpr=window.devicePixelRatio||1,w=cv.clientWidth,h=cv.clientHeight;if(!w)return;if(cv.width!==Math.round(w*dpr)){cv.width=Math.round(w*dpr);cv.height=Math.round(h*dpr)}ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,w,h);
- const cs=getComputedStyle(document.body),grid=cs.getPropertyValue('--grid'),mut=cs.getPropertyValue('--mut'),txt=cs.getPropertyValue('--text');
- const raw=60/G.s,pw=Math.pow(10,Math.floor(Math.log10(raw))),m=raw/pw,step=(m<1.5?1:m<3.5?2:m<7.5?5:10)*pw;
- const X=x=>w/2+(x-G.cx)*G.s,Y=y=>h/2-(y-G.cy)*G.s,x0=G.cx-w/2/G.s,x1=G.cx+w/2/G.s,y0=G.cy-h/2/G.s,y1=G.cy+h/2/G.s;
- ctx.font='11px JetBrains Mono, monospace';ctx.lineWidth=1;const ay=Math.min(Math.max(Y(0),14),h-6),ax=Math.min(Math.max(X(0),4),w-30);
- for(let x=Math.ceil(x0/step)*step;x<=x1;x+=step){ctx.strokeStyle=grid;ctx.beginPath();ctx.moveTo(X(x),0);ctx.lineTo(X(x),h);ctx.stroke();if(Math.abs(x)>step/2){ctx.fillStyle=mut;ctx.fillText(+x.toFixed(8),X(x)+3,ay-3)}}
- for(let y=Math.ceil(y0/step)*step;y<=y1;y+=step){ctx.strokeStyle=grid;ctx.beginPath();ctx.moveTo(0,Y(y));ctx.lineTo(w,Y(y));ctx.stroke();if(Math.abs(y)>step/2){ctx.fillStyle=mut;ctx.fillText(+y.toFixed(8),ax+3,Y(y)-3)}}
- ctx.strokeStyle=txt;ctx.lineWidth=1.6;ctx.beginPath();ctx.moveTo(X(0),0);ctx.lineTo(X(0),h);ctx.moveTo(0,Y(0));ctx.lineTo(w,Y(0));ctx.stroke();
- fns().forEach((e,i)=>{let f;try{f=mkF(norm(e),'x')}catch(_){return}ctx.strokeStyle=COL[i%COL.length];ctx.lineWidth=2.4;ctx.lineJoin='round';ctx.beginPath();let pen=false,py=0;for(let px=0;px<=w;px+=1){const y=f(x0+px/G.s);if(!isFinite(y)){pen=false;continue}const sy=Y(y);if(pen&&Math.abs(sy-py)>h*2)pen=false;if(!pen){ctx.moveTo(px,sy);pen=true}else ctx.lineTo(px,sy);py=sy}ctx.stroke()})}
-const pdist=()=>{const a=[...G.p.values()];return Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y)};
-(()=>{const cv=$('#gcv');cv.addEventListener('pointerdown',e=>{cv.setPointerCapture(e.pointerId);G.p.set(e.pointerId,{x:e.clientX,y:e.clientY});if(G.p.size===2)G.pd=pdist();cv.style.cursor='grabbing'});
- cv.addEventListener('pointermove',e=>{if(!G.p.has(e.pointerId)){const r=cv.getBoundingClientRect(),x=G.cx+(e.clientX-r.left-r.width/2)/G.s,f=fns()[0];let t=`x = ${+x.toPrecision(6)}`;if(f){try{t+=`   y = ${+mkF(norm(f),'x')(x).toPrecision(6)}`}catch(_){}}$('#gco').textContent=t;return}
-  const p=G.p.get(e.pointerId);if(G.p.size===1){G.cx-=(e.clientX-p.x)/G.s;G.cy+=(e.clientY-p.y)/G.s}p.x=e.clientX;p.y=e.clientY;if(G.p.size===2){const d=pdist();if(G.pd)G.s=Math.min(1e6,Math.max(1e-3,G.s*d/G.pd));G.pd=d}gDraw()});
- const up=e=>{G.p.delete(e.pointerId);G.pd=0;cv.style.cursor='grab'};cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);
- cv.addEventListener('wheel',e=>{e.preventDefault();G.s=Math.min(1e6,Math.max(1e-3,G.s*(e.deltaY<0?1.15:1/1.15)));gDraw()},{passive:false});
- $('#g-draw').onclick=gDraw;$('#g-in2').onclick=()=>{G.s*=1.4;gDraw()};$('#g-out').onclick=()=>{G.s/=1.4;gDraw()};$('#g-reset').onclick=()=>{G.cx=G.cy=0;G.s=50;gDraw()};$('#g-in').addEventListener('input',gDraw);window.addEventListener('resize',()=>{if(curTab==='graph')gDraw()})})();
+// --- UI Rendering (Optimized) ---
+const keys = [
+    ['C', '⌫', '%', '÷'],
+    ['7', '8', '9', '×'],
+    ['4', '5', '6', '-'],
+    ['1', '2', '3', '+'],
+    ['0', '.', '(', ')'],
+    ['sin', 'cos', '√', '=']
+];
 
-/* ---------- Geometry ---------- */
-const P=Math.PI,hy=(a,b)=>Math.hypot(a,b),deg=r=>r*180/P;
-const SHAPES=[
-['circle','⚪','دائرة','Circle',[['r','نصف القطر','Radius']],o=>[['المساحة','Area',P*o.r**2],['المحيط','Circumference',2*P*o.r],['القطر','Diameter',2*o.r]]],
-['rect','▭','مستطيل','Rectangle',[['l','الطول','Length'],['w','العرض','Width']],o=>[['المساحة','Area',o.l*o.w],['المحيط','Perimeter',2*(o.l+o.w)],['القطر','Diagonal',hy(o.l,o.w)]]],
-['square','◻','مربع','Square',[['a','الضلع','Side']],o=>[['المساحة','Area',o.a**2],['المحيط','Perimeter',4*o.a],['القطر','Diagonal',o.a*Math.SQRT2]]],
-['tri3','△','مثلث (3 أضلاع)','Triangle (3 sides)',[['a','a','a'],['b','b','b'],['c','c','c']],o=>{const s=(o.a+o.b+o.c)/2,A=Math.sqrt(s*(s-o.a)*(s-o.b)*(s-o.c));if(!(A>0))return [['خطأ','Error','—']];const ang=(x,y,z)=>deg(Math.acos((y*y+z*z-x*x)/(2*y*z)));return [['المساحة (هيرون)','Area (Heron)',A],['المحيط','Perimeter',o.a+o.b+o.c],['الزاوية A°','Angle A°',ang(o.a,o.b,o.c)],['الزاوية B°','Angle B°',ang(o.b,o.a,o.c)],['الزاوية C°','Angle C°',ang(o.c,o.a,o.b)]]}],
-['tribh','◣','مثلث (قاعدة وارتفاع)','Triangle (base, height)',[['b','القاعدة','Base'],['h','الارتفاع','Height']],o=>[['المساحة','Area',o.b*o.h/2]]],
-['right','⊾','مثلث قائم (فيثاغورس)','Right triangle (Pythagoras)',[['a','الضلع a','Leg a'],['b','الضلع b','Leg b']],o=>[['الوتر c','Hypotenuse c',hy(o.a,o.b)],['المساحة','Area',o.a*o.b/2],['المحيط','Perimeter',o.a+o.b+hy(o.a,o.b)],['الزاوية α°','Angle α°',deg(Math.atan2(o.a,o.b))],['الزاوية β°','Angle β°',deg(Math.atan2(o.b,o.a))]]],
-['trap','⏢','شبه منحرف','Trapezoid',[['a','القاعدة 1','Base 1'],['b','القاعدة 2','Base 2'],['h','الارتفاع','Height']],o=>[['المساحة','Area',(o.a+o.b)/2*o.h]]],
-['para','▱','متوازي أضلاع','Parallelogram',[['b','القاعدة','Base'],['h','الارتفاع','Height'],['s','الضلع المائل','Slant side']],o=>[['المساحة','Area',o.b*o.h],['المحيط','Perimeter',2*(o.b+o.s)]]],
-['rhomb','◇','معيّن','Rhombus',[['d1','القطر 1','Diagonal 1'],['d2','القطر 2','Diagonal 2']],o=>{const s=hy(o.d1/2,o.d2/2);return [['المساحة','Area',o.d1*o.d2/2],['الضلع','Side',s],['المحيط','Perimeter',4*s]]}],
-['poly','⬡','مضلع منتظم','Regular polygon',[['n','عدد الأضلاع','Sides'],['s','طول الضلع','Side length']],o=>[['المساحة','Area',o.n*o.s**2/(4*Math.tan(P/o.n))],['المحيط','Perimeter',o.n*o.s],['الزاوية الداخلية°','Interior angle°',(o.n-2)*180/o.n]]],
-['ell','⬭','قطع ناقص','Ellipse',[['a','نصف المحور a','Semi-axis a'],['b','نصف المحور b','Semi-axis b']],o=>[['المساحة','Area',P*o.a*o.b],['المحيط (تقريبي)','Perimeter (approx)',P*(3*(o.a+o.b)-Math.sqrt((3*o.a+o.b)*(o.a+3*o.b)))]]],
-['sector','◔','قطاع دائري','Circular sector',[['r','نصف القطر','Radius'],['t','الزاوية°','Angle°']],o=>[['طول القوس','Arc length',o.r*o.t*P/180],['المساحة','Area',o.r**2*o.t*P/360]]],
-['sphere','🔵','كرة','Sphere',[['r','نصف القطر','Radius']],o=>[['الحجم','Volume',4/3*P*o.r**3],['المساحة السطحية','Surface area',4*P*o.r**2]]],
-['cyl','🛢','أسطوانة','Cylinder',[['r','نصف القطر','Radius'],['h','الارتفاع','Height']],o=>[['الحجم','Volume',P*o.r**2*o.h],['المساحة الجانبية','Lateral area',2*P*o.r*o.h],['المساحة الكلية','Total area',2*P*o.r*(o.r+o.h)]]],
-['cone','🔺','مخروط','Cone',[['r','نصف القطر','Radius'],['h','الارتفاع','Height']],o=>{const l=hy(o.r,o.h);return [['الحجم','Volume',P*o.r**2*o.h/3],['الارتفاع المائل','Slant height',l],['المساحة الجانبية','Lateral area',P*o.r*l],['المساحة الكلية','Total area',P*o.r*(o.r+l)]]}],
-['cube','🧊','مكعب','Cube',[['a','الحرف','Edge']],o=>[['الحجم','Volume',o.a**3],['المساحة الكلية','Surface area',6*o.a**2],['القطر','Diagonal',o.a*Math.sqrt(3)]]],
-['cuboid','📦','متوازي مستطيلات','Cuboid',[['l','الطول','Length'],['w','العرض','Width'],['h','الارتفاع','Height']],o=>[['الحجم','Volume',o.l*o.w*o.h],['المساحة الكلية','Surface area',2*(o.l*o.w+o.l*o.h+o.w*o.h)],['القطر','Diagonal',Math.sqrt(o.l**2+o.w**2+o.h**2)]]],
-['pyr','⛰','هرم قاعدته مربعة','Square pyramid',[['a','ضلع القاعدة','Base side'],['h','الارتفاع','Height']],o=>{const s=hy(o.h,o.a/2);return [['الحجم','Volume',o.a**2*o.h/3],['الارتفاع المائل','Slant height',s],['المساحة الكلية','Total area',o.a**2+2*o.a*s]]}],
-['pts','📍','نقطتين (هندسة تحليلية)','Two points (analytic)',[['x1','x₁','x₁'],['y1','y₁','y₁'],['x2','x₂','x₂'],['y2','y₂','y₂']],o=>[['المسافة','Distance',hy(o.x2-o.x1,o.y2-o.y1)],['نقطة المنتصف','Midpoint',`(${fN((o.x1+o.x2)/2)}, ${fN((o.y1+o.y2)/2)})`],['الميل','Slope',o.x2===o.x1?'∞':(o.y2-o.y1)/(o.x2-o.x1)],['زاوية الخط°','Line angle°',deg(Math.atan2(o.y2-o.y1,o.x2-o.x1))]]]];
-let geoI=0;
-function buildGeo(){const sel=$('#geo-sel');sel.innerHTML=SHAPES.map((s,i)=>`<option value="${i}" ${i===geoI?'selected':''}>${s[1]} ${L(s[2],s[3])}</option>`).join('');sel.onchange=()=>{geoI=+sel.value;buildGeoF()};buildGeoF()}
-function buildGeoF(){const s=SHAPES[geoI];$('#geo-f').innerHTML=s[4].map(f=>`<div><label class="f">${L(f[1],f[2])}</label><input type="number" step="any" inputmode="decimal" data-k="${f[0]}"></div>`).join('');$$('#geo-f input').forEach(i=>i.oninput=geoCalc);geoCalc()}
-function geoCalc(){const s=SHAPES[geoI],o={};let ok=true;$$('#geo-f input').forEach(i=>{if(i.value==='')ok=false;o[i.dataset.k]=parseFloat(i.value)});const out=$('#geo-out');if(!ok){out.innerHTML=`<div class="hint">${L('دخّل القيم وهتظهر النتائج فورًا.','Enter values — results appear instantly.')}</div>`;return}const r=s[5](o);out.innerHTML=r.map(x=>`<div class="kv"><span>${L(x[0],x[1])}</span><b>${typeof x[2]==='number'?fN(x[2]):x[2]}</b></div>`).join('');if(r.length&&typeof r[0][2]==='number')addHistDebounced('geo',`${L(s[2],s[3])}: ${Object.entries(o).map(([k,v])=>k+'='+v).join(', ')}`,`${L(r[0][0],r[0][1])} = ${fN(r[0][2])}`)}
+function renderKeypad() {
+    DOM.keypad.innerHTML = '';
+    keys.forEach(row => {
+        row.forEach(k => {
+            const btn = document.createElement('button');
+            btn.className = `key ${['÷','×','-','+','='].includes(k)?'op':''} ${k==='='?'eq':''} ${['sin','cos','√','%'].includes(k)?'fn':''}`;
+            btn.textContent = k;
+            btn.onclick = () => handleKey(k);
+            DOM.keypad.appendChild(btn);
+        });
+    });
+}
 
-/* ---------- Physics / Chemistry ---------- */
-const PH=[
-['v=u+a*t','السرعة (حركة بعجلة)','Velocity (v = u + at)',[['v','السرعة النهائية','Final velocity','m/s'],['u','السرعة الابتدائية','Initial velocity','m/s'],['a','العجلة','Acceleration','m/s²'],['t','الزمن','Time','s']]],
-['s=u*t+a*t^2/2','الإزاحة','Displacement (s = ut + ½at²)',[['s','الإزاحة','Displacement','m'],['u','السرعة الابتدائية','Initial velocity','m/s'],['t','الزمن','Time','s'],['a','العجلة','Acceleration','m/s²']]],
-['v^2=u^2+2*a*s','معادلة السرعة والإزاحة','v² = u² + 2as',[['v','السرعة النهائية','Final velocity','m/s'],['u','السرعة الابتدائية','Initial velocity','m/s'],['a','العجلة','Acceleration','m/s²'],['s','الإزاحة','Displacement','m']]],
-['F=m*a','قانون نيوتن الثاني','Newton\'s 2nd law (F = ma)',[['F','القوة','Force','N'],['m','الكتلة','Mass','kg'],['a','العجلة','Acceleration','m/s²']]],
-['W=F*d','الشغل','Work (W = Fd)',[['W','الشغل','Work','J'],['F','القوة','Force','N'],['d','المسافة','Distance','m']]],
-['K=m*v^2/2','طاقة الحركة','Kinetic energy',[['K','طاقة الحركة','Kinetic energy','J'],['m','الكتلة','Mass','kg'],['v','السرعة','Velocity','m/s']]],
-['U=m*9.81*h','طاقة الوضع (g=9.81)','Potential energy (g=9.81)',[['U','طاقة الوضع','Potential energy','J'],['m','الكتلة','Mass','kg'],['h','الارتفاع','Height','m']]],
-['V=I*R','قانون أوم','Ohm\'s law',[['V','الجهد','Voltage','V'],['I','التيار','Current','A'],['R','المقاومة','Resistance','Ω']]],
-['P=V*I','القدرة الكهربية','Electric power',[['P','القدرة','Power','W'],['V','الجهد','Voltage','V'],['I','التيار','Current','A']]],
-['D=m/Vol','الكثافة','Density',[['D','الكثافة','Density','kg/m³'],['m','الكتلة','Mass','kg'],['Vol','الحجم','Volume','m³']]],
-['P=F/A','الضغط','Pressure',[['P','الضغط','Pressure','Pa'],['F','القوة','Force','N'],['A','المساحة','Area','m²']]],
-['v=f*lam','معادلة الموجة','Wave equation (v = fλ)',[['v','سرعة الموجة','Wave speed','m/s'],['f','التردد','Frequency','Hz'],['lam','الطول الموجي','Wavelength','m']]],
-['P*Vol=n*8.314*T','الغاز المثالي','Ideal gas (PV = nRT)',[['P','الضغط','Pressure','Pa'],['Vol','الحجم','Volume','m³'],['n','عدد المولات','Moles','mol'],['T','درجة الحرارة','Temperature','K']]],
-['p=m*v','كمية الحركة','Momentum',[['p','كمية الحركة','Momentum','kg·m/s'],['m','الكتلة','Mass','kg'],['v','السرعة','Velocity','m/s']]],
-['v=d/t','السرعة المتوسطة','Average speed',[['v','السرعة','Speed','m/s'],['d','المسافة','Distance','m'],['t','الزمن','Time','s']]],
-['Q=m*c*dT','الحرارة النوعية','Heat (Q = mcΔT)',[['Q','كمية الحرارة','Heat','J'],['m','الكتلة','Mass','kg'],['c','الحرارة النوعية','Specific heat','J/kg·K'],['dT','فرق الحرارة','Temp. change','K']]],
-['F=6.674*10^(-11)*m1*m2/r^2','قانون الجذب العام','Universal gravitation',[['F','القوة','Force','N'],['m1','الكتلة 1','Mass 1','kg'],['m2','الكتلة 2','Mass 2','kg'],['r','المسافة','Distance','m']]],
-['F=8.988*10^9*q1*q2/r^2','قانون كولوم','Coulomb\'s law',[['F','القوة','Force','N'],['q1','الشحنة 1','Charge 1','C'],['q2','الشحنة 2','Charge 2','C'],['r','المسافة','Distance','m']]],
-['T=2*pi*sqrt(L/9.81)','البندول البسيط','Simple pendulum',[['T','الزمن الدوري','Period','s'],['L','الطول','Length','m']]],
-['E=m*299792458^2','الطاقة والكتلة (E=mc²)','Mass-energy (E = mc²)',[['E','الطاقة','Energy','J'],['m','الكتلة','Mass','kg']]]];
-let phI=0,sciTab='phys';
-function buildPhys(){const s=$('#ph-sel');s.innerHTML=PH.map((p,i)=>`<option value="${i}" ${i===phI?'selected':''}>${L(p[1],p[2])}</option>`).join('');s.onchange=()=>{phI=+s.value;buildPhF()};buildPhF()}
-function buildPhF(){const p=PH[phI];$('#ph-f').innerHTML=p[3].map(v=>`<div><label class="f">${v[0]} — ${L(v[1],v[2])} (${v[3]})</label><input type="text" inputmode="decimal" data-s="${v[0]}"></div>`).join('');$('#ph-out').innerHTML=`<div class="card"><div class="ans" dir="ltr">${esc(pretty(p[0]))}</div></div>`}
-const numStr=v=>{const n=Number(v);if(!isFinite(n))throw new Error(L('قيمة غير صالحة','Invalid value'));if(/e/i.test(String(n))){const [m,e]=n.toExponential().split('e');return `(${m}*10^(${+e}))`}return `(${n})`};
-$('#ph-go').onclick=()=>{if(!hasN())return toast(L('المكتبات مش متحمّلة','Libraries not loaded'));const p=PH[phI],ins=$$('#ph-f input'),empty=ins.filter(i=>i.value.trim()==='');if(empty.length!==1)return toast(L('سيب خانة واحدة فاضية','Leave exactly one field empty'));const un=empty[0].dataset.s;let eq=p[0];try{ins.forEach(i=>{if(i!==empty[0])eq=eq.replace(new RegExp('\\b'+i.dataset.s+'\\b','g'),numStr(norm(i.value)))});const sol=parseList(nerdamer.solve(eq,un).toString()),u=p[3].find(v=>v[0]===un);
- const out=sol.map(x=>{const a=approx(x);return `<div class="ans">${un} = ${esc(a??pretty(x))} ${u[3]}</div>`}).join('');$('#ph-out').innerHTML=`<div class="card res-card"><h4>${L(p[1],p[2])} — ${esc(pretty(p[0]))}</h4>${out||`<div class="err-t">${L('مفيش حل','No solution')}</div>`}</div>`;addHist('sci',`${L(p[1],p[2])}`,`${un} = ${approx(sol[0])??sol[0]}`)}catch(e){$('#ph-out').innerHTML=`<div class="card res-card"><div class="err-t">${esc(e.message||L('حصل خطأ','Error'))}</div></div>`}};
-const EL={H:1.008,He:4.0026,Li:6.94,Be:9.0122,B:10.81,C:12.011,N:14.007,O:15.999,F:18.998,Ne:20.18,Na:22.99,Mg:24.305,Al:26.982,Si:28.085,P:30.974,S:32.06,Cl:35.45,Ar:39.948,K:39.098,Ca:40.078,Sc:44.956,Ti:47.867,V:50.942,Cr:51.996,Mn:54.938,Fe:55.845,Co:58.933,Ni:58.693,Cu:63.546,Zn:65.38,Ga:69.723,Ge:72.63,As:74.922,Se:78.971,Br:79.904,Kr:83.798,Rb:85.468,Sr:87.62,Zr:91.224,Mo:95.95,Ag:107.87,Cd:112.41,Sn:118.71,Sb:121.76,Te:127.6,I:126.9,Xe:131.29,Cs:132.91,Ba:137.33,W:183.84,Pt:195.08,Au:196.97,Hg:200.59,Pb:207.2,Ra:226,U:238.03};
-function parseF(s){let i=0;const num=()=>{let m='';while(i<s.length&&/\d/.test(s[i]))m+=s[i++];return m?parseInt(m):1};const par=()=>{const c={};while(i<s.length&&s[i]!==')'&&s[i]!==']'){if(s[i]==='('||s[i]==='['){i++;const sub=par();i++;const n=num();for(const k in sub)c[k]=(c[k]||0)+sub[k]*n}else if(/[A-Z]/.test(s[i])){let e=s[i++];while(i<s.length&&/[a-z]/.test(s[i]))e+=s[i++];c[e]=(c[e]||0)+num()}else throw new Error(L('رمز غير مفهوم: ','Unknown symbol: ')+s[i])}return c};return par()}
-const sub=s=>s.replace(/\d/g,d=>'₀₁₂₃₄₅₆₇₈₉'[d]);
-function balance(inp){const parts=inp.replace(/→|->|=>|⟶/g,'=').split('=');if(parts.length!==2)throw new Error(L('اكتب المعادلة بالشكل: A + B = C','Write it like: A + B = C'));const side=s=>s.split('+').map(x=>x.trim().replace(/\s+/g,'').replace(/^\d+/,'')).filter(Boolean),Lh=side(parts[0]),Rh=side(parts[1]),comps=[...Lh,...Rh],cn=comps.map(parseF),els=[...new Set(cn.flatMap(c=>Object.keys(c)))];
- const F=math.fraction,rows=els.map(e=>comps.map((_,j)=>F((cn[j][e]||0)*(j<Lh.length?1:-1)))),m=rows.length,n=comps.length,piv=[];let r=0;
- for(let c=0;c<n&&r<m;c++){let p=-1;for(let i=r;i<m;i++)if(!math.equal(rows[i][c],F(0))){p=i;break}if(p<0)continue;[rows[r],rows[p]]=[rows[p],rows[r]];const pv=rows[r][c];rows[r]=rows[r].map(x=>math.divide(x,pv));for(let i=0;i<m;i++)if(i!==r&&!math.equal(rows[i][c],F(0))){const f=rows[i][c];rows[i]=rows[i].map((x,k)=>math.subtract(x,math.multiply(f,rows[r][k])))}piv.push(c);r++}
- const free=[...Array(n).keys()].filter(c=>!piv.includes(c));if(free.length!==1)throw new Error(L('مقدرتش أوازنها (فيه أكتر من حل أو المعادلة غلط)','Cannot balance (multiple solutions or invalid equation)'));
- const fc=free[0],sol=Array(n).fill(F(0));sol[fc]=F(1);piv.forEach((c,i)=>{sol[c]=math.multiply(rows[i][fc],F(-1))});const den=sol.reduce((a,x)=>math.lcm(a,Number(x.d)),1);let ints=sol.map(x=>Math.round(Number(x.s)*Number(x.n)*den/Number(x.d)));if(ints.every(x=>x<=0))ints=ints.map(x=>-x);if(ints.some(x=>x<=0))throw new Error(L('المعادلة دي مش ممكن توازن','This equation cannot be balanced'));
- const term=(c,f)=>(c===1?'':c)+sub(f);return Lh.map((f,i)=>term(ints[i],f)).join(' + ')+'  →  '+Rh.map((f,i)=>term(ints[Lh.length+i],f)).join(' + ')}
-$('#ch-bal').onclick=()=>{if(!hasM())return toast(L('المكتبات مش متحمّلة','Libraries not loaded'));try{const r=balance($('#ch-eq').value);$('#ch-out').innerHTML=`<div class="ans" style="margin-top:8px">${esc(r)}</div>`;addHist('sci',$('#ch-eq').value,r)}catch(e){$('#ch-out').innerHTML=`<div class="err-t" style="margin-top:8px">${esc(e.message)}</div>`}};
-$('#mm-go').onclick=()=>{try{const c=parseF($('#mm-in').value.replace(/\s/g,'')),tot=Object.entries(c).reduce((s,[e,n])=>{if(!EL[e])throw new Error(L('عنصر غير معروف: ','Unknown element: ')+e);return s+EL[e]*n},0);$('#mm-out').innerHTML=`<table class="t" style="margin-top:8px"><tr><th>${L('العنصر','Element')}</th><th>${L('العدد','Count')}</th><th>${L('الكتلة','Mass')}</th><th>%</th></tr>${Object.entries(c).map(([e,n])=>`<tr><td dir="ltr">${e}</td><td>${n}</td><td dir="ltr">${(EL[e]*n).toFixed(3)}</td><td dir="ltr">${(EL[e]*n/tot*100).toFixed(2)}</td></tr>`).join('')}</table><div class="ans" style="margin-top:8px">M = ${tot.toFixed(3)} g/mol</div>`;addHist('sci',$('#mm-in').value,`M = ${tot.toFixed(3)} g/mol`)}catch(e){$('#mm-out').innerHTML=`<div class="err-t" style="margin-top:8px">${esc(e.message)}</div>`}};
-const CONSTS=[['c','سرعة الضوء','Speed of light','299 792 458 m/s'],['g','عجلة الجاذبية','Gravity','9.80665 m/s²'],['G','ثابت الجذب','Gravitational const.','6.674×10⁻¹¹ N·m²/kg²'],['h','ثابت بلانك','Planck const.','6.626×10⁻³⁴ J·s'],['k_B','ثابت بولتزمان','Boltzmann const.','1.381×10⁻²³ J/K'],['N_A','عدد أفوجادرو','Avogadro number','6.022×10²³ mol⁻¹'],['R','ثابت الغاز','Gas constant','8.314 J/mol·K'],['e','شحنة الإلكترون','Electron charge','1.602×10⁻¹⁹ C'],['mₑ','كتلة الإلكترون','Electron mass','9.109×10⁻³¹ kg'],['mₚ','كتلة البروتون','Proton mass','1.673×10⁻²⁷ kg'],['ε₀','سماحية الفراغ','Permittivity','8.854×10⁻¹² F/m'],['μ₀','نفاذية الفراغ','Permeability','4π×10⁻⁷ H/m'],['σ','ثابت ستيفان','Stefan–Boltzmann','5.670×10⁻⁸ W/m²K⁴'],['atm','الضغط الجوي','Atm. pressure','101 325 Pa'],['π','باي','Pi','3.14159265358979'],['φ','النسبة الذهبية','Golden ratio','1.61803398875']];
-function buildConsts(){$('#consts').innerHTML=CONSTS.map(c=>`<div>${c[0]} — ${L(c[1],c[2])}<b>${c[3]}</b></div>`).join('')}
-function buildSciTabs(){const t=[['phys','⚛️',L('فيزياء','Physics')],['chem','🧪',L('كيمياء','Chemistry')],['const','📜',L('ثوابت','Constants')]];$('#sci-tabs').innerHTML=t.map(x=>`<button class="chip ${x[0]===sciTab?'on':''}" data-s="${x[0]}">${x[1]} ${x[2]}</button>`).join('');$$('#sci-tabs .chip').forEach(b=>b.onclick=()=>{sciTab=b.dataset.s;buildSciTabs()});['phys','chem','const'].forEach(k=>$('#sci-'+k).style.display=k===sciTab?'':'none')}
+// --- Interaction Logic ---
+function handleKey(k) {
+    if (k === 'C') { state.expr = ''; updateDisplay(); return; }
+    if (k === '⌫') { state.expr = state.expr.slice(0, -1); updateDisplay(); return; }
+    if (k === '=') { solve(); return; }
+    
+    state.expr += k;
+    updateDisplay();
+    
+    // Live Preview (Debounced for performance)
+    clearTimeout(window.previewTimer);
+    window.previewTimer = setTimeout(() => {
+        const res = safeEval(state.expr);
+        if (res !== null && res !== undefined) DOM.res.textContent = parseFloat(res.toFixed(8));
+        else DOM.res.textContent = '';
+    }, 100);
+}
 
-/* ---------- Units ---------- */
-const U={length:['الطول','Length',{mm:.001,cm:.01,m:1,km:1000,inch:.0254,ft:.3048,yd:.9144,mile:1609.344}],mass:['الكتلة','Mass',{mg:1e-6,g:.001,kg:1,ton:1000,lb:.45359237,oz:.028349523}],time:['الزمن','Time',{ms:.001,s:1,min:60,hour:3600,day:86400,week:604800,year:31557600}],temp:['الحرارة','Temperature',{'°C':1,'°F':1,K:1}],speed:['السرعة','Speed',{'m/s':1,'km/h':1/3.6,mph:.44704,knot:.514444}],area:['المساحة','Area',{'cm²':1e-4,'m²':1,'km²':1e6,hectare:1e4,'ft²':.09290304,acre:4046.8564,feddan:4200.83}],volume:['الحجم','Volume',{mL:.001,L:1,'m³':1000,'gal(US)':3.785411784,cup:.2365882}],data:['البيانات','Data',{bit:.125,B:1,KB:1024,MB:1048576,GB:1073741824,TB:1099511627776}],energy:['الطاقة','Energy',{J:1,kJ:1000,cal:4.184,kcal:4184,kWh:3.6e6,eV:1.602176634e-19}],pressure:['الضغط','Pressure',{Pa:1,kPa:1000,bar:1e5,atm:101325,psi:6894.757,mmHg:133.322}],angle:['الزاوية','Angle',{'°':1,rad:180/Math.PI,grad:.9}]};
-let uCat='length';
-const toBase=(c,u,v)=>c==='temp'?(u==='°C'?v:u==='°F'?(v-32)*5/9:v-273.15):v*U[c][2][u];
-const fromBase=(c,u,v)=>c==='temp'?(u==='°C'?v:u==='°F'?v*9/5+32:v+273.15):v/U[c][2][u];
-function buildUnits(){const cs=$('#u-cat');cs.innerHTML=Object.keys(U).map(k=>`<option value="${k}" ${k===uCat?'selected':''}>${L(U[k][0],U[k][1])}</option>`).join('');cs.onchange=()=>{uCat=cs.value;buildUnitSel()};buildUnitSel()}
-function buildUnitSel(){const us=Object.keys(U[uCat][2]),o=us.map(u=>`<option>${u}</option>`).join('');$('#u-from').innerHTML=o;$('#u-to').innerHTML=o;$('#u-to').selectedIndex=Math.min(1,us.length-1);uConv()}
-function uConv(){const v=parseFloat($('#u-val').value),f=$('#u-from').value,t=$('#u-to').value;if(isNaN(v)){$('#u-res').textContent='';$('#u-all').innerHTML='';return}const b=toBase(uCat,f,v);$('#u-res').textContent=`${fN(v)} ${f} = ${fN(fromBase(uCat,t,b))} ${t}`;$('#u-all').innerHTML=Object.keys(U[uCat][2]).map(u=>`<div class="kv"><span dir="ltr">${u}</span><b>${fN(fromBase(uCat,u,b))}</b></div>`).join('')}
-['#u-val','#u-from','#u-to'].forEach(s=>$(s).addEventListener('input',uConv));
+function updateDisplay() {
+    DOM.expr.value = state.expr;
+    DOM.hist.textContent = state.history.length ? state.history[0].q + ' =' : '';
+}
 
-/* ---------- Matrix ---------- */
-const MO=[['det','det(A)'],['inv','A⁻¹'],['T','Aᵀ'],['tr','trace(A)'],['eig','eigenvalues(A)'],['add','A + B'],['sub','A − B'],['mul','A × B'],['solve','A·X = B']];
-function buildMOps(){$('#m-ops').innerHTML=MO.map(o=>`<button class="chip" data-o="${o[0]}" dir="ltr">${o[1]}</button>`).join('');$$('#m-ops .chip').forEach(b=>b.onclick=()=>mOp(b.dataset.o))}
-const parseM=t=>t.trim().split(/\n|;/).map(r=>r.trim()).filter(Boolean).map(r=>r.split(/[\s,]+/).map(x=>math.evaluate(norm(x))));
-const mHTML=m=>Array.isArray(m)?(Array.isArray(m[0])?`<table class="m">${m.map(r=>`<tr>${r.map(x=>`<td>${fN(x)}</td>`).join('')}</tr>`).join('')}</table>`:`<table class="m"><tr>${m.map(x=>`<td>${fN(x)}</td>`).join('')}</tr></table>`):`<div class="ans">${fN(m)}</div>`;
-function mOp(o){if(!hasM())return toast(L('المكتبات مش متحمّلة','Libraries not loaded'));const out=$('#m-out');try{const A=parseM($('#mA').value);let R;const B=()=>parseM($('#mB').value);
- if(o==='det')R=math.det(A);else if(o==='inv')R=math.inv(A);else if(o==='T')R=math.transpose(A);else if(o==='tr')R=math.trace(A);
- else if(o==='eig'){const e=math.eigs(A),v=e.values;R=(v.toArray?v.toArray():v)}
- else if(o==='add')R=math.add(A,B());else if(o==='sub')R=math.subtract(A,B());else if(o==='mul')R=math.multiply(A,B());else if(o==='solve')R=math.lusolve(A,B());
- R=R&&R.toArray?R.toArray():R;out.innerHTML=`<div class="card res-card"><h4>${MO.find(x=>x[0]===o)[1]}</h4>${mHTML(R)}</div>`;addHist('matrix',MO.find(x=>x[0]===o)[1]+' — '+$('#mA').value.replace(/\n/g,' ; '),Array.isArray(R)?JSON.stringify(R.map?R.map(r=>Array.isArray(r)?r.map(fN):fN(r)):R):fN(R))}catch(e){out.innerHTML=`<div class="card res-card"><div class="err-t">${esc(L('تأكد من المصفوفات وأبعادها: ','Check the matrices and sizes: '))+esc(e.message)}</div></div>`}}
+function solve() {
+    const res = safeEval(state.expr);
+    if (res !== null && res !== undefined) {
+        const finalRes = parseFloat(res.toFixed(10));
+        addToHistory(state.expr, finalRes);
+        state.expr = String(finalRes);
+        updateDisplay();
+        DOM.res.textContent = '';
+        
+        // Haptic Feedback (Vibration)
+        if (navigator.vibrate) navigator.vibrate(10);
+    }
+}
 
-/* ---------- Stats & numbers ---------- */
-const nums=t=>norm(t).split(/[\s,;]+/).filter(Boolean).map(Number).filter(x=>!isNaN(x));
-$('#st-go').onclick=()=>{const a=nums($('#st-in').value);if(a.length<1)return toast(L('دخّل أعداد','Enter numbers'));const q=a.length>1?math.quantileSeq(a,[.25,.75]):[a[0],a[0]],rows=[[L('العدد','Count'),a.length],[L('المجموع','Sum'),math.sum(a)],[L('المتوسط','Mean'),math.mean(a)],[L('الوسيط','Median'),math.median(a)],[L('المنوال','Mode'),math.mode(a).join(', ')],[L('أصغر','Min'),math.min(a)],[L('أكبر','Max'),math.max(a)],[L('المدى','Range'),math.max(a)-math.min(a)],['Q1',q[0]],['Q3',q[1]],[L('التباين (عيّنة)','Variance (sample)'),a.length>1?math.variance(a):0],[L('الانحراف المعياري (عيّنة)','Std dev (sample)'),a.length>1?math.std(a):0],[L('الانحراف المعياري (مجتمع)','Std dev (population)'),math.std(a,'uncorrected')]];$('#st-out').innerHTML=rows.map(r=>`<div class="kv"><span>${r[0]}</span><b>${typeof r[1]==='number'?fN(r[1]):r[1]}</b></div>`).join('')};
-function factorize(n){const f={};for(let p=2;p*p<=n;p++)while(n%p===0){f[p]=(f[p]||0)+1;n/=p}if(n>1)f[n]=(f[n]||0)+1;return f}
-$('#nt-go').onclick=()=>{const n=Math.trunc(Number(norm($('#nt-in').value)));if(!Number.isFinite(n)||n<2||n>9e15)return $('#nt-out').innerHTML=`<div class="err-t">${L('دخّل عدد صحيح من 2 لحد 9×10¹⁵','Enter an integer from 2 to 9×10¹⁵')}</div>`;const f=factorize(n),ds=Object.values(f).reduce((a,e)=>a*(e+1),1),prime=Object.keys(f).length===1&&Object.values(f)[0]===1;$('#nt-out').innerHTML=[[L('التحليل لعوامل أولية','Prime factors'),Object.entries(f).map(([p,e])=>e>1?`${p}^${e}`:p).join(' × ')],[L('عدد أولي؟','Prime?'),prime?L('نعم ✓','Yes ✓'):L('لا','No')],[L('عدد القواسم','Divisor count'),ds],['Binary',n.toString(2)],['Octal',n.toString(8)],['Hex',n.toString(16).toUpperCase()]].map(r=>`<div class="kv"><span>${r[0]}</span><b>${r[1]}</b></div>`).join('')};
-$('#cb-go').onclick=()=>{const n=+$('#cb-n').value,r=+$('#cb-r').value;try{$('#cb-out').innerHTML=`<div class="kv"><span>nCr</span><b>${fN(math.combinations(n,r))}</b></div><div class="kv"><span>nPr</span><b>${fN(math.permutations(n,r))}</b></div><div class="kv"><span>n!</span><b>${fN(math.factorial(n))}</b></div>`}catch(e){$('#cb-out').innerHTML=`<div class="err-t">${L('تأكد إن n ≥ r ≥ 0','Make sure n ≥ r ≥ 0')}</div>`}};
-$('#gl-go').onclick=()=>{const a=nums($('#gl-in').value).map(Math.trunc);if(a.length<2)return;$('#gl-out').innerHTML=`<div class="kv"><span>GCD</span><b>${math.gcd(...a)}</b></div><div class="kv"><span>LCM</span><b>${math.lcm(...a)}</b></div>`};
+function addToHistory(q, a) {
+    state.history.unshift({ q, a, d: Date.now() });
+    if (state.history.length > 50) state.history.pop();
+    localStorage.setItem('rosto_h', JSON.stringify(state.history));
+    updateDisplay();
+}
 
-/* ---------- Camera / OCR ---------- */
-let stream=null;
-async function camOn(){try{stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'},width:{ideal:1920}},audio:false});const v=$('#cam-v');v.srcObject=stream;$('#cam-box').style.display='block';$('#cam-ctl').style.display='flex'}catch(e){toast(L('مقدرتش أفتح الكاميرا — جرّب زرار «صورة / تصوير» أو اسمح بالصلاحية','Camera unavailable — use "Photo / upload" or allow permission'))}}
-function camOff(){if(stream){stream.getTracks().forEach(t=>t.stop());stream=null}$('#cam-box').style.display='none';$('#cam-ctl').style.display='none'}
-function prepImg(src){const max=1600,sc=Math.min(max/src.width,2),c=document.createElement('canvas');c.width=Math.round(src.width*sc);c.height=Math.round(src.height*sc);const x=c.getContext('2d');x.drawImage(src,0,0,c.width,c.height);const d=x.getImageData(0,0,c.width,c.height),px=d.data,hist=new Array(256).fill(0);for(let i=0;i<px.length;i+=4){const g=Math.round(.299*px[i]+.587*px[i+1]+.114*px[i+2]);px[i]=px[i+1]=px[i+2]=g;hist[g]++}
- const tot=c.width*c.height;let sum=0;for(let i=0;i<256;i++)sum+=i*hist[i];let sB=0,wB=0,mx=0,th=127;for(let i=0;i<256;i++){wB+=hist[i];if(!wB)continue;const wF=tot-wB;if(!wF)break;sB+=i*hist[i];const mB=sB/wB,mF=(sum-sB)/wF,v=wB*wF*(mB-mF)**2;if(v>mx){mx=v;th=i}}
- for(let i=0;i<px.length;i+=4){const v=px[i]>th?255:0;px[i]=px[i+1]=px[i+2]=v}x.putImageData(d,0,0);return c}
-function setProg(p,t){$('#prog').style.display='block';$('#prog i').style.width=Math.round(p*100)+'%';$('#prog-t').textContent=t||''}
-const cleanOCR=t=>t.split('\n').map(s=>s.trim().replace(/[×✕]/g,'*').replace(/÷/g,'/').replace(/[—–−]/g,'-').replace(/[|]/g,'1').replace(/\s*=\s*/g,' = ')).filter(Boolean).join('\n');
-async function runOCR(src){if(typeof Tesseract==='undefined')return toast(L('محرك القراءة مش متحمّل — اتأكد من النت','OCR engine not loaded — check your connection'));const c=$('#ocr-opt').checked?prepImg(src):src,pv=$('#ocr-prev');pv.width=c.width;pv.height=c.height;pv.getContext('2d').drawImage(c,0,0);pv.style.display='block';setProg(0,L('بقرأ الصورة…','Reading image…'));
- try{const {data}=await Tesseract.recognize(c,'eng',{logger:m=>{if(m.status==='recognizing text')setProg(m.progress,L('بقرأ الصورة…','Reading image…'))}});const txt=cleanOCR(data.text||'');$('#ocr-text').value=txt;setProg(1,txt?L('تمت القراءة ✓ — راجع النص وحلّ','Done ✓ — review the text, then solve'):L('معرفتش أقرأ حاجة — جرّب صورة أوضح','Nothing recognized — try a clearer photo'));if(txt)sendOCR()}catch(e){setProg(0,L('فشلت القراءة','Reading failed'))}}
-function sendOCR(){const lines=$('#ocr-text').value.split('\n').map(s=>s.trim()).filter(Boolean);if(!lines.length)return;const eqs=lines.filter(l=>l.includes('='));$('#sv-in').value=eqs.length>1&&eqs.length===lines.length?lines.join('; '):lines[0];curMode='auto';buildModes();setLabels();showTab('solve');runSolver()}
-$('#cam-on').onclick=camOn;$('#cam-off').onclick=camOff;$('#cam-snap').onclick=()=>{const v=$('#cam-v');if(!v.videoWidth)return;const c=document.createElement('canvas');c.width=v.videoWidth;c.height=v.videoHeight;c.getContext('2d').drawImage(v,0,0);camOff();runOCR(c)};
-$('#cam-file').onchange=e=>{const f=e.target.files[0];if(!f)return;const img=new Image();img.onload=()=>{const c=document.createElement('canvas');c.width=img.naturalWidth;c.height=img.naturalHeight;c.getContext('2d').drawImage(img,0,0);URL.revokeObjectURL(img.src);runOCR(c)};img.src=URL.createObjectURL(f);e.target.value=''};
-$('#ocr-solve').onclick=sendOCR;$('#ocr-calc').onclick=()=>{const t=$('#ocr-text').value.split('\n')[0]||'';$('#expr').value=t;live();showTab('calc')};
+// --- Advanced Features Loader (Lazy Load) ---
+async function loadFeature(feature) {
+    DOM.loader.style.display = 'block';
+    toggleOverlay(true);
+    
+    // محاكاة التحميل السريع (في التطبيق الحقيقي هنا يتم استدعاء المكتبات)
+    setTimeout(() => {
+        DOM.loader.style.display = 'none';
+        const content = document.getElementById('overlay-content');
+        
+        if (feature === 'graph') {
+            content.innerHTML = '<div style="text-align:center; padding:50px; color:#888;">📈 منطقة الرسم البياني التفاعلي<br><small>سيتم تفعيل Plotly.js هنا</small></div>';
+        } else if (feature === 'solve') {
+            content.innerHTML = '<div style="text-align:center; padding:50px; color:#888;">🧠 المحرك الذكي للحلول<br><small>سيتم تفعيل Nerdamer هنا</small></div>';
+        } else if (feature === 'ocr') {
+            content.innerHTML = '<div style="text-align:center; padding:50px; color:#888;"> كاميرا المسح الضوئي<br><small>سيتم تفعيل Tesseract.js هنا</small></div>';
+        }
+    }, 400);
+}
 
-/* ---------- History ---------- */
-let hist=[];try{hist=JSON.parse(localStorage.getItem('ultracalc_h')||'[]')}catch(_){}
-function addHist(t,q,a){if(!q||!a)return;if(hist[0]&&hist[0].q===q&&hist[0].a===a)return;hist.unshift({t,q,a,d:Date.now()});hist=hist.slice(0,100);try{localStorage.setItem('ultracalc_h',JSON.stringify(hist))}catch(_){}if(curTab==='hist')renderHist()}
-let hT;const addHistDebounced=(t,q,a)=>{clearTimeout(hT);hT=setTimeout(()=>addHist(t,q,a),1500)};
-const ICON={calc:'🧮',solve:'🧠',geo:'📐',sci:'🔬',matrix:'▦'};
-function renderHist(){$('#h-list').innerHTML=hist.length?hist.map((h,i)=>`<div class="hist-i" data-i="${i}"><small>${ICON[h.t]||''} ${esc(h.q)}</small><b>${esc(h.a)}</b></div>`).join(''):`<div class="hint">${L('مفيش حاجة لسه — أي عملية حسابية هتظهر هنا.','Nothing yet — your calculations will show up here.')}</div>`;$$('.hist-i').forEach(e=>e.onclick=()=>{const h=hist[e.dataset.i];if(h.t==='calc'){$('#expr').value=h.q;live();showTab('calc')}else if(h.t==='solve'){$('#sv-in').value=h.q.replace(/ ; /g,'\n');showTab('solve')}})}
-$('#h-clear').onclick=()=>{hist=[];try{localStorage.removeItem('ultracalc_h')}catch(_){}renderHist()};
+function toggleOverlay(show) {
+    if (show) DOM.overlay.classList.add('open');
+    else DOM.overlay.classList.remove('open');
+}
 
-/* ---------- Theme / lang ---------- */
-const THEMES=['neon','ocean','sunset','forest','royal','light'];
-$('#btn-theme').onclick=()=>{themeI=(themeI+1)%THEMES.length;document.body.dataset.theme=THEMES[themeI];try{localStorage.setItem('ultracalc_t',themeI)}catch(_){}gDraw()};
-$('#btn-lang').onclick=()=>{lang=lang==='ar'?'en':'ar';try{localStorage.setItem('ultracalc_l',lang)}catch(_){}applyLang()};
-try{const t=+localStorage.getItem('ultracalc_t');if(t>=0&&t<THEMES.length){themeI=t;document.body.dataset.theme=THEMES[t]}const l=localStorage.getItem('ultracalc_l');if(l)lang=l}catch(_){}
-buildKeypad();applyLang();
-if(!hasM()||!hasN())setTimeout(()=>toast(L('محتاج نت أول مرة عشان تتحمّل المكتبات','Internet needed once to load the math libraries')),800);
-})();
+// --- Event Listeners ---
+document.querySelectorAll('.tool-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
+        e.target.classList.add('active');
+        const tab = e.target.dataset.tab;
+        if (tab !== 'calc') loadFeature(tab);
+        else toggleOverlay(false);
+    });
+});
+
+// Keyboard Support
+document.addEventListener('keydown', (e) => {
+    if (e.key >= '0' && e.key <= '9' || ['+','-','*','/','.','(',')'].includes(e.key)) {
+        state.expr += e.key; updateDisplay();
+    } else if (e.key === 'Enter') solve();
+    else if (e.key === 'Backspace') handleKey('⌫');
+    else if (e.key === 'Escape') handleKey('C');
+});
+
+// Init
+renderKeypad();
+updateDisplay();
+
 </script>
 </body>
 </html>
-ew Array(256).fill(0);for(let i=0;i<px.length;i+=4){const g=Math.round(.299*px[i]+.587*px[i+1]+.114*px[i+2]);px[i]=px[i+1]=px[i+2]=g;hist[g]++}
- const tot=c.width*c.height;let sum=0;for(let i=0;i<256;i++)sum+=i*hist[i];let sB=0,wB=0,mx=0,th=127;for(let i=0;i<256;i++){wB+=hist[i];if(!wB)continue;const wF=tot-wB;if(!wF)break;sB+=i*hist[i];const mB=sB/wB,mF=(sum-sB)/wF,v=wB*wF*(mB-mF)**2;if(v>mx){mx=v;th=i}}
- for(let i=0;i<px.length;i+=4){const v=px[i]>th?255:0;px[i]=px[i+1]=px[i+2]=v}x.putImageData(d,0,0);return c}
-function setProg(p,t){$('#prog').style.display='block';$('#prog i').style.width=Math.round(p*100)+'%';$('#prog-t').textContent=t||''}
-const cleanOCR=t=>t.split('\n').map(s=>s.trim().replace(/[×✕]/g,'').replace(/÷/g,'/').replace(/[—–−]/g,'-').replace(/[|]/g,'1').replace(/\s=\s/g,' = ')).filter(Boolean).join('\n');
-async function runOCR(src){if(typeof Tesseract==='undefined')return toast(L('محرك القراءة مش متحمّل — اتأكد من النت','OCR engine not loaded — check your connection'));const c=$('#ocr-opt').checked?prepImg(src):src,pv=$('#ocr-prev');pv.width=c.width;pv.height=c.height;pv.getContext('2d').drawImage(c,0,0);pv.style.display='block';setProg(0,L('بقرأ الصورة…','Reading image…'));
-try{const {data}=await Tesseract.recognize(c,'eng',{logger:m=>{if(m.status==='recognizing text')setProg(m.progress,L('بقرأ الصورة…','Reading image…'))}});const txt=cleanOCR(data.text||'');$('#ocr-text').value=txt;setProg(1,txt?L('تمت القراءة ✓ — راجع النص وحلّ','Done ✓ — review the text, then solve'):L('معرفتش أقرأ حاجة — جرّب صورة أوضح','Nothing recognized — try a clearer photo'));if(txt)sendOCR()}catch(e){setProg(0,L('فشلت القراءة','Reading failed'))}}
-function sendOCR(){const lines=$('#ocr-text').value.split('\n').map(s=>s.trim()).filter(Boolean);if(!lines.length)return;const eqs=lines.filter(l=>l.includes('='));$('#sv-in').value=eqs.length>1&&eqs.length===lines.length?lines.join('; '):lines[0];curMode='auto';buildModes();setLabels();showTab('solve');runSolver()}
-$('#cam-on').onclick=camOn;$('#cam-off').onclick=camOff;$('#cam-snap').onclick=()=>{const v=$('#cam-v');if(!v.videoWidth)return;const c=document.createElement('canvas');c.width=v.videoWidth;c.height=v.videoHeight;c.getContext('2d').drawImage(v,0,0);camOff();runOCR(c)};
-$('#cam-file').onchange=e=>{const f=e.target.files[0];if(!f)return;const img=new Image();img.onload=()=>{const c=document.createElement('canvas');c.width=img.naturalWidth;c.height=img.naturalHeight;c.getContext('2d').drawImage(img,0,0);URL.revokeObjectURL(img.src);runOCR(c)};img.src=URL.createObjectURL(f);e.target.value=''};
-$('#ocr-solve').onclick=sendOCR;$('#ocr-calc').onclick=()=>{const t=$('#ocr-text').value.split('\n')[0]||'';$('#expr').value=t;live();showTab('calc')};
-
-/* ---------- History ---------- */
-let hist=[];try{hist=JSON.parse(localStorage.getItem('rosto_h')||'[]')}catch(){}
-function addHist(t,q,a){if(!q||!a)return;if(hist[0]&&hist[0].q===q&&hist[0].a===a)return;hist.unshift({t,q,a,d:Date.now()});hist=hist.slice(0,100);try{localStorage.setItem('rosto_h',JSON.stringify(hist))}catch(){}if(curTab==='hist')renderHist()}
-let hT;const addHistDebounced=(t,q,a)=>{clearTimeout(hT);hT=setTimeout(()=>addHist(t,q,a),1500)};
-const ICON={calc:'🧮',solve:'🧠',geo:'📐',sci:'🔬',matrix:'▦'};
-function renderHist(){$('#h-list').innerHTML=hist.length?hist.map((h,i)=>`<div class="hist-i" data-i="${i}"><small>${ICON[h.t]||''} ${esc(h.q)}</small><b>${esc(h.a)}</b></div>`).join(''):`<div class="hint">${L('مفيش حاجة لسه — أي عملية حسابية هتظهر هنا.','Nothing yet — your calculations will show up here.')}</div>`;$$('.hist-i').forEach(e=>e.onclick=()=>{const h=hist[e.dataset.i];if(h.t==='calc'){$('#expr').value=h.q;live();showTab('calc')}else if(h.t==='solve'){$('#sv-in').value=h.q.replace(/ ; /g,'\n');showTab('solve')}})}
-$('#h-clear').onclick=()=>{hist=[];try{localStorage.removeItem('rosto_h')}catch(_){}renderHist()};
-
-/* ---------- Theme / lang ---------- */
-const THEMES=['neon','ocean','sunset','forest','royal','light'];
-$('#btn-theme').onclick=()=>{themeI=(themeI+1)%THEMES.length;document.body.dataset.theme=THEMES[themeI];try{localStorage.setItem('rosto_t',themeI)}catch(_){}gDraw()};
-$('#btn-lang').onclick=()=>{lang=lang==='ar'?'en':'ar';try{localStorage.setItem('rosto_l',lang)}catch(){}applyLang()};
-try{const t=+localStorage.getItem('rosto_t');if(t>=0&&t<THEMES.length){themeI=t;document.body.dataset.theme=THEMES[t]}const l=localStorage.getItem('rosto_l');if(l)lang=l}catch(){}
-buildKeypad();applyLang();
-if(!hasM()||!hasN())setTimeout(()=>toast(L('محتاج نت أول مرة عشان تتحمّل المكتبات','Internet needed once to load the math libraries')),800);
-})();
-</script>
-
-</body>
-                                                                                                                                                  </html>
