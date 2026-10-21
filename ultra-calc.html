@@ -1,1004 +1,665 @@
-<!DOCTYPE <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ULTRA CALC ∞ | GOD MODE</title>
-    <meta name="theme-color" content="#050510">
-    
-    <!-- خطوط عربية وإنجليزية فاخرة -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-    
-    <!-- مكتبات القوة الرياضية والرسم -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.min.js"></script>
-    <script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
-    <!-- Nerdamer for Symbolic Math (Integrals, Derivatives, Solving) -->
-    <script src="https://cdn.jsdelivr.net/npm/nerdamer@1.1.13/nerdamer.core.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/nerdamer@1.1.13/Algebra.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/nerdamer@1.1.13/Calculus.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/nerdamer@1.1.13/Solve.js"></script>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الآلة الحاسبة العلمية المتقدمة</title>
     <style>
-        :root {
-            --primary: #00f2ff;
-            --secondary: #bc13fe;
-            --bg-dark: #050510;
-            --surface: rgba(20, 20, 35, 0.6);
-            --glass: rgba(255, 255, 255, 0.08);
-            --text-main: #ffffff;
-            --text-dim: #a0a0c0;
-            --shadow-glow: 0 0 20px rgba(0, 242, 255, 0.2);
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; user-select: none; }
-        
         body {
-            margin: 0; padding: 0;
-            background: radial-gradient(circle at top right, #1a1a40, var(--bg-dark));
-            color: var(--text-main);
-            font-family: 'Cairo', sans-serif;
-            height: 100vh; display: flex; flex-direction: column;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* ===== CONTAINER ===== */
+        .calculator-container {
+            background: linear-gradient(145deg, #2d2d2d, #1a1a1a);
+            border-radius: 25px;
+            padding: 25px;
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            max-width: 500px;
+            width: 100%;
+        }
+
+        /* ===== STATUS BAR ===== */
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            margin-bottom: 15px;
+            color: #aaa;
+            font-size: 12px;
+        }
+
+        .status-indicators {
+            display: flex;
+            gap: 10px;
+        }
+
+        .indicator {
+            padding: 3px 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            font-size: 10px;
+        }
+
+        .indicator.active {
+            background: #f39c12;
+            color: #fff;
+        }
+
+        /* ===== DISPLAY AREA ===== */
+        .display-area {
+            background: linear-gradient(145deg, #e8f4f8, #d4e8ed);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.1);
+            min-height: 120px;
+            position: relative;
+        }
+
+        .expression {
+            font-size: 18px;
+            color: #333;
+            text-align: left;
+            direction: ltr;
+            min-height: 30px;
+            word-wrap: break-word;
+            margin-bottom: 10px;
+        }
+
+        .result {
+            font-size: 32px;
+            font-weight: bold;
+            color: #1a1a1a;
+            text-align: right;
+            direction: ltr;
+            min-height: 40px;
+        }
+
+        /* ===== MENU BAR ===== */
+        .menu-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            gap: 8px;
+        }
+
+        .menu-btn {
+            background: linear-gradient(145deg, #4a4a4a, #3a3a3a);
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .menu-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        .menu-btn.pro {
+            background: linear-gradient(145deg, #9b59b6, #8e44ad);
+        }
+
+        .menu-btn.more {
+            background: linear-gradient(145deg, #3498db, #2980b9);
+        }
+
+        /* ===== BUTTON GRIDS ===== */
+        .buttons-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .scientific-section {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .memory-section {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .number-section {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn {
+            background: linear-gradient(145deg, #4a4a4a, #3a3a3a);
+            border: none;
+            color: white;
+            padding: 15px 10px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            position: relative;
             overflow: hidden;
         }
 
-        /* --- Header & Branding --- */
-        header {
-            padding: 15px 25px;
-            display: flex; justify-content: space-between; align-items: center;
-            backdrop-filter: blur(15px);
-            border-bottom: 1px solid var(--glass);
-            z-index: 10;
-        }
-        .brand { font-size: 1.1rem; font-weight: 700; letter-spacing: 1px; display: flex; align-items: center; gap: 10px; }
-        .brand span { 
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
         }
 
-        /* --- Display Screen --- */
-        .display-area {
-            flex: 1; display: flex; flex-direction: column; 
-            justify-content: flex-end; padding: 25px;
-            text-align: right; position: relative;
-            background: linear-gradient(180deg, transparent, rgba(0,0,0,0.2));
-        }
-        .history-preview {
-            font-family: 'JetBrains Mono', monospace;
-            color: var(--text-dim); font-size: 0.9rem; margin-bottom: 8px;
-            opacity: 0.6; min-height: 20px; direction: ltr; text-align: right;
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-        }
-        .main-input {
-            width: 100%; background: transparent; border: none;
-            color: var(--text-main); font-size: 2.8rem; text-align: right;
-            font-family: 'JetBrains Mono', monospace; font-weight: 300;
-            text-shadow: 0 0 15px rgba(255,255,255,0.05);
-        }
-        .result-preview {
-            font-size: 1.8rem; color: var(--primary); 
-            margin-top: 10px; min-height: 40px; font-weight: bold;
-            text-shadow: var(--shadow-glow); direction: ltr; text-align: right;
+        .btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
-        /* --- Tools Bar (Scrollable) --- */
-        .tools-bar {
-            display: flex; gap: 12px; padding: 12px 20px;
-            overflow-x: auto; scrollbar-width: none;
-            border-top: 1px solid var(--glass); border-bottom: 1px solid var(--glass);
-            background: rgba(0,0,0,0.2);
-        }
-        .tool-btn {
-            background: var(--surface); border: 1px solid var(--glass);
-            color: var(--text-dim); padding: 8px 18px; border-radius: 12px;
-            font-size: 0.85rem; white-space: nowrap; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(5px); font-family: 'Cairo';
-        }
-        .tool-btn.active { 
-            background: linear-gradient(135deg, var(--primary), var(--secondary)); 
-            color: #fff; border-color: transparent; 
-            box-shadow: var(--shadow-glow); transform: translateY(-2px);
+        .btn.shift {
+            background: linear-gradient(145deg, #f39c12, #e67e22);
         }
 
-        /* --- Keypad Grid --- */
-        .keypad-container {
-            background: linear-gradient(0deg, var(--bg-dark) 20%, transparent);
-            padding: 15px; padding-top: 25px;
-        }
-        .keypad {
-            display: grid; grid-template-columns: repeat(5, 1fr);
-            gap: 12px; max-width: 600px; margin: 0 auto;
-        }
-        .key {
-            background: var(--surface); border: 1px solid var(--glass);
-            color: var(--text-main); font-size: 1.2rem; font-weight: 500;
-            height: 58px; border-radius: 16px;
-            display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            transition: all 0.15s ease;
-            backdrop-filter: blur(10px);
-            font-family: 'JetBrains Mono';
-        }
-        .key:active { transform: scale(0.92); background: rgba(255,255,255,0.1); }
-        .key.op { color: var(--primary); font-size: 1.4rem; }
-        .key.fn { font-size: 0.85rem; color: var(--secondary); }
-        .key.eq { 
-            background: linear-gradient(135deg, var(--primary), var(--secondary)); 
-            color: #fff; border: none; grid-column: span 2;
-            box-shadow: 0 0 25px rgba(0, 242, 255, 0.4);
-        }
-        .key.clear { color: #ff4757; }
-
-        /* --- Advanced Overlay --- */
-        .overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(5, 5, 16, 0.98); z-index: 100;
-            transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            display: flex; flex-direction: column; backdrop-filter: blur(20px);
-        }
-        .overlay.open { transform: translateY(0); }
-        .overlay-header { 
-            padding: 20px; display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid var(--glass);
-        }
-        .close-btn { 
-            background: rgba(255,255,255,0.1); border: none; color: #fff; 
-            width: 40px; height: 40px; border-radius: 50%; cursor: pointer;
+        .btn.alpha {
+            background: linear-gradient(145deg, #9b59b6, #8e44ad);
         }
 
-        /* --- Inputs in Overlay --- */
-        .adv-input {
-            width: 100%; padding: 15px; background: rgba(0,0,0,0.3);
-            border: 1px solid var(--glass); color: #fff; border-radius: 10px;
-            margin-bottom: 15px; font-family: 'JetBrains Mono'; font-size: 1rem;
+        .btn.function {
+            background: linear-gradient(145deg, #5a5a5a, #4a4a4a);
+            font-size: 12px;
         }
-        .adv-btn {
-            width: 100%; padding: 15px; background: var(--surface);
-            border: 1px solid var(--primary); color: var(--primary);
-            border-radius: 10px; cursor: pointer; font-weight: bold; font-family: 'Cairo';
-            transition: 0.2s;
-        }
-        .adv-btn:hover { background: var(--primary); color: #000; }
 
-        /* --- Loading Animation --- */
-        .loader {
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 50px; height: 50px; border: 3px solid var(--glass);
-            border-top-color: var(--primary); border-radius: 50%;
-            animation: spin 0.8s linear infinite; display: none; z-index: 200;
+        .btn.number {
+            background: linear-gradient(145deg, #555, #444);
+            font-size: 20px;
         }
-        @keyframes spin { to { transform: translate(-50%, -50%) rotate(360deg); } }
 
-        @media (min-width: 768px) {
-            .keypad { grid-template-columns: repeat(6, 1fr); gap: 15px; }
-            .key { height: 70px; font-size: 1.4rem; }
+        .btn.operator {
+            background: linear-gradient(145deg, #e67e22, #d35400);
+            font-size: 18px;
+        }
+
+        .btn.equals {
+            background: linear-gradient(145deg, #27ae60, #229954);
+            font-size: 20px;
+        }
+
+        .btn.clear {
+            background: linear-gradient(145deg, #e74c3c, #c0392b);
+        }
+
+        .btn.special {
+            background: linear-gradient(145deg, #3498db, #2980b9);
+        }
+
+        .btn-label {
+            display: block;
+            font-size: 10px;
+            color: #aaa;
+            margin-top: 3px;
+        }
+
+        /* ===== HISTORY PANEL ===== */
+        .history-panel {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        .history-title {
+            color: #aaa;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .history-item {
+            color: #ddd;
+            font-size: 12px;
+            padding: 5px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            direction: ltr;
+            text-align: left;
+        }
+
+        /* ===== NOTIFICATION ===== */
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+            20% { opacity: 1; transform: translateX(-50%) translateY(0); }
+            80% { opacity: 1; transform: translateX(-50%) translateY(0); }
+            100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 600px) {
+            .buttons-grid,
+            .scientific-section,
+            .memory-section {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            .btn {
+                padding: 12px 8px;
+                font-size: 12px;
+            }
         }
     </style>
 </head>
 <body>
+    <div class="calculator-container">
 
-    <header>
-        <div class="brand">ULTRA CALC <span>∞</span></div>
-        <button onclick="toggleTheme()" style="background:none;border:none;color:#fff;font-size:1.2rem;cursor:pointer;"></button>
-    </header>
-
-    <div class="display-area">
-        <div class="history-preview" id="hist-prev"></div>
-        <input type="text" class="main-input" id="expr" placeholder="0" autocomplete="off" inputmode="decimal" dir="ltr">
-        <div class="result-preview" id="res-prev"></div>
-    </div>
-
-    <div class="tools-bar">
-        <button class="tool-btn active" data-tab="calc">🧮 أساسي</button>
-        <button class="tool-btn" data-tab="graph">📈 رسم بياني</button>
-        <button class="tool-btn" data-tab="solve">🧠 حل ذكي</button>
-        <button class="tool-btn" data-tab="calculus">∫ تفاضل/تكامل</button>
-        <button class="tool-btn" data-tab="matrix">🔢 مصفوفات</button>
-        <button class="tool-btn" data-tab="units">⚖️ وحدات</button>
-    </div>
-
-    <div class="keypad-container">
-        <div class="keypad" id="keypad"></div>
-    </div>
-
-    <div class="loader" id="loader"></div>
-
-    <!-- Overlay for Advanced Features -->
-    <div class="overlay" id="overlay">
-        <div class="overlay-header">
-            <h3 id="overlay-title" style="margin:0;color:var(--primary)">الميزة المتقدمة</h3>
-            <button class="close-btn" onclick="toggleOverlay(false)">✕</button>
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <div class="status-indicators">
+                <span class="indicator active" id="normInd">NORM-11</span>
+                <span class="indicator active" id="mathInd">MATH</span>
+                <span class="indicator active" id="fracInd">FRAC</span>
+                <span class="indicator" id="shiftInd">SHIFT</span>
+                <span class="indicator" id="alphaInd">ALPHA</span>
+            </div>
+            <div id="time">12:00</div>
         </div>
-        <div id="overlay-content" style="flex:1; padding:20px; overflow:auto; position:relative;"></div>
-    </div>
 
-<script>
-/**
- * ULTRA CALC PRO - GOD MODE EDITION
- * Powered by Math.js, Plotly & Nerdamer
- */
-
-// --- State Management ---
-const state = {
-    expr: '',
-    history: JSON.parse(localStorage.getItem('rosto_h_god') || '[]'),
-};
-
-const DOM = {
-    expr: document.getElementById('expr'),
-    res: document.getElementById('res-prev'),
-    hist: document.getElementById('hist-prev'),
-    keypad: document.getElementById('keypad'),
-    loader: document.getElementById('loader'),
-    overlay: document.getElementById('overlay'),
-    overlayContent: document.getElementById('overlay-content'),
-    overlayTitle: document.getElementById('overlay-title')
-};
-
-// --- Core Math Engine (Math.js + Nerdamer) ---
-function calculate(expression) {
-    try {
-        // تنظيف المدخلات للـ math.js
-        let clean = expression
-            .replace(/×/g, '*').replace(/÷/g, '/')
-            .replace(/\^/g, '^')
-            .replace(/π/g, 'pi').replace(/e/g, 'e');
-            
-        const result = math.evaluate(clean);
-        return math.format(result, { precision: 14 });
-    } catch (e) {
-        return null;
-    }
-}
-
-// --- UI Rendering ---
-const keys = [
-    ['C', '⌫', '%', '÷', '√'],
-    ['sin', 'cos', 'tan', '×', '^'],
-    ['7', '8', '9', '-', 'π'],
-    ['4', '5', '6', '+', 'e'],
-    ['1', '2', '3', '(', ')'],
-    ['0', '.', 'ln', 'log', '=']
-];
-
-function renderKeypad() {
-    DOM.keypad.innerHTML = '';
-    keys.forEach(row => {
-        row.forEach(k => {
-            const btn = document.createElement('button');
-            let className = 'key';
-            if (['÷','×','-','+','='].includes(k)) className += ' op';
-            if (['sin','cos','tan','log','ln','√','π','e'].includes(k)) className += ' fn';
-            if (k === 'C') className += ' clear';
-            if (k === '=') className += ' eq';
-            
-            btn.className = className;
-            btn.textContent = k;
-            btn.onclick = () => handleKey(k);
-            DOM.keypad.appendChild(btn);
-        });
-    });
-}
-
-// --- Interaction Logic ---
-function handleKey(k) {
-    if (k === 'C') { state.expr = ''; updateDisplay(); return; }
-    if (k === '⌫') { state.expr = state.expr.slice(0, -1); updateDisplay(); return; }
-    if (k === '=') { solve(); return; }
-    
-    let val = k;
-    if (k === '√') val = 'sqrt(';
-    if (k === 'π') val = 'pi';
-    if (k === '×') val = '*';
-    if (k === '÷') val = '/';
-    
-    state.expr += val + ' ';
-    updateDisplay();
-    
-    // Live Preview
-    clearTimeout(window.previewTimer);
-    window.previewTimer = setTimeout(() => {
-        const res = calculate(state.expr);
-        if (res !== null) DOM.res.textContent = res;
-        else DOM.res.textContent = '';
-    }, 150);
-}
-
-function updateDisplay() {
-    DOM.expr.value = state.expr;
-    DOM.hist.textContent = state.history.length ? state.history[0].q + ' =' : '';
-}
-
-function solve() {
-    const res = calculate(state.expr);
-    if (res !== null) {
-        addToHistory(state.expr, res);
-        state.expr = String(res);
-        updateDisplay();
-        DOM.res.textContent = '';
-        if (navigator.vibrate) navigator.vibrate(20);
-    } else {
-        DOM.res.textContent = 'Error';
-        setTimeout(() => DOM.res.textContent = '', 1500);
-    }
-}
-
-function addToHistory(q, a) {
-    state.history.unshift({ q, a, d: Date.now() });
-    if (state.history.length > 100) state.history.pop();
-    localStorage.setItem('rosto_h_god', JSON.stringify(state.history));
-    updateDisplay();
-}
-
-// --- Advanced Features Loader ---
-async function loadFeature(feature) {
-    DOM.loader.style.display = 'block';
-    toggleOverlay(true);
-    DOM.overlayContent.innerHTML = '';
-    
-    setTimeout(() => {
-        DOM.loader.style.display = 'none';
-        
-        if (feature === 'graph') {
-            DOM.overlayTitle.textContent = 'الرسم البياني التفاعلي';
-            DOM.overlayContent.innerHTML = `
-                <div style="display:flex;gap:10px;margin-bottom:10px;">
-                    <input type="text" id="graph-expr" class="adv-input" placeholder="مثال: sin(x) أو x^2" value="${state.expr || 'sin(x)'}">
-                    <button onclick="drawGraph()" class="adv-btn" style="width:100px">ارسم</button>
-                </div>
-                <div id="plot-div" style="width:100%;height:60vh;background:rgba(0,0,0,0.2);border-radius:10px;"></div>
-            `;
-            drawGraph();
-        } else if (feature === 'solve') {
-            DOM.overlayTitle.textContent = 'حل المعادلات الجبرية';
-            DOM.overlayContent.innerHTML = `
-                <p>أدخل المعادلة (استخدم == للمساواة)</p>
-                <input type="text" id="eq-input" class="adv-input" placeholder="x^2 - 4 == 0">
-                <button onclick="solveEquation()" class="adv-btn">حل المعادلة</button>
-                <div id="eq-result" style="margin-top:20px;font-size:1.2rem;color:var(--primary);direction:ltr;text-align:right;"></div>
-            `;
-        } else if (feature === 'calculus') {
-            DOM.overlayTitle.textContent = 'التفاضل والتكامل الرمزي';
-            DOM.overlayContent.innerHTML = `
-                <p>أدخل الدالة f(x)</p>
-                <input type="text" id="calc-func" class="adv-input" placeholder="مثال: x^2 * sin(x)" value="${state.expr || 'x^2'}">
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-                    <button onclick="doCalculus('diff')" class="adv-btn">اشتقاق (d/dx)</button>
-                    <button onclick="doCalculus('integrate')" class="adv-btn">تكامل (∫dx)</button>
-                </div>
-                <div id="calc-result" style="margin-top:20px;font-size:1.3rem;color:var(--primary);direction:ltr;text-align:right;white-space:pre-wrap;"></div>
-            `;
-        } else if (feature === 'matrix') {
-            DOM.overlayTitle.textContent = 'مختبر المصفوفات';
-            DOM.overlayContent.innerHTML = `
-                <textarea id="mat-a" class="adv-input" rows="3" placeholder="[[1,2],[3,4]]">[[1,2],[3,4]]</textarea>
-                <textarea id="mat-b" class="adv-input" rows="3" placeholder="[[5,6],[7,8]]">[[5,6],[7,8]]</textarea>
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-                    <button onclick="calcMatrix('add')" class="adv-btn">جمع A+B</button>
-                    <button onclick="calcMatrix('multiply')" class="adv-btn">ضرب A*B</button>
-                    <button onclick="calcMatrix('det')" class="adv-btn">محدد A</button>
-                    <button onclick="calcMatrix('inv')" class="adv-btn">معكوس A</button>
-                </div>
-                <div id="mat-result" style="margin-top:20px;font-family:'JetBrains Mono';color:var(--primary);white-space:pre-wrap;"></div>
-            `;
-        } else if (feature === 'units') {
-            DOM.overlayTitle.textContent = 'محول الوحدات الشامل';
-            DOM.overlayContent.innerHTML = `
-                <input type="number" id="unit-val" class="adv-input" placeholder="القيمة" value="1">
-                <select id="unit-from" class="adv-input">
-                    <option value="meter">متر (m)</option><option value="foot">قدم (ft)</option>
-                    <option value="kg">كيلوجرام (kg)</option><option value="lb">باوند (lb)</option>
-                    <option value="celsius">سيليزي (C)</option><option value="fahrenheit">فهرنهايت (F)</option>
-                </select>
-                <select id="unit-to" class="adv-input">
-                    <option value="foot">قدم (ft)</option><option value="meter">متر (m)</option>
-                    <option value="lb">باوند (lb)</option><option value="kg">كيلوجرام (kg)</option>
-                    <option value="fahrenheit">فهرنهايت (F)</option><option value="celsius">سيليزي (C)</option>
-                </select>
-                <button onclick="convertUnit()" class="adv-btn">تحويل</button>
-                <div id="unit-result" style="margin-top:20px;font-size:1.5rem;color:var(--primary);"></div>
-            `;
-        }
-    }, 400);
-}
-
-// --- Feature Logics ---
-window.drawGraph = function() {
-    const expr = document.getElementById('graph-expr').value;
-    try {
-        const values = [];
-        for (let x = -10; x <= 10; x += 0.2) {
-            values.push({x, y: math.evaluate(expr, {x})});
-        }
-        Plotly.newPlot('plot-div', [{
-            x: values.map(v=>v.x), y: values.map(v=>v.y), 
-            type: 'scatter', line: {color: '#00f2ff', width: 3}
-        }], {paper_bgcolor:'rgba(0,0,0,0)', plot_bgcolor:'rgba(0,0,0,0)', font:{color:'#fff'}, margin:{t:30,b:30,l:30,r:30}});
-    } catch(e) { console.error(e); }
-}
-
-window.solveEquation = function() {
-    const eq = document.getElementById('eq-input').value;
-    try {
-        // استخدام Nerdamer للحل الرمزي
-        const sol = nerdamer.solve(eq, 'x');
-        document.getElementById('eq-result').textContent = 'الحل: x = ' + sol.toString();
-    } catch(e) { 
-        try { // Fallback to math.js if nerdamer fails or for simple cases
-             const res = math.solve(eq.replace('==','='), 'x');
-             document.getElementById('eq-result').textContent = 'الحل: ' + res.toString();
-        } catch(err) {
-            document.getElementById('eq-result').textContent = 'تعذر الحل، تأكد من الصيغة'; 
-        }
-    }
-}
-
-window.doCalculus = function(type) {
-    const func = document.getElementById('calc-func').value;
-    try {
-        let res;
-        if (type === 'diff') {
-            res = nerdamer(`diff(${func}, x)`);
-        } else {
-            res = nerdamer(`integrate(${func}, x)`);
-        }
-        document.getElementById('calc-result').textContent = 'النتيجة: ' + res.toTeX();
-    } catch(e) {
-        document.getElementById('calc-result').textContent = 'حدث خطأ في المعالجة الرمزية';
-    }
-}
-
-window.calcMatrix = function(op) {
-    try {
-        const a = math.matrix(eval(document.getElementById('mat-a').value));
-        const b = math.matrix(eval(document.getElementById('mat-b').value));
-        let res;
-        if (op === 'add') res = math.add(a, b);
-        else if (op === 'multiply') res = math.multiply(a, b);
-        else if (op === 'det') res = math.det(a);
-        else if (op === 'inv') res = math.inv(a);
-        document.getElementById('mat-result').textContent = math.format(res, {precision: 4});
-    } catch(e) { document.getElementById('mat-result').textContent = 'تأكد من صيغة المصفوفة [[a,b],[c,d]]'; }
-}
-
-window.convertUnit = function() {
-    try {
-        const val = document.getElementById('unit-val').value;
-        const from = document.getElementById('unit-from').value;
-        const to = document.getElementById('unit-to').value;
-        const res = math.unit(val, from).to(to);
-        document.getElementById('unit-result').textContent = res.format(4);
-    } catch(e) { document.getElementById('unit-result').textContent = 'وحدات غير متوافقة'; }
-}
-
-function toggleOverlay(show) {
-    if (show) DOM.overlay.classList.add('open');
-    else DOM.overlay.classList.remove('open');
-}
-
-// --- Theme Toggle ---
-let themeIndex = 0;
-window.toggleTheme = function() {
-    const themes = [
-        {p: '#00f2ff', s: '#bc13fe'}, // Cyber
-        {p: '#ff0055', s: '#ffcc00'}, // Sunset
-        {p: '#00ff9d', s: '#00b8ff'}  // Matrix
-    ];
-    themeIndex = (themeIndex + 1) % themes.length;
-    document.documentElement.style.setProperty('--primary', themes[themeIndex].p);
-    document.documentElement.style.setProperty('--secondary', themes[themeIndex].s);
-}
-
-// --- Init ---
-document.querySelectorAll('.tool-btn').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-        document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
-        e.target.classList.add('active');
-        const tab = e.target.dataset.tab;
-        if (tab === 'calc') toggleOverlay(false);
-        else loadFeature(tab);
-    });
-});
-
-renderKeypad();
-updateDisplay();
-
-</script>
-</body>
-</html>>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ULTRA CALC ∞ | ROSTU ULTIMATE</title>
-    <meta name="theme-color" content="#000000">
-    
-    <!-- مكتبات القوة -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.min.js"></script>
-    <script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --primary: #00f2ff;
-            --secondary: #bc13fe;
-            --bg-dark: #05050a;
-            --surface: rgba(255, 255, 255, 0.03);
-            --glass: rgba(255, 255, 255, 0.05);
-            --text-main: #ffffff;
-            --text-dim: #6c7585;
-            --shadow-glow: 0 0 20px rgba(0, 242, 255, 0.15);
-            --key-bg: rgba(30, 30, 40, 0.6);
-        }
-
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; user-select: none; }
-        
-        body {
-            margin: 0; padding: 0;
-            background: radial-gradient(circle at 50% 0%, #1a1a2e, var(--bg-dark));
-            color: var(--text-main);
-            font-family: 'Cairo', sans-serif;
-            height: 100vh; display: flex; flex-direction: column;
-            overflow: hidden;
-        }
-
-        /* --- Header --- */
-        header {
-            padding: 15px 20px;
-            display: flex; justify-content: space-between; align-items: center;
-            backdrop-filter: blur(15px);
-            border-bottom: 1px solid var(--glass);
-            z-index: 10;
-        }
-        .brand { font-size: 1rem; font-weight: 700; letter-spacing: 1px; display: flex; align-items: center; gap: 8px; }
-        .brand span { 
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
-
-        /* --- Display --- */
-        .display-area {
-            flex: 1; display: flex; flex-direction: column; 
-            justify-content: flex-end; padding: 20px 25px;
-            text-align: right; position: relative;
-        }
-        .history-preview {
-            font-family: 'JetBrains Mono', monospace;
-            color: var(--text-dim); font-size: 0.85rem; margin-bottom: 5px;
-            opacity: 0.5; min-height: 18px; direction: ltr; text-align: right;
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-        }
-        .main-input {
-            width: 100%; background: transparent; border: none;
-            color: var(--text-main); font-size: 3rem; text-align: right;
-            font-family: 'JetBrains Mono', monospace; font-weight: 300;
-            text-shadow: 0 0 10px rgba(255,255,255,0.05);
-        }
-        .result-preview {
-            font-size: 1.5rem; color: var(--primary); 
-            margin-top: 5px; min-height: 30px; font-weight: bold;
-            text-shadow: var(--shadow-glow); direction: ltr; text-align: right;
-        }
-
-        /* --- Tools Bar --- */
-        .tools-bar {
-            display: flex; gap: 10px; padding: 10px 15px;
-            overflow-x: auto; scrollbar-width: none;
-            border-top: 1px solid var(--glass); border-bottom: 1px solid var(--glass);
-            background: rgba(0,0,0,0.3);
-        }
-        .tool-btn {
-            background: var(--surface); border: 1px solid var(--glass);
-            color: var(--text-dim); padding: 6px 14px; border-radius: 10px;
-            font-size: 0.75rem; white-space: nowrap; transition: all 0.2s;
-            backdrop-filter: blur(5px); font-family: 'Cairo';
-        }
-        .tool-btn.active { 
-            background: linear-gradient(135deg, var(--primary), var(--secondary)); 
-            color: #fff; border-color: transparent; box-shadow: var(--shadow-glow);
-        }
-
-        /* --- Keypad --- */
-        .keypad-container {
-            background: linear-gradient(0deg, var(--bg-dark) 20%, transparent);
-            padding: 15px; padding-top: 25px;
-        }
-        .keypad {
-            display: grid; grid-template-columns: repeat(5, 1fr);
-            gap: 10px; max-width: 600px; margin: 0 auto;
-        }
-        .key {
-            background: var(--key-bg); border: 1px solid var(--glass);
-            color: var(--text-main); font-size: 1.1rem; font-weight: 500;
-            height: 55px; border-radius: 14px;
-            display: flex; align-items: center; justify-content: center;
-            transition: all 0.1s; backdrop-filter: blur(10px);
-            font-family: 'JetBrains Mono';
-        }
-        .key:active { transform: scale(0.92); background: rgba(255,255,255,0.1); }
-        .key.op { color: var(--primary); font-size: 1.3rem; }
-        .key.fn { font-size: 0.8rem; color: var(--secondary); }
-        .key.eq { 
-            background: linear-gradient(135deg, var(--primary), var(--secondary)); 
-            color: #fff; border: none; grid-column: span 2;
-            box-shadow: 0 0 25px rgba(0, 242, 255, 0.3);
-        }
-        .key.clear { color: #ff4757; }
-
-        /* --- Overlays --- */
-        .overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(5, 5, 10, 0.98); z-index: 100;
-            transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            display: flex; flex-direction: column; backdrop-filter: blur(20px);
-        }
-        .overlay.open { transform: translateY(0); }
-        .overlay-header { 
-            padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid var(--glass);
-        }
-        .close-btn { 
-            background: rgba(255,255,255,0.1); border: none; color: #fff; 
-            width: 35px; height: 35px; border-radius: 50%; cursor: pointer;
-        }
-
-        /* --- Inputs in Overlay --- */
-        .adv-input {
-            width: 100%; padding: 12px; background: rgba(0,0,0,0.3);
-            border: 1px solid var(--glass); color: #fff; border-radius: 8px;
-            margin-bottom: 10px; font-family: 'JetBrains Mono';
-        }
-        .adv-btn {
-            width: 100%; padding: 12px; background: var(--surface);
-            border: 1px solid var(--primary); color: var(--primary);
-            border-radius: 8px; cursor: pointer; font-weight: bold;
-        }
-
-        @media (min-width: 768px) {
-            .keypad { grid-template-columns: repeat(6, 1fr); gap: 15px; }
-            .key { height: 70px; font-size: 1.3rem; }
-        }
-    </style>
-</head>
-<body>
-
-    <header>
-        <div class="brand">ULTRA CALC <span>∞</span></div>
-        <button onclick="toggleTheme()" style="background:none;border:none;color:#fff;font-size:1.2rem;">🎨</button>
-    </header>
-
-    <div class="display-area">
-        <div class="history-preview" id="hist-prev"></div>
-        <input type="text" class="main-input" id="expr" placeholder="0" autocomplete="off" inputmode="decimal" dir="ltr">
-        <div class="result-preview" id="res-prev"></div>
-    </div>
-
-    <div class="tools-bar">
-        <button class="tool-btn active" data-tab="calc">🧮 أساسي</button>
-        <button class="tool-btn" data-tab="graph">📈 رسم 2D/3D</button>
-        <button class="tool-btn" data-tab="solve">🧠 جبر</button>
-        <button class="tool-btn" data-tab="matrix">🔢 مصفوفات</button>
-        <button class="tool-btn" data-tab="units">⚖️ وحدات</button>
-        <button class="tool-btn" data-tab="const">🌌 ثوابت</button>
-    </div>
-
-    <div class="keypad-container">
-        <div class="keypad" id="keypad"></div>
-    </div>
-
-    <div class="overlay" id="overlay">
-        <div class="overlay-header">
-            <h3 id="overlay-title" style="margin:0;color:var(--primary)">الميزة المتقدمة</h3>
-            <button class="close-btn" onclick="toggleOverlay(false)">✕</button>
+        <!-- Display Area -->
+        <div class="display-area">
+            <div class="expression" id="expression"></div>
+            <div class="result" id="result">0</div>
         </div>
-        <div id="overlay-content" style="flex:1; padding:20px; overflow:auto;"></div>
+
+        <!-- Menu Bar -->
+        <div class="menu-bar">
+            <button class="menu-btn" onclick="toggleMenu()">☰</button>
+            <button class="menu-btn pro" onclick="proMode()"> PRO</button>
+            <button class="menu-btn" onclick="showSettings()">⚙️</button>
+            <button class="menu-btn more" onclick="moreOptions()">MORE</button>
+        </div>
+
+        <!-- Row 1: SHIFT / ALPHA / CALC / ∫dx / MODE / 2nd -->
+        <div class="buttons-grid">
+            <button class="btn shift" onclick="shiftMode()">
+                SHIFT<br><span class="btn-label">SOLVE =</span>
+            </button>
+            <button class="btn alpha" onclick="alphaMode()">
+                ALPHA<br><span class="btn-label">d/dx ;</span>
+            </button>
+            <button class="btn function" onclick="insertFunction('calc')">CALC</button>
+            <button class="btn function" onclick="insertFunction('integral')">∫dx</button>
+            <button class="btn function" onclick="modeSelect()">MODE</button>
+            <button class="btn function" onclick="secondFunction()">
+                2nd<br><span class="btn-label">Σ Π</span>
+            </button>
+        </div>
+
+        <!-- Row 2: x/y / ³√x / mod / x³ / √x / xʸ -->
+        <div class="scientific-section">
+            <button class="btn function" onclick="insertOperator('/')">
+                x/y<br><span class="btn-label">÷R</span>
+            </button>
+            <button class="btn function" onclick="insertFunction('cbrt')">³√x</button>
+            <button class="btn function" onclick="insertOperator('%')">mod</button>
+            <button class="btn function" onclick="insertFunction('cube')">x³</button>
+            <button class="btn function" onclick="insertFunction('sqrt')">√x</button>
+            <button class="btn function" onclick="insertFunction('pow')">xʸ</button>
+        </div>
+
+        <!-- Row 3: Log / Ln / FACT / |x| / Sin⁻¹ / Cos⁻¹ -->
+        <div class="scientific-section">
+            <button class="btn function" onclick="insertFunction('log')">Log</button>
+            <button class="btn function" onclick="insertFunction('ln')">Ln</button>
+            <button class="btn function" onclick="insertFunction('fact')">FACT</button>
+            <button class="btn function" onclick="insertFunction('abs')">|x|</button>
+            <button class="btn function" onclick="insertFunction('asin')">Sin⁻¹</button>
+            <button class="btn function" onclick="insertFunction('acos')">Cos⁻¹</button>
+        </div>
+
+        <!-- Row 4: Tan⁻¹ / (-) / hyp / Sin / Cos / Tan -->
+        <div class="scientific-section">
+            <button class="btn function" onclick="insertFunction('atan')">Tan⁻¹</button>
+            <button class="btn function" onclick="insertOperator('(')">(-)</button>
+            <button class="btn function" onclick="insertFunction('hyp')">hyp</button>
+            <button class="btn function" onclick="insertFunction('sin')">Sin</button>
+            <button class="btn function" onclick="insertFunction('cos')">Cos</button>
+            <button class="btn function" onclick="insertFunction('tan')">Tan</button>
+        </div>
+
+        <!-- Memory Section: STO / RCL / i / Cot / % / M+ -->
+        <div class="memory-section">
+            <button class="btn special" onclick="memoryStore()">STO</button>
+            <button class="btn special" onclick="memoryRecall()">RCL</button>
+            <button class="btn special" onclick="insertConstant('i')">i</button>
+            <button class="btn special" onclick="insertConstant('cot')">Cot</button>
+            <button class="btn special" onclick="insertOperator('%')">%</button>
+            <button class="btn special" onclick="memoryAdd()">M+</button>
+        </div>
+
+        <!-- Number Pad -->
+        <div class="number-section">
+            <button class="btn number" onclick="insertNumber('7')">7</button>
+            <button class="btn number" onclick="insertNumber('8')">8</button>
+            <button class="btn number" onclick="insertNumber('9')">9</button>
+            <button class="btn clear" onclick="clearEntry()">⌫</button>
+
+            <button class="btn number" onclick="insertNumber('4')">4</button>
+            <button class="btn number" onclick="insertNumber('5')">5</button>
+            <button class="btn number" onclick="insertNumber('6')">6</button>
+            <button class="btn operator" onclick="insertOperator('×')">×</button>
+
+            <button class="btn number" onclick="insertNumber('1')">1</button>
+            <button class="btn number" onclick="insertNumber('2')">2</button>
+            <button class="btn number" onclick="insertNumber('3')">3</button>
+            <button class="btn operator" onclick="insertOperator('-')">−</button>
+
+            <button class="btn number" onclick="insertNumber('0')">0</button>
+            <button class="btn number" onclick="insertNumber('.')">.</button>
+            <button class="btn equals" onclick="calculate()">=</button>
+            <button class="btn operator" onclick="insertOperator('+')">+</button>
+        </div>
+
+        <!-- Bottom Functions: π / e / Exp / Ans / AC / History -->
+        <div class="buttons-grid" style="margin-top: 15px;">
+            <button class="btn function" onclick="insertConstant('pi')">π</button>
+            <button class="btn function" onclick="insertConstant('e')">e</button>
+            <button class="btn function" onclick="insertFunction('exp')">Exp</button>
+            <button class="btn function" onclick="insertFunction('ans')">Ans</button>
+            <button class="btn clear" onclick="clearAll()">AC</button>
+            <button class="btn special" onclick="showHistory()">History</button>
+        </div>
+
+        <!-- History Panel -->
+        <div class="history-panel" id="historyPanel" style="display: none;">
+            <div class="history-title">📋 السجل</div>
+            <div id="historyList"></div>
+        </div>
+
     </div>
 
-<script>
-/**
- * ULTRA CALC PRO - ROSTU ULTIMATE EDITION
- * Full Math Engine, Graphing, Units, Matrices & More
- */
+    <!-- ===== JAVASCRIPT ===== -->
+    <script>
+        // ===== VARIABLES =====
+        let expression = '';
+        let result = '0';
+        let memory = 0;
+        let lastAnswer = 0;
+        let history = [];
+        let isShiftMode = false;
+        let isAlphaMode = false;
+        let angleMode = 'deg'; // deg or rad
 
-// --- State & Config ---
-const state = {
-    expr: '',
-    isRad: true, // Radians by default
-    history: JSON.parse(localStorage.getItem('rosto_h_v3') || '[]'),
-};
-
-const DOM = {
-    expr: document.getElementById('expr'),
-    res: document.getElementById('res-prev'),
-    hist: document.getElementById('hist-prev'),
-    keypad: document.getElementById('keypad'),
-    overlay: document.getElementById('overlay'),
-    overlayContent: document.getElementById('overlay-content'),
-    overlayTitle: document.getElementById('overlay-title')
-};
-
-// --- Advanced Math Configuration ---
-math.config({ number: 'number' }); // Support for BigNumbers if needed later
-
-// --- Key Layouts (Dynamic) ---
-const layouts = {
-    calc: [
-        ['C', '⌫', '%', '÷', '√'],
-        ['sin', 'cos', 'tan', '×', '^'],
-        ['7', '8', '9', '-', 'π'],
-        ['4', '5', '6', '+', 'e'],
-        ['1', '2', '3', '(', ')'],
-        ['0', '.', 'ln', 'log', '=']
-    ],
-    sci: [
-        ['C', '⌫', '!', '÷', 'nCr'],
-        ['asin', 'acos', 'atan', '×', 'mod'],
-        ['sinh', 'cosh', 'tanh', '-', 'i'],
-        ['7', '8', '9', '+', 'E'],
-        ['4', '5', '6', '(', ')'],
-        ['1', '2', '3', '.', '=']
-    ]
-};
-
-let currentLayout = 'calc';
-
-function renderKeypad() {
-    DOM.keypad.innerHTML = '';
-    const keys = layouts[currentLayout];
-    
-    keys.forEach(row => {
-        row.forEach(k => {
-            const btn = document.createElement('button');
-            let className = 'key';
-            if (['÷','×','-','+','='].includes(k)) className += ' op';
-            if (['sin','cos','tan','asin','log','ln','√','π','e','i'].includes(k)) className += ' fn';
-            if (k === 'C') className += ' clear';
-            if (k === '=') className += ' eq';
-            
-            btn.className = className;
-            btn.textContent = k;
-            btn.onclick = () => handleKey(k);
-            DOM.keypad.appendChild(btn);
-        });
-    });
-}
-
-// --- Core Logic ---
-function handleKey(k) {
-    if (k === 'C') { state.expr = ''; updateDisplay(); return; }
-    if (k === '⌫') { state.expr = state.expr.slice(0, -1); updateDisplay(); return; }
-    if (k === '=') { solve(); return; }
-    
-    // Smart replacements
-    let val = k;
-    if (k === '√') val = 'sqrt(';
-    if (k === 'π') val = 'pi';
-    if (k === '×') val = '*';
-    if (k === '÷') val = '/';
-    
-    state.expr += val + ' ';
-    updateDisplay();
-    
-    // Live Preview
-    clearTimeout(window.previewTimer);
-    window.previewTimer = setTimeout(() => {
-        try {
-            const res = math.evaluate(state.expr);
-            if (res !== undefined && res !== null) {
-                DOM.res.textContent = math.format(res, { precision: 12 });
-            }
-        } catch(e) {}
-    }, 200);
-}
-
-function updateDisplay() {
-    DOM.expr.value = state.expr;
-    DOM.hist.textContent = state.history.length ? state.history[0].q + ' =' : '';
-}
-
-function solve() {
-    try {
-        const res = math.evaluate(state.expr);
-        const formatted = math.format(res, { precision: 14 });
-        addToHistory(state.expr, formatted);
-        state.expr = String(formatted);
-        updateDisplay();
-        DOM.res.textContent = '';
-        if (navigator.vibrate) navigator.vibrate(20);
-    } catch (e) {
-        DOM.res.textContent = 'Error';
-        setTimeout(() => DOM.res.textContent = '', 1500);
-    }
-}
-
-function addToHistory(q, a) {
-    state.history.unshift({ q, a, d: Date.now() });
-    if (state.history.length > 100) state.history.pop();
-    localStorage.setItem('rosto_h_v3', JSON.stringify(state.history));
-    updateDisplay();
-}
-
-// --- Advanced Features Implementation ---
-async function loadFeature(feature) {
-    toggleOverlay(true);
-    DOM.overlayContent.innerHTML = '<div style="text-align:center;padding:50px;">جاري تحميل المحرك...</div>';
-    
-    setTimeout(() => {
-        DOM.overlayContent.innerHTML = '';
-        
-        if (feature === 'graph') {
-            DOM.overlayTitle.textContent = 'الرسم البياني الفائق';
-            DOM.overlayContent.innerHTML = `
-                <div style="display:flex;gap:10px;margin-bottom:10px;">
-                    <input type="text" id="graph-expr" class="adv-input" placeholder="مثال: sin(x) أو x^2 + y^2 - 9" value="${state.expr || 'sin(x)'}">
-                    <button onclick="drawGraph()" class="adv-btn" style="width:80px">ارسم</button>
-                </div>
-                <div id="plot-div" style="width:100%;height:60vh;background:rgba(0,0,0,0.2);border-radius:10px;"></div>
-            `;
-            drawGraph();
-        } else if (feature === 'solve') {
-            DOM.overlayTitle.textContent = 'حل المعادلات الجبرية';
-            DOM.overlayContent.innerHTML = `
-                <p>أدخل المعادلة (استخدم == للمساواة)</p>
-                <input type="text" id="eq-input" class="adv-input" placeholder="x^2 - 4 == 0">
-                <button onclick="solveEquation()" class="adv-btn">حل المعادلة</button>
-                <div id="eq-result" style="margin-top:20px;font-size:1.2rem;color:var(--primary);direction:ltr;text-align:right;"></div>
-            `;
-        } else if (feature === 'matrix') {
-            DOM.overlayTitle.textContent = 'مختبر المصفوفات';
-            DOM.overlayContent.innerHTML = `
-                <textarea id="mat-a" class="adv-input" rows="3" placeholder="[[1,2],[3,4]]">[[1,2],[3,4]]</textarea>
-                <textarea id="mat-b" class="adv-input" rows="3" placeholder="[[5,6],[7,8]]">[[5,6],[7,8]]</textarea>
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-                    <button onclick="calcMatrix('add')" class="adv-btn">جمع A+B</button>
-                    <button onclick="calcMatrix('multiply')" class="adv-btn">ضرب A*B</button>
-                    <button onclick="calcMatrix('det')" class="adv-btn">محدد A</button>
-                    <button onclick="calcMatrix('inv')" class="adv-btn">معكوس A</button>
-                </div>
-                <div id="mat-result" style="margin-top:20px;font-family:'JetBrains Mono';color:var(--primary);white-space:pre-wrap;"></div>
-            `;
-        } else if (feature === 'units') {
-            DOM.overlayTitle.textContent = 'محول الوحدات الشامل';
-            DOM.overlayContent.innerHTML = `
-                <input type="number" id="unit-val" class="adv-input" placeholder="القيمة" value="1">
-                <select id="unit-from" class="adv-input">
-                    <option value="meter">متر (m)</option>
-                    <option value="foot">قدم (ft)</option>
-                    <option value="kg">كيلوجرام (kg)</option>
-                    <option value="lb">باوند (lb)</option>
-                    <option value="celsius">سيليزي (C)</option>
-                    <option value="fahrenheit">فهرنهايت (F)</option>
-                </select>
-                <select id="unit-to" class="adv-input">
-                    <option value="foot">قدم (ft)</option>
-                    <option value="meter">متر (m)</option>
-                    <option value="lb">باوند (lb)</option>
-                    <option value="kg">كيلوجرام (kg)</option>
-                    <option value="fahrenheit">فهرنهايت (F)</option>
-                    <option value="celsius">سيليزي (C)</option>
-                </select>
-                <button onclick="convertUnit()" class="adv-btn">تحويل</button>
-                <div id="unit-result" style="margin-top:20px;font-size:1.5rem;color:var(--primary);"></div>
-            `;
-        } else if (feature === 'const') {
-            DOM.overlayTitle.textContent = 'الثوابت الفيزيائية';
-            const consts = {
-                'سرعة الضوء (c)': '299792458 m/s',
-                'ثابت بلانك (h)': '6.62607015e-34 J.s',
-                'الجاذبية (g)': '9.80665 m/s^2',
-                'عدد أفوجادرو (NA)': '6.02214076e23 mol^-1'
-            };
-            let html = '<div style="display:grid;gap:10px;">';
-            for (let [k,v] of Object.entries(consts)) {
-                html += `<div style="background:var(--surface);padding:15px;border-radius:8px;border:1px solid var(--glass);"><b>${k}</b><br><span style="color:var(--primary);direction:ltr;display:block">${v}</span></div>`;
-            }
-            DOM.overlayContent.innerHTML = html + '</div>';
+        // ===== TIME UPDATE =====
+        function updateTime() {
+            const now = new Date();
+            const h = now.getHours().toString().padStart(2, '0');
+            const m = now.getMinutes().toString().padStart(2, '0');
+            document.getElementById('time').textContent = `${h}:${m}`;
         }
-    }, 300);
-}
+        setInterval(updateTime, 1000);
+        updateTime();
 
-// --- Feature Logics ---
-window.drawGraph = function() {
-    const expr = document.getElementById('graph-expr').value;
-    try {
-        // Check if 3D (contains x and y)
-        if (expr.includes('x') && expr.includes('y')) {
-            const size = 50;
-            const matrix = [];
-            for (let j = 0; j < size; j++) {
-                const row = [];
-                for (let i = 0; i < size; i++) {
-                    const x = (i / size) * 10 - 5;
-                    const y = (j / size) * 10 - 5;
-                    row.push(math.evaluate(expr, {x, y}));
+        // ===== INSERT NUMBER =====
+        function insertNumber(num) {
+            expression += num;
+            updateDisplay();
+        }
+
+        // ===== INSERT OPERATOR =====
+        function insertOperator(op) {
+            expression += op;
+            updateDisplay();
+        }
+
+        // ===== INSERT FUNCTION =====
+        function insertFunction(func) {
+            switch(func) {
+                case 'sin':   expression += 'sin('; break;
+                case 'cos':   expression += 'cos('; break;
+                case 'tan':   expression += 'tan('; break;
+                case 'asin':  expression += 'asin('; break;
+                case 'acos':  expression += 'acos('; break;
+                case 'atan':  expression += 'atan('; break;
+                case 'sinh':  expression += 'sinh('; break;
+                case 'cosh':  expression += 'cosh('; break;
+                case 'tanh':  expression += 'tanh('; break;
+                case 'log':   expression += 'log('; break;
+                case 'ln':    expression += 'ln('; break;
+                case 'sqrt':  expression += 'sqrt('; break;
+                case 'cbrt':  expression += 'cbrt('; break;
+                case 'cube':  expression += '^3'; break;
+                case 'pow':   expression += '^'; break;
+                case 'fact':  expression += 'fact('; break;
+                case 'abs':   expression += 'abs('; break;
+                case 'exp':   expression += 'exp('; break;
+                case 'ans':   expression += lastAnswer.toString(); break;
+                case 'hyp':   showNotification('وضع Hyperbolic'); break;
+                case 'calc':  showNotification('وضع CALC'); break;
+                case 'integral': showNotification(' التكامل'); break;
+                default:      expression += func + '(';
+            }
+            updateDisplay();
+        }
+
+        // ===== INSERT CONSTANT =====
+        function insertConstant(constant) {
+            switch(constant) {
+                case 'pi':  expression += 'π'; break;
+                case 'e':   expression += 'e'; break;
+                case 'i':   expression += 'i'; break;
+                case 'cot': expression += 'cot('; break;
+            }
+            updateDisplay();
+        }
+
+        // ===== CALCULATE =====
+        function calculate() {
+            try {
+                let evalExpr = expression
+                    .replace(/π/g, 'Math.PI')
+                    .replace(/(?<![a-zA-Z])e(?![a-zA-Z])/g, 'Math.E')
+                    .replace(/sin\(/g, 'Math.sin(')
+                    .replace(/cos\(/g, 'Math.cos(')
+                    .replace(/tan\(/g, 'Math.tan(')
+                    .replace(/asin\(/g, 'Math.asin(')
+                    .replace(/acos\(/g, 'Math.acos(')
+                    .replace(/atan\(/g, 'Math.atan(')
+                    .replace(/sinh\(/g, 'Math.sinh(')
+                    .replace(/cosh\(/g, 'Math.cosh(')
+                    .replace(/tanh\(/g, 'Math.tanh(')
+                    .replace(/log\(/g, 'Math.log10(')
+                    .replace(/ln\(/g, 'Math.log(')
+                    .replace(/sqrt\(/g, 'Math.sqrt(')
+                    .replace(/cbrt\(/g, 'Math.cbrt(')
+                    .replace(/abs\(/g, 'Math.abs(')
+                    .replace(/exp\(/g, 'Math.exp(')
+                    .replace(/cot\(/g, '(1/Math.tan(')
+                    .replace(/\^/g, '**')
+                    .replace(/×/g, '*')
+                    .replace(/÷/g, '/');
+
+                // Handle factorial
+                evalExpr = evalExpr.replace(/fact\(([^)]+)\)/g, (match, n) => {
+                    return factorial(parseInt(n));
+                });
+
+                let calcResult = eval(evalExpr);
+
+                if (!isFinite(calcResult)) {
+                    result = 'Error';
+                } else {
+                    result = parseFloat(calcResult.toFixed(10)).toString();
+                    lastAnswer = calcResult;
+                    addToHistory(expression, result);
                 }
-                matrix.push(row);
+
+                document.getElementById('result').textContent = result;
+                expression = '';
+                document.getElementById('expression').textContent = '';
+            } catch (error) {
+                result = 'Error';
+                document.getElementById('result').textContent = result;
             }
-            Plotly.newPlot('plot-div', [{z: matrix, type: 'surface'}], {margin:{t:0,b:0,l:0,r:0}});
-        } else {
-            // 2D Graph
-            const values = [];
-            for (let x = -10; x <= 10; x += 0.2) {
-                values.push({x, y: math.evaluate(expr, {x})});
+        }
+
+        // ===== FACTORIAL =====
+        function factorial(n) {
+            if (n < 0) return NaN;
+            if (n === 0 || n === 1) return 1;
+            let r = 1;
+            for (let i = 2; i <= n; i++) r *= i;
+            return r;
+        }
+
+        // ===== CLEAR =====
+        function clearEntry() {
+            expression = expression.slice(0, -1);
+            updateDisplay();
+        }
+
+        function clearAll() {
+            expression = '';
+            result = '0';
+            updateDisplay();
+            document.getElementById('result').textContent = result;
+        }
+
+        // ===== UPDATE DISPLAY =====
+        function updateDisplay() {
+            document.getElementById('expression').textContent = expression;
+        }
+
+        // ===== MEMORY FUNCTIONS =====
+        function memoryStore() {
+            memory = parseFloat(result) || 0;
+            showNotification(' تم التخزين: ' + memory);
+        }
+
+        function memoryRecall() {
+            expression += memory.toString();
+            updateDisplay();
+            showNotification('📂 استرجاع: ' + memory);
+        }
+
+        function memoryAdd() {
+            memory += parseFloat(result) || 0;
+            showNotification('➕ مضاف للذاكرة: ' + memory);
+        }
+
+        function memorySubtract() {
+            memory -= parseFloat(result) || 0;
+            showNotification('➖ مطروح من الذاكرة: ' + memory);
+        }
+
+        // ===== HISTORY =====
+        function addToHistory(expr, res) {
+            history.unshift({ expression: expr, result: res });
+            if (history.length > 50) history.pop();
+        }
+
+        function showHistory() {
+            const panel = document.getElementById('historyPanel');
+            const list = document.getElementById('historyList');
+            if (panel.style.display === 'none') {
+                list.innerHTML = history.map(item =>
+                    `<div class="history-item">${item.expression} = ${item.result}</div>`
+                ).join('');
+                panel.style.display = 'block';
+            } else {
+                panel.style.display = 'none';
             }
-            Plotly.newPlot('plot-div', [{
-                x: values.map(v=>v.x), y: values.map(v=>v.y), 
-                type: 'scatter', line: {color: '#00f2ff', width: 3}
-            }], {paper_bgcolor:'rgba(0,0,0,0)', plot_bgcolor:'rgba(0,0,0,0)', font:{color:'#fff'}, margin:{t:30,b:30,l:30,r:30}});
         }
-    } catch(e) { console.error(e); }
-}
 
-window.solveEquation = function() {
-    const eq = document.getElementById('eq-input').value;
-    try {
-        const res = math.solve(eq, 'x');
-        document.getElementById('eq-result').textContent = 'الحل: ' + res.toString();
-    } catch(e) { document.getElementById('eq-result').textContent = 'خطأ في الصيغة'; }
-}
-
-window.calcMatrix = function(op) {
-    try {
-        const a = math.matrix(eval(document.getElementById('mat-a').value));
-        const b = math.matrix(eval(document.getElementById('mat-b').value));
-        let res;
-        if (op === 'add') res = math.add(a, b);
-        else if (op === 'multiply') res = math.multiply(a, b);
-        else if (op === 'det') res = math.det(a);
-        else if (op === 'inv') res = math.inv(a);
-        document.getElementById('mat-result').textContent = math.format(res, {precision: 4});
-    } catch(e) { document.getElementById('mat-result').textContent = 'تأكد من صيغة المصفوفة [[a,b],[c,d]]'; }
-}
-
-window.convertUnit = function() {
-    try {
-        const val = document.getElementById('unit-val').value;
-        const from = document.getElementById('unit-from').value;
-        const to = document.getElementById('unit-to').value;
-        const res = math.unit(val, from).to(to);
-        document.getElementById('unit-result').textContent = res.format(4);
-    } catch(e) { document.getElementById('unit-result').textContent = 'وحدات غير متوافقة'; }
-}
-
-function toggleOverlay(show) {
-    if (show) DOM.overlay.classList.add('open');
-    else DOM.overlay.classList.remove('open');
-}
-
-// --- Theme Toggle ---
-let themeIndex = 0;
-window.toggleTheme = function() {
-    const themes = [
-        {p: '#00f2ff', s: '#bc13fe'}, // Cyber
-        {p: '#ff0055', s: '#ffcc00'}, // Sunset
-        {p: '#00ff9d', s: '#00b8ff'}  // Matrix
-    ];
-    themeIndex = (themeIndex + 1) % themes.length;
-    document.documentElement.style.setProperty('--primary', themes[themeIndex].p);
-    document.documentElement.style.setProperty('--secondary', themes[themeIndex].s);
-}
-
-// --- Init ---
-document.querySelectorAll('.tool-btn').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-        document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
-        e.target.classList.add('active');
-        const tab = e.target.dataset.tab;
-        if (tab === 'calc') {
-            toggleOverlay(false);
-            currentLayout = 'calc';
-        } else if (tab === 'sci') {
-            toggleOverlay(false);
-            currentLayout = 'sci';
-        } else {
-            loadFeature(tab);
+        // ===== MODE FUNCTIONS =====
+        function shiftMode() {
+            isShiftMode = !isShiftMode;
+            document.getElementById('shiftInd').classList.toggle('active', isShiftMode);
+            showNotification(isShiftMode ? '🔀 SHIFT مفعل' : '🔀 SHIFT معطل');
         }
-        renderKeypad();
-    });
-});
 
-renderKeypad();
-updateDisplay();
+        function alphaMode() {
+            isAlphaMode = !isAlphaMode;
+            document.getElementById('alphaInd').classList.toggle('active', isAlphaMode);
+            showNotification(isAlphaMode ? ' ALPHA مفعل' : '🔤 ALPHA معطل');
+        }
 
-</script>
+        function secondFunction() {
+            showNotification('🔢 الدالة الثانية');
+        }
+
+        function modeSelect() {
+            angleMode = angleMode === 'deg' ? 'rad' : 'deg';
+            showNotification('📐 الوضع: ' + (angleMode === 'deg' ? 'درجات' : 'راديان'));
+        }
+
+        function proMode() {
+            showNotification('💎 الوضع الاحترافي');
+        }
+
+        function moreOptions() {
+            showNotification('📋 خيارات إضافية');
+        }
+
+        function showSettings() {
+            showNotification('⚙️ الإعدادات');
+        }
+
+        function toggleMenu() {
+            showNotification('☰ القائمة الرئيسية');
+        }
+
+        // ===== NOTIFICATION =====
+        function showNotification(message) {
+            const notif = document.createElement('div');
+            notif.textContent = message;
+            notif.style.cssText = `
+                position: fixed; top: 20px; left: 50%;
+                transform: translateX(-50%);
+                background: rgba(0,0,0,0.85); color: white;
+                padding: 12px 24px; border-radius: 25px;
+                z-index: 1000; font-size: 14px;
+                animation: fadeInOut 2s ease-in-out;
+            `;
+            document.body.appendChild(notif);
+            setTimeout(() => notif.remove(), 2000);
+        }
+
+        // ===== KEYBOARD SUPPORT =====
+        document.addEventListener('keydown', (e) => {
+            const key = e.key;
+            if (key >= '0' && key <= '9') insertNumber(key);
+            else if (key === '.') insertNumber('.');
+            else if (key === '+') insertOperator('+');
+            else if (key === '-') insertOperator('-');
+            else if (key === '*') insertOperator('×');
+            else if (key === '/') insertOperator('÷');
+            else if (key === 'Enter' || key === '=') calculate();
+            else if (key === 'Backspace') clearEntry();
+            else if (key === 'Escape') clearAll();
+        });
+    </script>
 </body>
 </html>
