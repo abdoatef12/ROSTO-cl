@@ -42,7 +42,7 @@ button{cursor:pointer;border:0;background:none;touch-action:manipulation;-webkit
 .top .r{display:flex;gap:6px}
 .tabs{display:flex;gap:4px;overflow-x:auto;padding-bottom:10px;scrollbar-width:none}
 .tabs::-webkit-scrollbar{display:none}
-.tab{flex:0 0 auto;padding:8px 14px;border-radius:999px;color:var(--muted);font-size:14px;font-weight:500}
+.tab{flex:0 0 auto;padding:8px 12px;border-radius:999px;color:var(--muted);font-size:13px;font-weight:500}
 .tab[aria-selected=true]{background:var(--key);color:var(--text)}
 
 /* LCD */
@@ -70,8 +70,9 @@ button{cursor:pointer;border:0;background:none;touch-action:manipulation;-webkit
 @keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
 
 .tools{display:flex;gap:6px;margin:8px 0}
-.pill{flex:1;padding:8px 6px;border-radius:10px;background:var(--key-fn);color:var(--muted);font-size:13px;font-weight:500}
+.pill{flex:1;padding:8px 4px;border-radius:10px;background:var(--key-fn);color:var(--muted);font-size:12px;font-weight:500}
 .pill:hover{color:var(--text)}
+.pill.on{background:var(--shift);color:var(--shift-ink)}
 .varbar{display:none;gap:6px;flex-wrap:wrap;margin:0 0 8px;align-items:center;font-size:13px}
 .varbar.on{display:flex}
 .varbar .lbl{color:var(--shift);font-weight:600;margin-inline-end:2px}
@@ -81,7 +82,7 @@ button{cursor:pointer;border:0;background:none;touch-action:manipulation;-webkit
 /* PAD */
 .pad{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;direction:ltr}
 .k{position:relative;display:flex;align-items:center;justify-content:center;height:46px;border-radius:12px;background:var(--key-fn);
-  color:var(--text);font-size:15px;font-weight:500;user-select:none;transition:transform .06s,filter .1s}
+  color:var(--text);font-size:14px;font-weight:500;user-select:none;transition:transform .06s,filter .1s;text-align:center;line-height:1.1;padding:2px}
 .k:active{transform:scale(.95);filter:brightness(1.25)}
 .k .sh{position:absolute;top:3px;left:0;right:0;text-align:center;font-size:10px;line-height:1;color:var(--shift);pointer-events:none;font-weight:500}
 .k[data-sh]{padding-top:11px}
@@ -91,9 +92,10 @@ button{cursor:pointer;border:0;background:none;touch-action:manipulation;-webkit
 .k.eq{background:var(--eq);color:var(--eq-ink);font-size:26px;grid-column:span 2}
 .k.dl{background:var(--danger);color:var(--danger-ink)}
 .k.on{background:var(--shift);color:var(--shift-ink)}
+.k.sm{font-size:12px}
 .pad.shifted .k[data-sh]{padding-top:0;background:color-mix(in srgb,var(--shift) 20%,var(--key-fn))}
 .pad.shifted .k[data-sh] .lb{display:none}
-.pad.shifted .k[data-sh] .sh{position:static;font-size:15px;font-weight:600}
+.pad.shifted .k[data-sh] .sh{position:static;font-size:14px;font-weight:600}
 
 /* panels */
 .panel{padding:2px}
@@ -105,6 +107,8 @@ button{cursor:pointer;border:0;background:none;touch-action:manipulation;-webkit
 .field label{font-size:12px;color:var(--muted);text-align:center;direction:ltr}
 .inp,.sel,textarea.inp{width:100%;background:var(--body);border:1px solid var(--line);border-radius:10px;padding:10px;font-size:16px;color:var(--text)}
 .inp{direction:ltr;text-align:center}
+.inp.sm{padding:7px 4px;font-size:14px}
+.inp.ltr{text-align:left}
 textarea.inp{direction:ltr;text-align:left;min-height:110px;resize:vertical;font-size:15px}
 .sel{appearance:none;-webkit-appearance:none}
 .grid{display:grid;gap:8px}
@@ -124,6 +128,10 @@ canvas{width:100%;height:340px;border-radius:14px;display:block;touch-action:non
 .gfn i{width:12px;height:12px;border-radius:50%;flex:none}
 .gfn .inp{text-align:left}
 .gfn .inp.bad{border-color:var(--danger)}
+.mx{display:inline-grid;gap:6px 12px;direction:ltr;background:var(--body);padding:10px 14px;border-radius:10px;font-size:15px;margin:4px 0;justify-self:start}
+.cgrid{display:grid;gap:6px;direction:ltr}
+.const-btn{display:flex;justify-content:space-between;align-items:center;gap:8px;width:100%;background:var(--body);padding:10px 12px;border-radius:10px;font-size:14px;margin-bottom:6px;text-align:right}
+.const-btn b{direction:ltr;font-weight:600;font-size:13px;color:var(--shift)}
 
 /* history */
 .hist{display:none;flex-direction:column;background:var(--body);border:1px solid var(--line);border-radius:26px;padding:14px}
@@ -148,7 +156,7 @@ dialog h2{font-size:17px;margin-bottom:12px}
 .toast{position:fixed;bottom:26px;left:50%;transform:translate(-50%,20px);background:var(--text);color:var(--body);padding:10px 18px;border-radius:999px;
   font-size:14px;opacity:0;pointer-events:none;transition:.25s;z-index:60;max-width:90vw;text-align:center}
 .toast.on{opacity:1;transform:translate(-50%,0)}
-@media(max-width:380px){.k{height:42px;font-size:14px}.k.num{height:50px}.res{font-size:38px}}
+@media(max-width:380px){.k{height:42px;font-size:13px}.k.num{height:50px}.res{font-size:38px}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -166,7 +174,14 @@ dialog h2{font-size:17px;margin-bottom:12px}
   <nav class="tabs" role="tablist" id="tabs">
     <button class="tab" role="tab" data-p="calc" aria-selected="true">الحاسبة</button>
     <button class="tab" role="tab" data-p="graph" aria-selected="false">الرسم البياني</button>
+    <button class="tab" role="tab" data-p="calc2" aria-selected="false">التفاضل والتكامل</button>
     <button class="tab" role="tab" data-p="eq" aria-selected="false">المعادلات</button>
+    <button class="tab" role="tab" data-p="table" aria-selected="false">جدول القيم</button>
+    <button class="tab" role="tab" data-p="mat" aria-selected="false">المصفوفات</button>
+    <button class="tab" role="tab" data-p="vec" aria-selected="false">المتجهات</button>
+    <button class="tab" role="tab" data-p="cx" aria-selected="false">الأعداد المركبة</button>
+    <button class="tab" role="tab" data-p="dist" aria-selected="false">الاحتمالات</button>
+    <button class="tab" role="tab" data-p="const" aria-selected="false">الثوابت</button>
     <button class="tab" role="tab" data-p="conv" aria-selected="false">تحويل الوحدات</button>
     <button class="tab" role="tab" data-p="base" aria-selected="false">أنظمة العد</button>
     <button class="tab" role="tab" data-p="stats" aria-selected="false">الإحصاء</button>
@@ -183,6 +198,8 @@ dialog h2{font-size:17px;margin-bottom:12px}
     <div class="tools">
       <button class="pill" id="btnCopy">نسخ النتيجة</button>
       <button class="pill" id="btnSD">كسر ⇄ عشري</button>
+      <button class="pill" id="btnMore">MORE</button>
+      <button class="pill" id="btnEng">ENG</button>
     </div>
     <div class="varbar" id="varbar"></div>
     <div class="pad" id="pad"></div>
@@ -198,8 +215,50 @@ dialog h2{font-size:17px;margin-bottom:12px}
     </div>
     <div class="card">
       <div id="gfns"></div>
-      <p class="hint">اكتب أي دالة بالمتغير x مثل: sin(x) ، x^2/4 ، √(x) ، abs(x−2). اسحب لتحريك الرسم، وبإصبعين أو عجلة الفأرة للتكبير. الزوايا هنا بالراديان.</p>
+      <p class="hint">اكتب أي دالة بالمتغير x مثل: sin(x) ، x^2/4 ، √(x) ، abs(x−2). اسحب لتحريك الرسم، وبإصبعين أو عجلة الفأرة للتكبير. الزوايا حسب وحدة الزاوية المختارة.</p>
     </div>
+  </section>
+
+  <!-- التفاضل والتكامل -->
+  <section class="panel" id="p-calc2" hidden>
+    <div class="card">
+      <h3>التكامل المحدود ∫f(x)dx</h3>
+      <div class="grid" style="grid-template-columns:2fr 1fr 1fr">
+        <div class="field"><label>f(x)</label><input class="inp ltr" id="iF" value="x^2" autocomplete="off" spellcheck="false"></div>
+        <div class="field"><label>من a</label><input class="inp" id="iA" value="0"></div>
+        <div class="field"><label>إلى b</label><input class="inp" id="iB" value="3"></div>
+      </div>
+      <button class="btn" id="iGo">احسب التكامل</button>
+      <div class="out" id="iOut"></div>
+    </div>
+    <div class="card">
+      <h3>المشتقة d/dx عند نقطة</h3>
+      <div class="grid" style="grid-template-columns:2fr 1fr">
+        <div class="field"><label>f(x)</label><input class="inp ltr" id="dF" value="x^3" autocomplete="off" spellcheck="false"></div>
+        <div class="field"><label>عند x =</label><input class="inp" id="dX" value="2"></div>
+      </div>
+      <button class="btn" id="dGo">احسب المشتقة</button>
+      <div class="out" id="dOut"></div>
+    </div>
+    <div class="card">
+      <h3>حلّ المعادلة f(x) = 0 (SOLVE)</h3>
+      <div class="grid" style="grid-template-columns:2fr 1fr">
+        <div class="field"><label>f(x)</label><input class="inp ltr" id="sF" value="x^2-2" autocomplete="off" spellcheck="false"></div>
+        <div class="field"><label>تخمين x₀</label><input class="inp" id="sG" value="1"></div>
+      </div>
+      <button class="btn" id="sGo">حلّ</button>
+      <div class="out" id="sOut"></div>
+    </div>
+    <div class="card">
+      <h3>النهاية lim x→a</h3>
+      <div class="grid" style="grid-template-columns:2fr 1fr">
+        <div class="field"><label>f(x)</label><input class="inp ltr" id="lF" value="sin(x)/x" autocomplete="off" spellcheck="false"></div>
+        <div class="field"><label>x → a</label><input class="inp" id="lA" value="0"></div>
+      </div>
+      <button class="btn" id="lGo">احسب النهاية</button>
+      <div class="out" id="lOut"></div>
+    </div>
+    <p class="hint" style="padding:0 6px">التكامل والمشتقة والنهاية تقريبية بطرق عددية دقيقة، والحلول تُبحث ضمن النطاق [−50, 50]. الزوايا حسب وحدة الزاوية الحالية.</p>
   </section>
 
   <!-- المعادلات -->
@@ -214,6 +273,130 @@ dialog h2{font-size:17px;margin-bottom:12px}
       <div class="out" id="eqOut"></div>
     </div>
     <p class="hint" style="padding:0 6px">يمكنك كتابة معاملات مثل 1/2 أو √3 أو 2π داخل الخانات.</p>
+  </section>
+
+  <!-- جدول القيم -->
+  <section class="panel" id="p-table" hidden>
+    <div class="card">
+      <h3>جدول القيم لـ f(x)</h3>
+      <div class="grid" style="grid-template-columns:2fr 1fr 1fr 1fr">
+        <div class="field"><label>f(x)</label><input class="inp ltr" id="tF" value="x^2-1" autocomplete="off" spellcheck="false"></div>
+        <div class="field"><label>من</label><input class="inp" id="tA" value="-2"></div>
+        <div class="field"><label>إلى</label><input class="inp" id="tB" value="2"></div>
+        <div class="field"><label>الخطوة</label><input class="inp" id="tS" value="0.5"></div>
+      </div>
+      <button class="btn" id="tBuild">أنشئ الجدول</button>
+      <div id="tOut"></div>
+    </div>
+    <p class="hint" style="padding:0 6px">الحد الأقصى 200 صف. الزوايا حسب وحدة الزاوية الحالية.</p>
+  </section>
+
+  <!-- المصفوفات -->
+  <section class="panel" id="p-mat" hidden>
+    <div class="card">
+      <h3>حجم المصفوفة</h3>
+      <div class="seg" id="mSize" style="margin-bottom:8px">
+        <button data-n="2" aria-pressed="false">2 × 2</button><button data-n="3" aria-pressed="true">3 × 3</button>
+      </div>
+      <h3>المصفوفة A</h3>
+      <div id="mA"></div>
+      <h3 style="margin-top:10px">المصفوفة B</h3>
+      <div id="mB"></div>
+    </div>
+    <div class="card">
+      <h3>العملية</h3>
+      <select class="sel" id="mOp">
+        <option value="det">المحدّد det(A)</option>
+        <option value="inv">المعكوس A⁻¹</option>
+        <option value="tr">المنقولة Aᵀ</option>
+        <option value="add">A + B</option>
+        <option value="sub">A − B</option>
+        <option value="mul">A × B</option>
+      </select>
+      <button class="btn" id="mGo">احسب</button>
+      <div class="out" id="mOut"></div>
+    </div>
+  </section>
+
+  <!-- المتجهات -->
+  <section class="panel" id="p-vec" hidden>
+    <div class="card">
+      <h3>البعد</h3>
+      <div class="seg" id="vDim" style="margin-bottom:8px">
+        <button data-n="2" aria-pressed="false">2D</button><button data-n="3" aria-pressed="true">3D</button>
+      </div>
+      <h3>المتجه u</h3><div id="vU"></div>
+      <h3 style="margin-top:10px">المتجه v</h3><div id="vV"></div>
+    </div>
+    <div class="card">
+      <h3>العملية</h3>
+      <select class="sel" id="vOp">
+        <option value="add">u + v</option>
+        <option value="sub">u − v</option>
+        <option value="dot">الضرب القياسي u · v</option>
+        <option value="cross">الضرب الاتجاهي u × v (3D)</option>
+        <option value="mag">الطول |u| و |v|</option>
+        <option value="ang">الزاوية بين u و v</option>
+      </select>
+      <button class="btn" id="vGo">احسب</button>
+      <div class="out" id="vOut"></div>
+    </div>
+  </section>
+
+  <!-- الأعداد المركبة -->
+  <section class="panel" id="p-cx" hidden>
+    <div class="card">
+      <h3>z₁ = a + bi</h3>
+      <div class="grid" style="grid-template-columns:1fr 1fr">
+        <div class="field"><label>الجزء الحقيقي a</label><input class="inp" id="c1a" value="3"></div>
+        <div class="field"><label>الجزء التخيلي b</label><input class="inp" id="c1b" value="4"></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>z₂ = c + di</h3>
+      <div class="grid" style="grid-template-columns:1fr 1fr">
+        <div class="field"><label>الجزء الحقيقي c</label><input class="inp" id="c2a" value="1"></div>
+        <div class="field"><label>الجزء التخيلي d</label><input class="inp" id="c2b" value="-2"></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>العملية</h3>
+      <select class="sel" id="cOp">
+        <option value="add">z₁ + z₂</option>
+        <option value="sub">z₁ − z₂</option>
+        <option value="mul">z₁ × z₂</option>
+        <option value="div">z₁ ÷ z₂</option>
+        <option value="mod">|z₁| والوسيطة arg(z₁)</option>
+        <option value="conj">المرافق z̄₁</option>
+        <option value="pow">z₁²</option>
+      </select>
+      <button class="btn" id="cGo">احسب</button>
+      <div class="out" id="cOutBox"></div>
+    </div>
+  </section>
+
+  <!-- الاحتمالات -->
+  <section class="panel" id="p-dist" hidden>
+    <div class="card">
+      <h3>التوزيع</h3>
+      <select class="sel" id="dType">
+        <option value="norm">التوزيع الطبيعي N(μ, σ)</option>
+        <option value="std">التوزيع الطبيعي المعياري Z</option>
+        <option value="bin">ذي الحدين B(n, p)</option>
+        <option value="poi">بواسون P(λ)</option>
+      </select>
+      <div class="grid" id="dFields" style="grid-template-columns:1fr 1fr 1fr;margin-top:10px"></div>
+      <button class="btn" id="dDo">احسب</button>
+      <div class="out" id="dDOut"></div>
+    </div>
+  </section>
+
+  <!-- الثوابت -->
+  <section class="panel" id="p-const" hidden>
+    <div class="card">
+      <h3>ثوابت فيزيائية (اضغط لإدراجها في الحاسبة)</h3>
+      <div id="constList"></div>
+    </div>
   </section>
 
   <!-- تحويل الوحدات -->
@@ -293,11 +476,11 @@ const AR='٠١٢٣٤٥٦٧٨٩';
 const ar2en=s=>String(s).replace(/[٠-٩]/g,d=>AR.indexOf(d)).replace(/[۰-۹]/g,d=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(d)).replace(/٫/g,'.').replace(/،/g,',');
 
 const S={tokens:[],cur:0,answered:false,result:null,preview:null,err:null,ans:0,shift:false,hyp:false,pending:null,
-  angle:'deg',theme:'night',digits:'en',places:'auto',vibrate:true,mode:'dec',
+  angle:'deg',theme:'night',digits:'en',places:'auto',vibrate:true,mode:'dec',eng:false,morePad:false,
   vars:{A:0,B:0,C:0,D:0,X:0,Y:0,M:0},history:[]};
 Object.assign(S,store.get('hassab:s',{}));
 S.history=store.get('hassab:h',[]);
-const saveS=()=>store.set('hassab:s',{angle:S.angle,theme:S.theme,digits:S.digits,places:S.places,vibrate:S.vibrate,mode:S.mode,vars:S.vars,ans:S.ans});
+const saveS=()=>store.set('hassab:s',{angle:S.angle,theme:S.theme,digits:S.digits,places:S.places,vibrate:S.vibrate,mode:S.mode,vars:S.vars,ans:S.ans,eng:S.eng});
 
 let toastT;
 function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('on'),1700)}
@@ -306,11 +489,23 @@ function copyText(t){
   if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(t).then(done,()=>fb())}else fb();
   function fb(){const a=document.createElement('textarea');a.value=t;a.style.position='fixed';a.style.opacity='0';document.body.appendChild(a);a.select();try{document.execCommand('copy');done()}catch(e){toast('تعذّر النسخ')}a.remove()}
 }
+function showPanel(p,focus){
+  $$('.tab').forEach(t=>t.setAttribute('aria-selected',t.dataset.p===p));
+  $$('.panel').forEach(x=>x.hidden=x.id!=='p-'+p);
+  if(p==='graph')requestAnimationFrame(gDraw);
+  if(focus){const el=document.getElementById(focus);if(el)el.focus()}
+}
 
 /* ============ تنسيق الأرقام ============ */
 function numParts(x,places){
   let neg=x<0,a=Math.abs(x),int,frac='',exp=null;
   if(a===0)return{neg:false,int:'0',frac:'',exp:null};
+  if(S.eng){
+    const e=3*Math.floor(Math.log10(a)/3);
+    const m=Number((a/Math.pow(10,e)).toPrecision(12));
+    const[i,f='']=String(m).split('.');
+    return{neg,int:i,frac:f,exp:e===0?null:e};
+  }
   if(a>=1e15||(places==='auto'&&a<1e-6)){
     const s=Number(a.toPrecision(12)).toExponential();const[m,e]=s.split('e');const[i,f='']=m.split('.');int=i;frac=f;exp=parseInt(e,10);
   }else if(places==='auto'){
@@ -321,6 +516,7 @@ function numParts(x,places){
   return{neg,int,frac,exp};
 }
 function F(x,o={}){
+  if(!Number.isFinite(x))return'∞';
   const html=!!o.html,group=o.group!==false,ar=o.ar===undefined?S.digits==='ar':o.ar;
   const p=numParts(x,o.places||S.places);
   const dig=t=>ar?t.replace(/\d/g,d=>AR[d]).replace('.','٫'):t;
@@ -329,6 +525,7 @@ function F(x,o={}){
   if(p.exp!==null){const es=(p.exp<0?'−':'')+dig(String(Math.abs(p.exp)));out+=html?`×10<sup>${es}</sup>`:`×10^${es}`}
   return out;
 }
+const fmtN=(x)=>F(Number(Number(x).toPrecision(12)),{group:false,ar:false});
 function numToTokens(x){
   let s=String(Number(x.toPrecision(14))),t=[];
   if(s[0]==='-'){t.push('−');s=s.slice(1)}
@@ -341,8 +538,8 @@ function numToTokens(x){
 class MathErr extends Error{}
 class SynErr extends Error{}
 const SYN='الصيغة غير صحيحة، راجع العملية';
-const NAMES=['asinh','acosh','atanh','sinh','cosh','tanh','asin','acos','atan','sin','cos','tan','log','ln','sqrt','cbrt','abs','exp','root','gcd','lcm','ceil','floor','round','nPr','nCr','mod','Ans','Ran#','pi'].sort((a,b)=>b.length-a.length);
-const FUNCS=new Set(['sin','cos','tan','asin','acos','atan','sinh','cosh','tanh','asinh','acosh','atanh','log','ln','√','∛','abs','exp','root','gcd','lcm','ceil','floor','round']);
+const NAMES=['asinh','acosh','atanh','sinh','cosh','tanh','asin','acos','atan','sin','cos','tan','cot','log','ln','sqrt','cbrt','abs','exp','root','gcd','lcm','ceil','floor','round','nPr','nCr','mod','Ans','Ran#','ranint','logb','pol','rec','arg','dms','pi'].sort((a,b)=>b.length-a.length);
+const FUNCS=new Set(['sin','cos','tan','asin','acos','atan','sinh','cosh','tanh','asinh','acosh','atanh','cot','log','ln','√','∛','abs','exp','root','gcd','lcm','ceil','floor','round','logb','pol','rec','arg','ranint','dms']);
 
 function tokenize(src){
   const s=ar2en(src),out=[];let i=0;
@@ -385,7 +582,6 @@ function evalTk(tk,env){
   const chk=(n,r)=>{if(!isInt(n)||!isInt(r)||n<0||r<0||r>n)throw new MathErr('في التباديل والتوافيق يجب أن يكون n ≥ r ≥ 0 وصحيحين')};
   const gcd2=(a,b)=>{a=Math.abs(a);b=Math.abs(b);while(b){[a,b]=[b,a%b]}return a};
   const pw=(b,e)=>{const r=Math.pow(b,e);if(Number.isNaN(r))throw new MathErr('غير معرّفة في الأعداد الحقيقية');return r};
-  const peek=()=>tk[p];
   const isOp=v=>tk[p]&&tk[p].t==='op'&&tk[p].v===v;
   const isId=v=>tk[p]&&tk[p].t==='id'&&tk[p].v===v;
   const startsPrimary=()=>{const t=tk[p];if(!t)return false;if(t.t==='num'||t.t==='var')return true;if(t.t==='op')return t.v==='(';return!['mod','nPr','nCr'].includes(t.v)};
@@ -396,6 +592,7 @@ function evalTk(tk,env){
       case'sin':{const e=trigExact(x,'sin');return e!==undefined?e:clean(Math.sin(toR(x)))}
       case'cos':{const e=trigExact(x,'cos');return e!==undefined?e:clean(Math.cos(toR(x)))}
       case'tan':{const e=trigExact(x,'tan');return e!==undefined?e:clean(Math.tan(toR(x)))}
+      case'cot':{const t=Math.tan(toR(x));if(Math.abs(t)<1e-13||!isFinite(1/t))throw new MathErr('الظل تمام غير معرّف هنا');return clean(1/t)}
       case'asin':if(Math.abs(x)>1)throw new MathErr('المجال المسموح: من −1 إلى 1');return clean(fromR(Math.asin(x)));
       case'acos':if(Math.abs(x)>1)throw new MathErr('المجال المسموح: من −1 إلى 1');return clean(fromR(Math.acos(x)));
       case'atan':return clean(fromR(Math.atan(x)));
@@ -405,6 +602,7 @@ function evalTk(tk,env){
       case'atanh':if(Math.abs(x)>=1)throw new MathErr('المجال المسموح: من −1 إلى 1 (مفتوح)');return clean(Math.atanh(x));
       case'log':if(x<=0)throw new MathErr('اللوغاريتم معرّف للأعداد الموجبة فقط');return clean(Math.log10(x));
       case'ln':if(x<=0)throw new MathErr('اللوغاريتم معرّف للأعداد الموجبة فقط');return clean(Math.log(x));
+      case'logb':{const b=a[0],v=a[1];if(v===undefined)throw new SynErr(SYN);if(b<=0||b===1)throw new MathErr('أساس اللوغاريتم يجب أن يكون موجبًا ولا يساوي 1');if(v<=0)throw new MathErr('اللوغاريتم معرّف للأعداد الموجبة فقط');return clean(Math.log(v)/Math.log(b))}
       case'√':if(x<0)throw new MathErr('جذر عدد سالب غير معرّف في الأعداد الحقيقية');return clean(Math.sqrt(x));
       case'∛':return clean(Math.cbrt(x));
       case'abs':return Math.abs(x);
@@ -416,6 +614,11 @@ function evalTk(tk,env){
       case'lcm':if(!a.every(isInt))throw new MathErr('المضاعف المشترك للأعداد الصحيحة فقط');return a.reduce((u,v)=>(u===0||v===0)?0:Math.abs(u*v)/gcd2(u,v));
       case'floor':return Math.floor(x);case'ceil':return Math.ceil(x);
       case'round':{const d=a[1]||0,f=Math.pow(10,d);return Math.round(x*f)/f}
+      case'pol':{if(a[1]===undefined)throw new SynErr(SYN);return clean(Math.hypot(a[0],a[1]))}
+      case'rec':{if(a[1]===undefined)throw new SynErr(SYN);return clean(a[0]*Math.cos(toR(a[1])))}
+      case'arg':{if(a[1]===undefined)throw new SynErr(SYN);return clean(fromR(Math.atan2(a[1],a[0])))}
+      case'ranint':{const lo=a[0],hi=a[1];if(hi===undefined)throw new SynErr(SYN);if(!isInt(lo)||!isInt(hi)||hi<lo)throw new MathErr('الحدود يجب أن تكون صحيحة وأصغر ≤ أكبر');return lo+Math.floor(Math.random()*(hi-lo+1))}
+      case'dms':{const d=a[0],m=a[1]||0,s=a[2]||0;const sg=d<0?-1:1;return sg*(Math.abs(d)+m/60+s/3600)}
     }
     throw new SynErr(SYN);
   }
@@ -492,6 +695,8 @@ function evalTk(tk,env){
 }
 const evaluate=(str,env={})=>evalTk(tokenize(str),Object.assign({angle:'rad',Ans:S.ans},env));
 const calcEnv=()=>Object.assign({},S.vars,{Ans:S.ans,angle:S.angle});
+/* دالة قابلة للاستدعاء من f(x) نصية */
+function fnOf(src){const tk=tokenize(src);return x=>evalTk(tk,Object.assign({},S.vars,{x,X:x,Ans:S.ans,angle:S.angle}))}
 
 /* ============ الصيغ الدقيقة (كسر / جذر / π) ============ */
 function toFrac(x,maxD=99999){
@@ -530,7 +735,7 @@ function resultHTML(v){
 }
 
 /* ============ عرض العملية ============ */
-const DISP={'asin(':'sin⁻¹(','acos(':'cos⁻¹(','atan(':'tan⁻¹(','asinh(':'sinh⁻¹(','acosh(':'cosh⁻¹(','atanh(':'tanh⁻¹(','root(':'ʸ√(','nPr':' nPr ','nCr':' nCr ','mod':' mod '};
+const DISP={'asin(':'sin⁻¹(','acos(':'cos⁻¹(','atan(':'tan⁻¹(','asinh(':'sinh⁻¹(','acosh(':'cosh⁻¹(','atanh(':'tanh⁻¹(','root(':'ʸ√(','nPr':' nPr ','nCr':' nCr ','mod':' mod ','logb(':'log_b(','ranint(':'RanInt(','dms(':"°'\"(",'pol(':'Pol(','rec(':'Rec(','arg(':'Arg('};
 const ATOM=/^(\d|\.|[A-DXYMx]|π|e|Ans|Ran#)$/;
 function dispTok(t){
   let s=DISP[t]||t;
@@ -559,13 +764,13 @@ function exprHTML(tokens,cur,caretOn){
   return h;
 }
 
-/* ============ لوحة المفاتيح ============ */
+/* ============ لوحات المفاتيح ============ */
 const T=(t,k)=>({t,k});
 let KEYS=[];
-function keyDefs(){
+const dg=c=>({l:c,cls:'num',m:T([c],'c'),a:c});
+function keyMain(){
   const h=S.hyp?'h':'';
   const trig=n=>({l:n+h,s:n+h+'<sup>−1</sup>',m:T([n+h+'('],'c'),sh:T(['a'+n+h+'('],'c'),a:n});
-  const dg=c=>({l:c,cls:'num',m:T([c],'c'),a:c});
   return[
     {l:'SHIFT',cls:S.shift?'on':'',m:{fn:'shift'},a:'SHIFT'},{l:'HYP',cls:S.hyp?'on':'',m:{fn:'hyp'},a:'hyperbolic'},
     {l:S.angle.toUpperCase(),m:{fn:'angle'},a:'وحدة الزاوية'},{l:'◀',m:{fn:'left'},a:'يسار'},{l:'▶',m:{fn:'right'},a:'يمين'},
@@ -584,19 +789,56 @@ function keyDefs(){
     {l:'Ans',s:'Rnd',m:T(['Ans'],'c'),sh:T(['round('],'c'),a:'الجواب السابق'},
     {l:'(',s:'⌊x⌋',m:T(['('],'c'),sh:T(['floor('],'c')},
     {l:')',s:'⌈x⌉',m:T([')'],'c'),sh:T(['ceil('],'c')},
-    {l:'%',m:T(['%'],'post')},
+    {l:'(−)',m:T(['−'],'c'),a:'سالب'},
     {l:'STO',s:'RCL',m:{fn:'sto'},sh:{fn:'rcl'},a:'تخزين'},
     {l:'M+',s:'M−',m:{fn:'mplus'},sh:{fn:'mminus'},a:'ذاكرة'},
+    {l:"°'\"",m:T(['dms('],'c'),a:'درجات ودقائق وثواني'},
+    {l:'x!',s:'FACT',m:T(['!'],'post'),a:'مضروب'},
+    {l:'%',m:T(['%'],'post'),a:'نسبة مئوية'},
+    {l:'Cot',m:T(['cot('],'c'),a:'ظل تمام'},
+    {l:'Pol',m:T(['pol('],'c'),a:'إحداثيات قطبية'},
     dg('7'),dg('8'),dg('9'),{l:'DEL',cls:'dl',m:{fn:'del'},a:'حذف'},{l:'AC',cls:'dl',m:{fn:'ac'},a:'مسح الكل'},
     dg('4'),dg('5'),dg('6'),{l:'×',cls:'op',m:T(['×'],'bin'),a:'ضرب'},{l:'÷',cls:'op',m:T(['÷'],'bin'),a:'قسمة'},
     dg('1'),dg('2'),dg('3'),{l:'+',cls:'op',m:T(['+'],'bin'),a:'جمع'},{l:'−',cls:'op',m:T(['−'],'bin'),a:'طرح'},
-    dg('0'),dg('.'),{l:'×10<sup>x</sup>',cls:'num',m:{fn:'exp'},a:'أس عشرة',},{l:'=',cls:'eq',m:{fn:'eq'},a:'يساوي'}
+    dg('0'),dg('.'),{l:'×10<sup>x</sup>',cls:'num',m:{fn:'exp'},a:'أس عشرة'},{l:'=',cls:'eq',m:{fn:'eq'},a:'يساوي'}
+  ];
+}
+function keyMore(){
+  return[
+    {l:'a b/c',m:{fn:'frac'},a:'كسر'},
+    {l:'ENG',m:{fn:'eng'},a:'تدوين هندسي'},
+    {l:"°'\"",m:T(['dms('],'c'),a:'درجات ودقائق وثواني'},
+    {l:'Cot',m:T(['cot('],'c'),a:'ظل تمام'},
+    {l:'Pol',m:T(['pol('],'c'),a:'إحداثيات قطبية r'},
+    {l:'Rec',m:T(['rec('],'c'),a:'إحداثيات ديكارتية x'},
+    {l:'Arg',m:T(['arg('],'c'),a:'زاوية الإحداثيات القطبية'},
+    {l:'logb',m:T(['logb('],'c'),a:'لوغاريتم بأي أساس'},
+    {l:'⌈x⌉',m:T(['ceil('],'c'),a:'تقريب لأعلى'},
+    {l:'⌊x⌋',m:T(['floor('],'c'),a:'تقريب لأسفل'},
+    {l:'∫dx',m:{tab:'calc2',focus:'iF'},a:'تكامل'},
+    {l:'d/dx',m:{tab:'calc2',focus:'dF'},a:'مشتقة'},
+    {l:'SOLVE',m:{tab:'calc2',focus:'sF'},a:'حل معادلة'},
+    {l:'Limit',m:{tab:'calc2',focus:'lF'},a:'نهاية'},
+    {l:'CONST',m:{tab:'const'},a:'ثوابت'},
+    {l:'MAT',m:{tab:'mat'},a:'مصفوفات'},
+    {l:'VEC',m:{tab:'vec'},a:'متجهات'},
+    {l:'CMPLX',m:{tab:'cx'},a:'أعداد مركبة'},
+    {l:'DISTR',m:{tab:'dist'},a:'توزيعات احتمالية'},
+    {l:'RanInt',m:T(['ranint('],'c'),a:'عدد صحيح عشوائي'},
+    {l:'Rnd',m:T(['round('],'c'),a:'تقريب'},
+    {l:'PreAns',m:T(['Ans'],'c'),a:'الجواب السابق'},
+    {l:'COPY',m:{fn:'copy'},a:'نسخ'},
+    {l:'PASTE',m:{fn:'paste'},a:'لصق'},
+    {l:'%',m:T(['%'],'post'),a:'نسبة مئوية'},
+    {l:'MAIN',m:{fn:'main'},a:'العودة للوحة الرئيسية'}
   ];
 }
 function buildPad(){
-  KEYS=keyDefs();
-  $('#pad').innerHTML=KEYS.map((k,i)=>`<button class="k ${k.cls||''}" data-k="${i}" ${k.sh?'data-sh':''} aria-label="${k.a||k.l.replace(/<[^>]+>/g,'')}"><span class="lb">${k.l}</span>${k.s?`<span class="sh">${k.s}</span>`:''}</button>`).join('');
-  $('#pad').classList.toggle('shifted',S.shift);
+  KEYS=S.morePad?keyMore():keyMain();
+  $('#pad').innerHTML=KEYS.map((k,i)=>`<button class="k ${k.cls||''}${S.morePad?' sm':''}" data-k="${i}" ${k.sh?'data-sh':''} aria-label="${k.a||k.l.replace(/<[^>]+>/g,'')}"><span class="lb">${k.l}</span>${k.s?`<span class="sh">${k.s}</span>`:''}</button>`).join('');
+  $('#pad').classList.toggle('shifted',S.shift&&!S.morePad);
+  $('#btnMore').classList.toggle('on',S.morePad);
+  $('#btnEng').classList.toggle('on',S.eng);
 }
 
 /* ============ منطق الحاسبة ============ */
@@ -613,7 +855,7 @@ function insert(toks,kind){
 function currentValue(){
   if(S.answered)return S.result;
   if(!S.tokens.length)return S.ans;
-  try{return evalTk(S.tokens.map(t=>t).join('')?tokenize(S.tokens.join('')):[],calcEnv())}catch(e){return null}
+  try{return evalTokens(S.tokens)}catch(e){return null}
 }
 function evalTokens(tokens){return evalTk(tokenize(tokens.join('')),calcEnv())}
 function equals(){
@@ -635,7 +877,7 @@ function update(){
   render();
 }
 const ACT={
-  shift(){S.shift=!S.shift;render();return'keep'},
+  shift(){S.shift=!S.shift;render()},
   hyp(){S.hyp=!S.hyp;buildPad();render()},
   angle(){S.angle={deg:'rad',rad:'grad',grad:'deg'}[S.angle];saveS();buildPad();update()},
   left(){S.answered=false;S.cur=Math.max(0,S.cur-1);update()},
@@ -647,40 +889,54 @@ const ACT={
     if(prev&&/^[\d.]$/.test(prev))insert(['E'],'c');
     else if(S.answered||S.tokens.length)insert(['×','1','0','^'],'post');
     else insert(['1','0','^'],'c')},
-  sto(){S.pending=S.pending==='sto'?null:'sto';render();return'keep'},
-  rcl(){S.pending=S.pending==='rcl'?null:'rcl';render();return'keep'},
-  mplus(){const v=currentValue();if(v===null||v===undefined)return toast('احسب قيمة صحيحة أولاً');S.vars.M+=v;saveS();toast('M = '+F(S.vars.M,{ar:false}));render()},
-  mminus(){const v=currentValue();if(v===null||v===undefined)return toast('احسب قيمة صحيحة أولاً');S.vars.M-=v;saveS();toast('M = '+F(S.vars.M,{ar:false}));render()}
+  sto(){S.pending=S.pending==='sto'?null:'sto';render()},
+  rcl(){S.pending=S.pending==='rcl'?null:'rcl';render()},
+  mplus(){const v=currentValue();if(v===null||v===undefined)return toast('احسب قيمة صحيحة أولاً');S.vars.M+=v;saveS();toast('M = '+fmtN(S.vars.M));render()},
+  mminus(){const v=currentValue();if(v===null||v===undefined)return toast('احسب قيمة صحيحة أولاً');S.vars.M-=v;saveS();toast('M = '+fmtN(S.vars.M));render()},
+  frac(){
+    startFresh('c');S.err=null;
+    const at=S.cur;S.tokens.splice(at,0,'(',')','÷','(',')');S.cur=at+1;update();
+  },
+  eng(){S.eng=!S.eng;saveS();render();renderHistory();toast(S.eng?'تدوين هندسي: مفعّل':'تدوين هندسي: متوقف')},
+  copy(){$('#btnCopy').click()},
+  paste(){
+    const insertText=t=>{
+      let toks;try{toks=tokenize(t).flatMap(x=>x.t==='num'?numToTokens(x.v):[x.v])}catch(e){return toast('النص الملصوق غير صالح')}
+      insert(toks,'c');
+    };
+    if(navigator.clipboard&&navigator.clipboard.readText){
+      navigator.clipboard.readText().then(insertText,()=>toast('تعذّر اللصق'));
+    }else toast('اللصق غير مدعوم في هذا المتصفح');
+  },
+  main(){S.morePad=false;buildPad();render()}
 };
 function press(i){
   const k=KEYS[i];vib();
   const a=(S.shift&&k.sh)?k.sh:k.m;
   const wasShift=S.shift;
-  if(!['sto','rcl'].includes(a.fn))S.pending=null;
-  let r;
-  if(a.fn)r=ACT[a.fn]();else insert(a.t,a.k);
+  if(a.fn!=='sto'&&a.fn!=='rcl')S.pending=null;
+  if(a.tab){showPanel(a.tab,a.focus)}
+  else if(a.fn)ACT[a.fn]();
+  else insert(a.t,a.k);
   if(wasShift&&a.fn!=='shift'){S.shift=false;$('#pad').classList.remove('shifted');render()}
 }
 function chooseVar(v){
   if(S.pending==='sto'){
     const val=currentValue();
     if(val===null||val===undefined){toast('اكتب أو احسب قيمة صحيحة أولاً');return}
-    S.vars[v]=val;saveS();toast(`تم حفظ ${F(val,{ar:false})} في ${v}`);S.pending=null;render();
+    S.vars[v]=val;saveS();toast(`تم حفظ ${fmtN(val)} في ${v}`);S.pending=null;render();
   }else if(S.pending==='rcl'){S.pending=null;insert([v],'c')}
 }
 
 /* ============ الرسم على الشاشة ============ */
 function render(){
-  // chips
-  const ch=[['SHIFT',S.shift],['HYP',S.hyp],[S.angle.toUpperCase(),true],['M',S.vars.M!==0],['STO',S.pending==='sto'],['RCL',S.pending==='rcl']];
+  const ch=[['SHIFT',S.shift],['HYP',S.hyp],[S.angle.toUpperCase(),true],['ENG',S.eng],['M',S.vars.M!==0],['STO',S.pending==='sto'],['RCL',S.pending==='rcl']];
   $('#chips').innerHTML=ch.map(([t,on])=>`<span class="${on?'on':''}">${t}</span>`).join('');
-  // expression
   const ex=$('#expr');
   ex.innerHTML=exprHTML(S.tokens,S.cur,!S.answered);
   const c=ex.querySelector('.caret');
   if(c){const L=c.offsetLeft;if(L>ex.scrollLeft+ex.clientWidth-24)ex.scrollLeft=L-ex.clientWidth+48;else if(L<ex.scrollLeft+10)ex.scrollLeft=Math.max(0,L-48)}
   else if(S.answered)ex.scrollLeft=0;
-  // result
   const res=$('#res'),r2=$('#res2');let main='',sub='',cls='';
   if(S.err){main=S.err;cls='err'}
   else{
@@ -689,16 +945,14 @@ function render(){
     else if(!S.tokens.length)main=F(0,{html:true});
   }
   res.className='res '+cls;res.innerHTML=main;r2.innerHTML=sub;
-  // pad
-  $('#pad').classList.toggle('shifted',S.shift);
-  const sk=$('#pad .k[data-k="0"]');if(sk)sk.classList.toggle('on',S.shift);
-  const hk=$('#pad .k[data-k="1"]');if(hk)hk.classList.toggle('on',S.hyp);
-  // var bar
+  $('#pad').classList.toggle('shifted',S.shift&&!S.morePad);
+  const sk=$('#pad .k[data-k="0"]');if(sk&&!S.morePad)sk.classList.toggle('on',S.shift);
+  const hk=$('#pad .k[data-k="1"]');if(hk&&!S.morePad)hk.classList.toggle('on',S.hyp);
   const vb=$('#varbar');
   if(S.pending){
     vb.classList.add('on');
     vb.innerHTML=`<span class="lbl">${S.pending==='sto'?'احفظ في:':'استدعِ:'}</span>`+
-      Object.keys(S.vars).map(k=>`<button data-v="${k}">${k}<small>${F(S.vars[k],{ar:false,group:false,places:'auto'}).slice(0,9)}</small></button>`).join('')+
+      Object.keys(S.vars).map(k=>`<button data-v="${k}">${k}<small>${F(S.vars[k],{ar:false,group:false}).slice(0,9)}</small></button>`).join('')+
       `<button data-v="_clr" style="color:var(--danger)">تصفير</button><button data-v="_x">✕</button>`;
   }else{vb.classList.remove('on');vb.innerHTML=''}
 }
@@ -710,6 +964,8 @@ function renderHistory(){
 
 /* ============ أحداث الحاسبة ============ */
 $('#pad').addEventListener('click',e=>{const b=e.target.closest('.k');if(b)press(+b.dataset.k)});
+$('#btnMore').onclick=()=>{S.morePad=!S.morePad;buildPad();render()};
+$('#btnEng').onclick=()=>ACT.eng();
 $('#varbar').addEventListener('click',e=>{
   const b=e.target.closest('button');if(!b)return;const v=b.dataset.v;
   if(v==='_x'){S.pending=null;render()}
@@ -752,9 +1008,7 @@ document.addEventListener('keydown',e=>{
 /* ============ التبويبات ============ */
 $('#tabs').addEventListener('click',e=>{
   const b=e.target.closest('.tab');if(!b)return;
-  $$('.tab').forEach(t=>t.setAttribute('aria-selected',t===b));
-  $$('.panel').forEach(p=>p.hidden=p.id!=='p-'+b.dataset.p);
-  if(b.dataset.p==='graph')requestAnimationFrame(gDraw);
+  showPanel(b.dataset.p);
 });
 
 /* ============ الإعدادات ============ */
@@ -774,8 +1028,8 @@ $$('#dlg .seg').forEach(g=>g.addEventListener('click',e=>{
   if(k==='vibrate')S.vibrate=v==='1';else S[k]=v;
   saveS();applyTheme();syncSettings();render();renderHistory();convRun();baseRun();statsRun();gDraw();
 }));
-$('#resetAll').onclick=()=>{store.clear();S.history=[];S.vars={A:0,B:0,C:0,D:0,X:0,Y:0,M:0};S.ans=0;S.tokens=[];S.cur=0;S.answered=false;
-  renderHistory();render();toast('تم مسح البيانات المحفوظة')};
+$('#resetAll').onclick=()=>{store.clear();S.history=[];S.vars={A:0,B:0,C:0,D:0,X:0,Y:0,M:0};S.ans=0;S.tokens=[];S.cur=0;S.answered=false;S.eng=false;
+  renderHistory();buildPad();render();toast('تم مسح البيانات المحفوظة')};
 
 /* ============ الرسم البياني ============ */
 const G={cx:0,cy:0,s:48,fns:[null,null,null],cols:['#1f5fd1','#c2410c','#0b7a55'],pts:new Map(),trace:null,moved:false,pinch:0};
@@ -788,11 +1042,7 @@ function gCompile(i){
   const el=$('#gf'+i);const v=el.value.trim().replace(/^(y|f\(x\))\s*=/i,'');
   el.classList.remove('bad');
   if(!v){G.fns[i]=null;return}
-  try{
-    const tk=tokenize(v);let ok=false;
-    for(const x of [0.5,1,2,-1.5,3.7]){try{evalTk(tk,{x,X:x,angle:'rad',Ans:0});ok=true;break}catch(e){if(e instanceof SynErr)throw e}}
-    G.fns[i]=tk;
-  }catch(e){G.fns[i]=null;el.classList.add('bad')}
+  try{G.fns[i]=tokenize(v)}catch(e){G.fns[i]=null;el.classList.add('bad')}
 }
 function gDraw(){
   const cv=$('#gcv');if(!cv||$('#p-graph').hidden)return;
@@ -817,7 +1067,7 @@ function gDraw(){
   for(let i=Math.ceil(x0/step);i*step<=x1;i++){if(i===0)continue;ctx.fillText(lab(i*step),X(i*step),Math.min(Math.max(ay+13,12),h-4))}
   ctx.textAlign='left';
   for(let i=Math.ceil(y0/step);i*step<=y1;i++){if(i===0)continue;ctx.fillText(lab(i*step),Math.min(Math.max(ax+4,2),w-36),Y(i*step)-3)}
-  const env=Object.assign({},S.vars,{Ans:S.ans,angle:'rad',x:0,X:0});
+  const env=Object.assign({},S.vars,{Ans:S.ans,angle:S.angle,x:0,X:0});
   ctx.lineWidth=2.2;ctx.lineJoin='round';
   G.fns.forEach((tk,i)=>{
     if(!tk)return;ctx.strokeStyle=G.cols[i];ctx.beginPath();let pen=false,py=0;
@@ -870,11 +1120,80 @@ function gDraw(){
   new ResizeObserver(gDraw).observe(cv);
 })();
 
+/* ============ التفاضل والتكامل ============ */
+const row=(l,v)=>`<div class="out-row"><span>${l}</span><b>${v}</b></div>`;
+const errBox=m=>`<div class="out-err">${m}</div>`;
+function run(id,fn){
+  const o=$(id);
+  try{o.innerHTML=fn()}catch(e){o.innerHTML=errBox(e instanceof MathErr||e instanceof SynErr?e.message:SYN)}
+}
+function simpson(f,a,b,n=4000){
+  if(a===b)return 0;
+  if(n%2)n++;const h=(b-a)/n;let s=f(a)+f(b);
+  for(let i=1;i<n;i++)s+=(i%2?4:2)*f(a+i*h);
+  const v=s*h/3;
+  if(!Number.isFinite(v))throw new MathErr('التكامل غير معرّف على هذا المجال');
+  return v;
+}
+$('#iGo').onclick=()=>run('#iOut',()=>{
+  const f=fnOf($('#iF').value),a=evaluate($('#iA').value),b=evaluate($('#iB').value);
+  const v=simpson(f,a,b);
+  return row('∫ من a إلى b',fmtN(v));
+});
+$('#dGo').onclick=()=>run('#dOut',()=>{
+  const f=fnOf($('#dF').value),x0=evaluate($('#dX').value);
+  const h=1e-5*Math.max(1,Math.abs(x0));
+  const d=(f(x0+h)-f(x0-h))/(2*h);
+  if(!Number.isFinite(d))throw new MathErr('المشتقة غير معرّفة عند هذه النقطة');
+  return row(`f'(${fmtN(x0)})`,fmtN(d));
+});
+function bisect(f,a,b){
+  let fa=f(a);
+  for(let i=0;i<200;i++){const m=(a+b)/2,fm=f(m);if(!Number.isFinite(fm))return null;if(Math.sign(fm)===Math.sign(fa)){a=m;fa=fm}else b=m}
+  const r=(a+b)/2;return Math.abs(f(r))<1e-6?r:null;
+}
+function findRoots(f){
+  const out=[],N=10000;let px=-50,py=f(px);
+  for(let i=1;i<=N;i++){
+    const x=-50+i*100/N;const y=f(x);
+    if(y===0&&Number.isFinite(y))out.push(x);
+    else if(Number.isFinite(py)&&Number.isFinite(y)&&Math.sign(py)!==Math.sign(y)){const r=bisect(f,px,x);if(r!==null)out.push(r)}
+    px=x;py=y;
+  }
+  return out.filter((r,i,a)=>a.findIndex(q=>Math.abs(q-r)<1e-7)===i);
+}
+$('#sGo').onclick=()=>run('#sOut',()=>{
+  const f=fnOf($('#sF').value);
+  let rs=findRoots(f);
+  if(!rs.length){
+    let x=evaluate($('#sG').value);
+    for(let i=0;i<100;i++){
+      const h=1e-6*Math.max(1,Math.abs(x)),fx=f(x),d=(f(x+h)-f(x-h))/(2*h);
+      if(!Number.isFinite(d)||d===0)break;
+      const nx=x-fx/d;if(!Number.isFinite(nx))break;
+      if(Math.abs(nx-x)<1e-12){x=nx;break}x=nx;
+    }
+    if(Math.abs(f(x))<1e-8)rs=[x];
+  }
+  if(!rs.length)return errBox('لم يُعثر على حل حقيقي ضمن النطاق [−50, 50]');
+  return rs.map((r,i)=>row('x'+(rs.length>1?'<sub>'+(i+1)+'</sub>':''),fmtN(r))).join('');
+});
+$('#lGo').onclick=()=>run('#lOut',()=>{
+  const f=fnOf($('#lF').value),a=evaluate($('#lA').value);
+  const hs=[1e-3,1e-5,1e-7].map(h=>h*Math.max(1,Math.abs(a)));
+  const L=f(a-hs[2]),R=f(a+hs[2]);
+  const okL=Number.isFinite(L),okR=Number.isFinite(R);
+  if(okL&&okR&&Math.abs(L-R)<1e-5*Math.max(1,Math.abs(L)))return row(`lim x→${fmtN(a)}`,fmtN((L+R)/2));
+  let h=row('من اليسار',okL?fmtN(L):'غير معرّف')+row('من اليمين',okR?fmtN(R):'غير معرّف');
+  return h+errBox('النهاية غير موجودة بالتعريف عند هذه النقطة أو تحتاج تحليلاً دقيقاً');
+});
+
 /* ============ المعادلات ============ */
 const EQS={
   linear:{n:'معادلة من الدرجة الأولى',t:'a·x + b = 0',rows:[[['a','a'],['b','b']]],v:{a:'2',b:'−6'}},
   quad:{n:'معادلة من الدرجة الثانية',t:'a·x² + b·x + c = 0',rows:[[['a','a'],['b','b'],['c','c']]],v:{a:'1',b:'−3',c:'2'}},
   cubic:{n:'معادلة من الدرجة الثالثة',t:'a·x³ + b·x² + c·x + d = 0',rows:[[['a','a'],['b','b'],['c','c'],['d','d']]],v:{a:'1',b:'−6',c:'11',d:'−6'}},
+  quart:{n:'معادلة من الدرجة الرابعة',t:'a·x⁴ + b·x³ + c·x² + d·x + e = 0',rows:[[['a','a'],['b','b'],['c','c'],['d','d'],['e','e']]],v:{a:'1',b:'−10',c:'35',d:'−50',e:'24'}},
   sys2:{n:'نظام معادلتين (x , y)',t:'a₁x + b₁y = c₁   a₂x + b₂y = c₂',rows:[[['a1','x'],['b1','y'],['c1','=']],[['a2','x'],['b2','y'],['c2','=']]],v:{a1:'2',b1:'1',c1:'5',a2:'1',b2:'−1',c2:'1'}},
   sys3:{n:'نظام ثلاث معادلات (x , y , z)',t:'a·x + b·y + c·z = d',rows:[[['a1','x'],['b1','y'],['c1','z'],['d1','=']],[['a2','x'],['b2','y'],['c2','z'],['d2','=']],[['a3','x'],['b3','y'],['c3','z'],['d3','=']]],v:{a1:'1',b1:'1',c1:'1',d1:'6',a2:'0',b2:'2',c2:'5',d2:'−4',a3:'2',b3:'5',c3:'−1',d3:'27'}}
 };
@@ -886,7 +1205,7 @@ function eqBuild(){
 }
 const cx={add:(a,b)=>({re:a.re+b.re,im:a.im+b.im}),sub:(a,b)=>({re:a.re-b.re,im:a.im-b.im}),
   mul:(a,b)=>({re:a.re*b.re-a.im*b.im,im:a.re*b.im+a.im*b.re}),
-  div:(a,b)=>{const d=b.re*b.re+b.im*b.im;return{re:(a.re*b.re+a.im*b.im)/d,im:(a.im*b.re-a.re*b.im)/d}}};
+  div:(a,b)=>{const d=b.re*b.re+b.im*b.im;if(d===0)throw new MathErr('لا يمكن القسمة على صفر');return{re:(a.re*b.re+a.im*b.im)/d,im:(a.im*b.re-a.re*b.im)/d}}};
 function cubicRoots(a,b,c,d){
   const p=[b/a,c/a,d/a],R=1+Math.max(...p.map(Math.abs));
   let z=[0,1,2].map(k=>({re:R*Math.cos(.4+2*Math.PI*k/3),im:R*Math.sin(.4+2*Math.PI*k/3)}));
@@ -896,26 +1215,35 @@ function cubicRoots(a,b,c,d){
   }
   return z.map(v=>({re:Number(v.re.toPrecision(12)),im:Math.abs(v.im)<1e-8*(1+Math.abs(v.re))?0:Number(v.im.toPrecision(12))}));
 }
+function polyRoots(c){
+  const n=c.length-1,a=c[0];const p=c.map(x=>x/a);
+  const R=1+Math.max(...p.slice(1).map(Math.abs));
+  let z=[...Array(n)].map((_,k)=>({re:R*Math.cos(.4+2*Math.PI*k/n),im:R*Math.sin(.4+2*Math.PI*k/n)}));
+  const f=v=>{let r={re:1,im:0};for(let i=1;i<=n;i++)r=cx.add(cx.mul(r,v),{re:p[i],im:0});return r};
+  for(let it=0;it<500;it++){
+    z=z.map((zi,i)=>{let den={re:1,im:0};z.forEach((zj,j)=>{if(j!==i)den=cx.mul(den,cx.sub(zi,zj))});return cx.sub(zi,cx.div(f(zi),den))});
+  }
+  return z.map(v=>({re:Number(v.re.toPrecision(12)),im:Math.abs(v.im)<1e-8*(1+Math.abs(v.re))?0:Number(v.im.toPrecision(12))}));
+}
 function cStr(z){
   const o={group:false};
-  if(!z.im)return F(z.re,o);
-  const im=F(Math.abs(z.im),o)+'i';
+  if(!z.im)return fmtN(z.re);
+  const im=fmtN(Math.abs(z.im))+'i';
   if(!z.re)return(z.im<0?'−':'')+im;
-  return F(z.re,o)+(z.im<0?' − ':' + ')+im;
+  return fmtN(z.re)+(z.im<0?' − ':' + ')+im;
 }
 function det3(m){return m[0][0]*(m[1][1]*m[2][2]-m[1][2]*m[2][1])-m[0][1]*(m[1][0]*m[2][2]-m[1][2]*m[2][0])+m[0][2]*(m[1][0]*m[2][1]-m[1][1]*m[2][0])}
 function eqSolve(){
   const k=$('#eqType').value,out=$('#eqOut'),v={};
   try{
     $$('#eqFields input').forEach(i=>{try{v[i.dataset.id]=evaluate(i.value)}catch(e){throw new Error('قيمة غير صالحة في الخانة «'+i.previousElementSibling.textContent+'» — '+(e.message||SYN))}});
-  }catch(e){out.innerHTML=`<div class="out-err">${e.message}</div>`;return}
-  const row=(l,val)=>`<div class="out-row"><span>${l}</span><b>${val}</b></div>`;
+  }catch(e){out.innerHTML=errBox(e.message);return}
   const o={group:false};let h='';
   if(k==='linear'){
-    if(v.a===0)h=v.b===0?'<div class="out-err">عدد لا نهائي من الحلول (0 = 0)</div>':'<div class="out-err">لا يوجد حل</div>';
+    if(v.a===0)h=v.b===0?errBox('عدد لا نهائي من الحلول (0 = 0)'):errBox('لا يوجد حل');
     else h=row('x',F(-v.b/v.a,o));
   }else if(k==='quad'){
-    if(v.a===0){h='<div class="out-err">المعامل a يساوي صفرًا، المعادلة ليست تربيعية. جرّب المعادلة الخطية.</div>'}
+    if(v.a===0){h=errBox('المعامل a يساوي صفرًا، المعادلة ليست تربيعية. جرّب المعادلة الخطية.')}
     else{
       const D=v.b*v.b-4*v.a*v.c;h=row('المميّز Δ',F(D,o));
       if(D>0){h+=row('x₁',F((-v.b+Math.sqrt(D))/(2*v.a),o))+row('x₂',F((-v.b-Math.sqrt(D))/(2*v.a),o))}
@@ -924,21 +1252,177 @@ function eqSolve(){
       h+=row('رأس القطع',`(${F(-v.b/(2*v.a),o)} , ${F(v.c-v.b*v.b/(4*v.a),o)})`);
     }
   }else if(k==='cubic'){
-    if(v.a===0)h='<div class="out-err">المعامل a يساوي صفرًا، المعادلة ليست تكعيبية.</div>';
+    if(v.a===0)h=errBox('المعامل a يساوي صفرًا، المعادلة ليست تكعيبية.');
     else{const r=cubicRoots(v.a,v.b,v.c,v.d).sort((x,y)=>(x.im!==0)-(y.im!==0)||x.re-y.re);h=r.map((z,i)=>row('x'+'₁₂₃'[i],cStr(z))).join('')}
+  }else if(k==='quart'){
+    if(v.a===0)h=errBox('المعامل a يساوي صفرًا، المعادلة ليست من الدرجة الرابعة.');
+    else{const r=polyRoots([v.a,v.b,v.c,v.d,v.e]).sort((x,y)=>(x.im!==0)-(y.im!==0)||x.re-y.re);h=r.map((z,i)=>row('x'+'₁₂₃₄'[i],cStr(z))).join('')}
   }else if(k==='sys2'){
     const D=v.a1*v.b2-v.a2*v.b1;
-    if(Math.abs(D)<1e-12)h='<div class="out-err">المحدّد يساوي صفرًا: لا يوجد حل وحيد (إما لا حل أو حلول لا نهائية).</div>';
+    if(Math.abs(D)<1e-12)h=errBox('المحدّد يساوي صفرًا: لا يوجد حل وحيد (إما لا حل أو حلول لا نهائية).');
     else h=row('المحدّد',F(D,o))+row('x',F((v.c1*v.b2-v.c2*v.b1)/D,o))+row('y',F((v.a1*v.c2-v.a2*v.c1)/D,o));
   }else{
     const M=[[v.a1,v.b1,v.c1],[v.a2,v.b2,v.c2],[v.a3,v.b3,v.c3]],R=[v.d1,v.d2,v.d3],D=det3(M);
-    if(Math.abs(D)<1e-12)h='<div class="out-err">المحدّد يساوي صفرًا: لا يوجد حل وحيد.</div>';
+    if(Math.abs(D)<1e-12)h=errBox('المحدّد يساوي صفرًا: لا يوجد حل وحيد.');
     else{h=row('المحدّد',F(D,o));['x','y','z'].forEach((n,i)=>{const m=M.map((r,j)=>r.map((c,l)=>l===i?R[j]:c));h+=row(n,F(det3(m)/D,o))})}
   }
   out.innerHTML=h;
 }
 Object.entries(EQS).forEach(([k,d])=>$('#eqType').add(new Option(d.n,k)));
 $('#eqType').onchange=eqBuild;$('#eqSolve').onclick=eqSolve;eqBuild();
+
+/* ============ المصفوفات ============ */
+const MD=[[2,1,0],[1,3,1],[0,1,4]],MB=[[1,0,0],[0,1,0],[0,0,1]];
+let mN=3;
+function mBuild(){
+  const cell=(pre,i,j,def)=>`<input class="inp sm" id="${pre}_${i}_${j}" value="${def[i][j]}" autocomplete="off">`;
+  const grid=pre=>`<div class="cgrid" style="grid-template-columns:repeat(${mN},1fr)">${[...Array(mN)].map((_,i)=>[...Array(mN)].map((_,j)=>cell(pre,i,j,pre==='mA'?MD:MB)).join('')).join('')}</div>`;
+  $('#mA').innerHTML=grid('mA');$('#mB').innerHTML=grid('mB');
+  $$('#mSize button').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.n===mN));
+}
+function mRead(pre){const M=[];for(let i=0;i<mN;i++){M.push([]);for(let j=0;j<mN;j++)M[i].push(evaluate($(`#${pre}_${i}_${j}`).value))}return M}
+function detN(M){
+  const n=M.length,A=M.map(r=>r.slice());let d=1;
+  for(let c=0;c<n;c++){
+    let p=c;for(let r=c+1;r<n;r++)if(Math.abs(A[r][c])>Math.abs(A[p][c]))p=r;
+    if(Math.abs(A[p][c])<1e-14)return 0;
+    if(p!==c){[A[p],A[c]]=[A[c],A[p]];d=-d}
+    d*=A[c][c];
+    for(let r=c+1;r<n;r++){const f=A[r][c]/A[c][c];for(let k=c;k<n;k++)A[r][k]-=f*A[c][k]}
+  }
+  return d;
+}
+function invN(M){
+  const n=M.length,A=M.map((r,i)=>[...r,...MB[0].map((_,j)=>(i===j?1:0))]);
+  for(let c=0;c<n;c++){
+    let p=c;for(let r=c+1;r<n;r++)if(Math.abs(A[r][c])>Math.abs(A[p][c]))p=r;
+    if(Math.abs(A[p][c])<1e-12)throw new MathErr('المصفوفة غير قابلة للعكس (محدّدها صفر)');
+    [A[p],A[c]]=[A[c],A[p]];
+    const pv=A[c][c];for(let k=0;k<2*n;k++)A[c][k]/=pv;
+    for(let r=0;r<n;r++)if(r!==c){const f=A[r][c];for(let k=0;k<2*n;k++)A[r][k]-=f*A[c][k]}
+  }
+  return A.map(r=>r.slice(n));
+}
+function matHTML(M){
+  return `<div class="mx" style="grid-template-columns:repeat(${M.length},auto)">${M.map(r=>r.map(x=>`<span>${fmtN(x)}</span>`).join('')).join('')}</div>`;
+}
+$('#mSize').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;mN=+b.dataset.n;mBuild();$('#mOut').innerHTML=''});
+$('#mGo').onclick=()=>run('#mOut',()=>{
+  const op=$('#mOp').value,A=mRead('mA');
+  if(op==='det')return row('det(A)',fmtN(detN(A)));
+  if(op==='inv')return matHTML(invN(A));
+  if(op==='tr')return matHTML(A[0].map((_,j)=>A.map(r=>r[j])));
+  const B=mRead('mB');
+  if(op==='add')return matHTML(A.map((r,i)=>r.map((x,j)=>x+B[i][j])));
+  if(op==='sub')return matHTML(A.map((r,i)=>r.map((x,j)=>x-B[i][j])));
+  return matHTML(A.map(r=>B[0].map((_,j)=>r.reduce((s,x,k)=>s+x*B[k][j],0))));
+});
+mBuild();
+
+/* ============ المتجهات ============ */
+let vN=3;
+const VU=[3,-1,2],VV=[1,4,-2];
+function vBuild(){
+  const f=(pre,def)=>`<div class="grid" style="grid-template-columns:repeat(${vN},1fr)">${[...Array(vN)].map((_,i)=>`<input class="inp sm" id="${pre}${i}" value="${def[i]}" autocomplete="off">`).join('')}</div>`;
+  $('#vU').innerHTML=f('vu',VU);$('#vV').innerHTML=f('vv',VV);
+  $$('#vDim button').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.n===vN));
+}
+const vRead=pre=>[...Array(vN)].map((_,i)=>evaluate($('#'+pre+i).value));
+$('#vDim').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;vN=+b.dataset.n;vBuild();$('#vOut').innerHTML=''});
+$('#vGo').onclick=()=>run('#vOut',()=>{
+  const u=vRead('vu'),v=vRead('vv'),op=$('#vOp').value;
+  const dot=(a,b)=>a.reduce((s,x,i)=>s+x*b[i],0),mag=a=>Math.sqrt(dot(a,a));
+  const vec=a=>matHTML(a.map(x=>[x]));
+  const ang=()=>{const c=Math.max(-1,Math.min(1,dot(u,v)/(mag(u)*mag(v))));let r=Math.acos(c);
+    return S.angle==='deg'?r*180/Math.PI:S.angle==='grad'?r*200/Math.PI:r};
+  if(op==='add')return vec(u.map((x,i)=>x+v[i]));
+  if(op==='sub')return vec(u.map((x,i)=>x-v[i]));
+  if(op==='dot')return row('u · v',fmtN(dot(u,v)));
+  if(op==='cross'){
+    if(vN!==3)throw new MathErr('الضرب الاتجاهي متاح في الفضاء ثلاثي الأبعاد فقط');
+    return vec([u[1]*v[2]-u[2]*v[1],u[2]*v[0]-u[0]*v[2],u[0]*v[1]-u[1]*v[0]]);
+  }
+  if(op==='mag')return row('|u|',fmtN(mag(u)))+row('|v|',fmtN(mag(v)));
+  if(mag(u)===0||mag(v)===0)throw new MathErr('الزاوية غير معرّفة مع المتجه الصفري');
+  return row('الزاوية بين u و v',fmtN(ang()));
+});
+vBuild();
+
+/* ============ الأعداد المركبة ============ */
+$('#cGo').onclick=()=>run('#cOutBox',()=>{
+  const z1={re:evaluate($('#c1a').value),im:evaluate($('#c1b').value)};
+  const z2={re:evaluate($('#c2a').value),im:evaluate($('#c2b').value)};
+  const op=$('#cOp').value;
+  if(op==='add')return row('z₁ + z₂',cStr(cx.add(z1,z2)));
+  if(op==='sub')return row('z₁ − z₂',cStr(cx.sub(z1,z2)));
+  if(op==='mul')return row('z₁ × z₂',cStr(cx.mul(z1,z2)));
+  if(op==='div')return row('z₁ ÷ z₂',cStr(cx.div(z1,z2)));
+  if(op==='conj')return row('z̄₁',cStr({re:z1.re,im:-z1.im}));
+  if(op==='pow')return row('z₁²',cStr(cx.mul(z1,z1)));
+  const r=Math.hypot(z1.re,z1.im);let th=Math.atan2(z1.im,z1.re);
+  th=S.angle==='deg'?th*180/Math.PI:S.angle==='grad'?th*200/Math.PI:th;
+  return row('|z₁|',fmtN(r))+row('arg(z₁)',fmtN(th));
+});
+
+/* ============ الاحتمالات ============ */
+function erf(x){const s=x<0?-1:1;x=Math.abs(x);const t=1/(1+0.3275911*x);
+  const y=1-((((1.061405429*t-1.453152027)*t+1.421413741)*t-0.284496736)*t+0.254829592)*t*Math.exp(-x*x);return s*y}
+const Phi=z=>0.5*(1+erf(z/Math.SQRT2));
+const normPdf=(x,m,s)=>Math.exp(-((x-m)**2)/(2*s*s))/(s*Math.sqrt(2*Math.PI));
+function binPmf(n,p,k){if(!Number.isInteger(k)||k<0||k>n)return 0;let c=1;for(let i=0;i<k;i++)c*=(n-i)/(i+1);return c*p**k*(1-p)**(n-k)}
+function poiPmf(l,k){if(!Number.isInteger(k)||k<0)return 0;let t=Math.exp(-l);for(let i=1;i<=k;i++)t*=l/i;return t}
+const DF={
+  norm:{f:['μ','σ','x'],d:['0','1','0'].map((_,i)=>['0','2','1'][i])},
+  std:{f:['z'],d:['1']},
+  bin:{f:['n','p','k'],d:['10','0.5','5']},
+  poi:{f:['λ','k'],d:['3','2']}
+};
+const DDEF={norm:['0','2','1'],std:['1'],bin:['10','0.5','5'],poi:['3','2']};
+function dBuild(){
+  const t=$('#dType').value,labels=DF[t].f;
+  $('#dFields').style.gridTemplateColumns=`repeat(${labels.length},1fr)`;
+  $('#dFields').innerHTML=labels.map((l,i)=>`<div class="field"><label>${l}</label><input class="inp" id="dv${i}" value="${DDEF[t][i]}" autocomplete="off"></div>`).join('');
+  $('#dDOut').innerHTML='';
+}
+$('#dType').onchange=dBuild;
+$('#dDo').onclick=()=>run('#dDOut',()=>{
+  const t=$('#dType').value,n=DF[t].f.length,a=[...Array(n)].map((_,i)=>evaluate($('#dv'+i).value));
+  if(t==='norm'){const[m,s,x]=a;if(s<=0)throw new MathErr('الانحراف المعياري σ يجب أن يكون موجبًا');
+    return row('الكثافة f(x)',fmtN(normPdf(x,m,s)))+row('P(X ≤ x)',fmtN(Phi((x-m)/s)))+row('P(X ≥ x)',fmtN(1-Phi((x-m)/s)))}
+  if(t==='std'){const[z]=a;return row('الكثافة φ(z)',fmtN(normPdf(z,0,1)))+row('P(Z ≤ z)',fmtN(Phi(z)))+row('P(Z ≥ z)',fmtN(1-Phi(z)))}
+  if(t==='bin'){const[nn,p,k]=a;if(!Number.isInteger(nn)||nn<0)throw new MathErr('n يجب أن يكون عددًا صحيحًا غير سالب');if(p<0||p>1)throw new MathErr('p بين 0 و 1');
+    let le=0;for(let i=0;i<=Math.min(k,nn);i++)le+=binPmf(nn,p,i);
+    return row('P(X = k)',fmtN(binPmf(nn,p,k)))+row('P(X ≤ k)',fmtN(le))+row('P(X ≥ k)',fmtN(1-le+binPmf(nn,p,k)))}
+  const[l,k]=a;if(l<0)throw new MathErr('λ يجب أن يكون موجبًا أو صفرًا');
+  let le=0;for(let i=0;i<=k;i++)le+=poiPmf(l,i);
+  return row('P(X = k)',fmtN(poiPmf(l,k)))+row('P(X ≤ k)',fmtN(le))+row('P(X ≥ k)',fmtN(1-le+poiPmf(l,k)))
+});
+dBuild();
+
+/* ============ الثوابت ============ */
+const CONSTS=[
+  ['سرعة الضوء c','m/s',299792458],
+  ['ثابت بلانك h','J·s',6.62607015e-34],
+  ['شحنة الإلكترون e','C',1.602176634e-19],
+  ['عدد أفوجادرو N_A','mol⁻¹',6.02214076e23],
+  ['ثابت الغاز R','J/(mol·K)',8.314462618],
+  ['ثابت بولتزمان k_B','J/K',1.380649e-23],
+  ['تسارع الجاذبية g','m/s²',9.80665],
+  ['ثابت الجذب G','N·m²/kg²',6.6743e-11],
+  ['كتلة الإلكترون mₑ','kg',9.1093837015e-31],
+  ['كتلة البروتون mₚ','kg',1.67262192369e-27],
+  ['سماحية الفراغ ε₀','F/m',8.8541878128e-12],
+  ['نفاذية الفراغ μ₀','N/A²',1.25663706212e-6]
+];
+$('#constList').innerHTML=CONSTS.map((c,i)=>`<button class="const-btn" data-i="${i}"><span>${c[0]}</span><b>${c[2].toExponential(6).replace('e','E')}</b></button>`).join('');
+$('#constList').addEventListener('click',e=>{
+  const b=e.target.closest('button');if(!b)return;
+  const c=CONSTS[+b.dataset.i];
+  S.morePad=false;buildPad();
+  insert(numToTokens(c[2]),'c');
+  showPanel('calc');
+  toast('تم إدراج '+c[0]);
+});
 
 /* ============ تحويل الوحدات ============ */
 const UNITS={
@@ -991,11 +1475,11 @@ function parseBase(s,b){
 function toBase(v,b){const neg=v<0n;const s=(neg?-v:v).toString(b).toUpperCase();return(neg?'-':'')+s}
 function baseRun(){
   const o=$('#bOut'),txt=$('#bIn').value;let v;
-  try{v=parseBase(txt,baseSys)}catch(e){o.innerHTML=txt.trim()?`<div class="out-err">أدخل رقمًا صالحًا في النظام ${{10:'العشري',2:'الثنائي',8:'الثماني',16:'السادس عشري'}[baseSys]}.</div>`:'';return}
-  const dg=s=>S.digits==='ar'?s.replace(/\d/g,d=>AR[d]):s;
+  try{v=parseBase(txt,baseSys)}catch(e){o.innerHTML=txt.trim()?errBox(`أدخل رقمًا صالحًا في النظام ${{10:'العشري',2:'الثنائي',8:'الثماني',16:'السادس عشري'}[baseSys]}.`):'';return}
+  const dg2=s=>S.digits==='ar'?s.replace(/\d/g,d=>AR[d]):s;
   const rows=[['عشري DEC',toBase(v,10)],['ثنائي BIN',toBase(v,2).replace(/\B(?=([01]{4})+(?![01]))/g,' ')],['ثماني OCT',toBase(v,8)],['سادس عشري HEX',toBase(v,16)]];
   if(v>=-(2n**31n)&&v<2n**31n)rows.push(['مكمّل 2 (32 بت)',BigInt.asUintN(32,v).toString(2).padStart(32,'0').replace(/(.{8})(?!$)/g,'$1 ')]);
-  o.innerHTML=rows.map(([l,x])=>`<div class="out-row"><span>${l}</span><b>${dg(x)}</b><button data-c="${x.replace(/ /g,'')}">نسخ</button></div>`).join('');
+  o.innerHTML=rows.map(([l,x])=>`<div class="out-row"><span>${l}</span><b>${dg2(x)}</b><button data-c="${x.replace(/ /g,'')}">نسخ</button></div>`).join('');
 }
 $('#bOut').addEventListener('click',e=>{const b=e.target.closest('button');if(b)copyText(b.dataset.c)});
 $('#bIn').oninput=baseRun;baseRun();
@@ -1005,13 +1489,13 @@ function statsRun(){
   const o=$('#stOut'),raw=ar2en($('#stIn').value).split(/[\s,;؛]+/).filter(Boolean);
   const nums=raw.map(Number);
   if(!raw.length){o.innerHTML='';return}
-  if(nums.some(Number.isNaN)){o.innerHTML=`<div class="out-err">يوجد قيمة غير رقمية: «${raw[nums.findIndex(Number.isNaN)]}»</div>`;return}
+  if(nums.some(Number.isNaN)){o.innerHTML=errBox(`يوجد قيمة غير رقمية: «${raw[nums.findIndex(Number.isNaN)]}»`);return}
   const n=nums.length,sum=nums.reduce((a,b)=>a+b,0),mean=sum/n,s=[...nums].sort((a,b)=>a-b);
   const q=p=>{const pos=(n-1)*p,b=Math.floor(pos),r=pos-b;return s[b]+(s[b+1]!==undefined?r*(s[b+1]-s[b]):0)};
   const ss=nums.reduce((a,b)=>a+(b-mean)**2,0);
   const freq=new Map();nums.forEach(x=>freq.set(x,(freq.get(x)||0)+1));const mx=Math.max(...freq.values());
-  const modes=mx===1?'لا يوجد':[...freq].filter(([,c])=>c===mx).map(([x])=>F(x,{group:false})).join(' ، ');
-  const f=x=>F(Number(x.toPrecision(12)),{group:false});
+  const modes=mx===1?'لا يوجد':[...freq].filter(([,c])=>c===mx).map(([x])=>fmtN(x)).join(' ، ');
+  const f=x=>fmtN(Number(x.toPrecision(12)));
   const rows=[['العدد n',f(n)],['المجموع Σx',f(sum)],['المتوسط x̄',f(mean)],['الوسيط',f(q(.5))],['المنوال',modes],
     ['الأصغر',f(s[0])],['الأكبر',f(s[n-1])],['المدى',f(s[n-1]-s[0])],['الربيع الأول Q1',f(q(.25))],['الربيع الثالث Q3',f(q(.75))],
     ['مجموع المربعات Σx²',f(nums.reduce((a,b)=>a+b*b,0))],
@@ -1020,6 +1504,22 @@ function statsRun(){
   o.innerHTML=rows.map(([l,x])=>`<div class="out-row"><span>${l}</span><b>${x}</b></div>`).join('');
 }
 $('#stIn').oninput=statsRun;statsRun();
+
+/* ============ جدول القيم ============ */
+$('#tBuild').onclick=()=>run('#tOut',()=>{
+  const f=fnOf($('#tF').value),a=evaluate($('#tA').value),b=evaluate($('#tB').value),st=evaluate($('#tS').value);
+  if(!(st>0))throw new MathErr('الخطوة يجب أن تكون أكبر من صفر');
+  if(b<a)throw new MathErr('قيمة "إلى" يجب أن تكون أكبر من "من"');
+  const n=Math.floor((b-a)/st+1e-9)+1;
+  if(n>200)throw new MathErr('عدد الصفوف أكبر من 200، قلّل المدى أو زد الخطوة');
+  let h='<div class="out" style="max-height:280px;overflow:auto"><div class="cgrid" style="grid-template-columns:1fr 1fr;gap:4px">';
+  h+='<b>x</b><b>f(x)</b>';
+  for(let i=0;i<n;i++){
+    const x=a+i*st;let y;try{y=f(x)}catch(e){y=NaN}
+    h+=`<span>${fmtN(x)}</span><span>${Number.isFinite(y)?fmtN(y):'—'}</span>`;
+  }
+  return h+'</div></div>';
+});
 
 /* ============ تشغيل ============ */
 applyTheme();buildPad();render();renderHistory();syncSettings();
